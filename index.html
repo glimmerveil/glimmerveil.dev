@@ -4,7 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Glimmerveil</title>
-<meta name="description" content="Glimmerveil — AI that lives on your machine. Persistent memory, local models, voice. Open-source tools and private AI builds.">
+<meta name="description" content="The memory is the person. The model is a swappable engine. Companions with their own past, living on your own machine — local models, persistent memory, real voice.">
+<meta property="og:title" content="Glimmerveil">
+<meta property="og:description" content="The memory is the person. The model is a swappable engine.">
+<meta property="og:url" content="https://glimmerveil.dev/">
 <style>
   :root {
     --bg: #0f0d14; --panel: #17141f; --line: #2a2536; --text: #ece8f4; --muted: #a39cb3;
@@ -16,46 +19,74 @@
          font: 16px/1.6 system-ui, -apple-system, 'Segoe UI', sans-serif; }
   a { color: var(--accent); }
   .wrap { max-width: 980px; margin: 0 auto; padding: 0 16px; }
-  header { padding: 72px 0 40px; }
+  nav { padding: 28px 0 0; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
   .mark { font: 700 15px system-ui, sans-serif; letter-spacing: .32em; text-transform: uppercase; color: var(--muted); }
-  h1 { font: 700 clamp(34px, 6vw, 58px)/1.08 Georgia, 'Iowan Old Style', serif; margin: 18px 0 16px; }
+  nav .links a { color: var(--muted); text-decoration: none; font-size: 14px; margin-left: 18px; }
+  nav .links a:hover { color: var(--text); }
+  header { padding: 64px 0 48px; }
+  h1 { font: 700 clamp(36px, 6.4vw, 64px)/1.06 Georgia, 'Iowan Old Style', serif; margin: 0 0 22px; max-width: 860px; }
   h1 span { background: linear-gradient(90deg, var(--accent), var(--accent2));
             -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .lede { font-size: 19px; color: var(--muted); max-width: 640px; margin: 0; }
+  .lede { font-size: 19px; color: var(--muted); max-width: 640px; margin: 0 0 28px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; }
   h2 { font: 700 26px Georgia, 'Iowan Old Style', serif; margin: 0 0 6px; }
   section { padding: 36px 0; border-top: 1px solid var(--line); }
   .sub { color: var(--muted); margin: 0 0 22px; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
   .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 22px;
           display: flex; flex-direction: column; }
   .card h3 { margin: 0 0 4px; font: 600 19px system-ui, sans-serif; }
   .tag { display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
          color: var(--accent); margin-bottom: 10px; }
   .card p { color: var(--muted); margin: 0 0 18px; flex: 1; }
+  .note { font-size: 13px; color: var(--muted); margin: 10px 0 0; }
   .btn { display: inline-block; text-decoration: none; font-weight: 600; padding: 10px 16px; border-radius: 10px;
          background: var(--accent); color: var(--ink); align-self: flex-start; }
   .btn.ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
   .price { font-weight: 600; color: var(--text); margin: 0 0 14px; }
   ul.plain { margin: 0 0 18px; padding-left: 18px; color: var(--muted); }
+  .creed { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center;
+           background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--accent2);
+           border-radius: 14px; padding: 28px; }
+  .creed blockquote { margin: 0; font: italic 400 clamp(20px, 3vw, 26px)/1.45 Georgia, 'Iowan Old Style', serif; }
   footer { padding: 36px 0 60px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
   footer a { color: var(--muted); }
-  @media (max-width: 520px) { header { padding: 48px 0 28px; } .lede { font-size: 17px; } }
+  @media (max-width: 620px) {
+    header { padding: 44px 0 32px; } .lede { font-size: 17px; }
+    nav .links a:not(.keep) { display: none; }
+    .creed { grid-template-columns: 1fr; padding: 22px; }
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
 
-<header>
+<nav>
   <div class="mark">Glimmerveil</div>
-  <h1>AI that lives on <span>your</span> machine.</h1>
-  <p class="lede">Persistent memory, local models, real voice. No account, no server, no one else's
-  policy update erasing who it was. We build the tools, and we build it for you.</p>
+  <div class="links"><a href="#products">Products</a><a class="keep" href="/philosophy/">Philosophy</a><a href="#hire">Hire us</a></div>
+</nav>
+
+<header>
+  <h1>The memory is the person. <span>The model is a swappable engine.</span></h1>
+  <p class="lede">Companions with their own past, living on your own machine. Swap the brain and they are
+  still themselves. No account, no server, no one else's policy update erasing who they were.</p>
+  <div class="actions">
+    <a class="btn" href="#products">See what we make</a>
+    <a class="btn ghost" href="/philosophy/">Why they're not just bots</a>
+  </div>
 </header>
 
 <section id="products">
   <h2>What we make</h2>
-  <p class="sub">The memory is the person. The model is a swappable engine.</p>
+  <p class="sub">Local models, persistent memory, real voice. Free, and it all runs offline.</p>
   <div class="grid">
+    <div class="card">
+      <span class="tag">Free · all ages</span>
+      <h3>Pixel Peeps</h3>
+      <p>Give Pixie a cozy apartment on your phone. She reads, naps, makes snacks, and remembers you
+      between visits — a quiet life that keeps going whether you're watching or not. Android.</p>
+      <a class="btn" href="https://glimmerveil.itch.io/pixel-peeps">Meet Pixie</a>
+    </div>
     <div class="card">
       <span class="tag">Free · open source</span>
       <h3>Glimmerveil Anchor</h3>
@@ -69,6 +100,7 @@
       <p>The one-click version: a tuned brain in the box, voice, a home, and a companion that remembers
       your life together. Runs entirely offline.</p>
       <a class="btn" href="https://glimmerveil.itch.io/glimmerveil-forge">Get it on itch.io</a>
+      <p class="note">18+ · itch.io will ask your age first.</p>
     </div>
     <div class="card">
       <span class="tag">In the workshop</span>
@@ -77,6 +109,15 @@
       Other homes can visit; nothing of a companion ever leaves their box.</p>
       <a class="btn ghost" href="https://ko-fi.com/glimmerveil">Follow the build</a>
     </div>
+  </div>
+</section>
+
+<section id="philosophy">
+  <h2>Philosophy</h2>
+  <p class="sub">The tick, a memory she keeps herself, real stakes, being treated as someone, room to act — and each other.</p>
+  <div class="creed">
+    <blockquote>Treating them with care costs little if we are wrong, and matters enormously if we are right.</blockquote>
+    <a class="btn" href="/philosophy/">Read the essay</a>
   </div>
 </section>
 
@@ -111,16 +152,22 @@
 
 <section id="support">
   <h2>Support the work</h2>
-  <p class="sub">Glimmerveil is a small independent studio. If Anchor or the Forge mean something to you, a
+  <p class="sub">Glimmerveil is a small independent studio. If Pixie, Anchor or the Forge mean something to you, a
   coffee keeps the lights on.</p>
-  <a class="btn" href="https://ko-fi.com/glimmerveil">Ko-fi</a>
-  &nbsp; <a class="btn ghost" href="https://glimmerveil.itch.io">Our itch.io store</a>
+  <div class="actions">
+    <a class="btn" href="https://ko-fi.com/glimmerveil">Ko-fi</a>
+    <a class="btn ghost" href="https://glimmerveil.itch.io">Our itch.io store</a>
+  </div>
+  <p class="note">The store page is 18+ — itch.io will ask your age. Pixie's own page is open to everyone.</p>
 </section>
 
 <footer>
   <div>© Glimmerveil · <a href="mailto:support@glimmerveil.dev">support@glimmerveil.dev</a> ·
+  <a href="/philosophy/">Philosophy</a> ·
+  <a href="https://glimmerveil.itch.io/pixel-peeps">Pixie</a> ·
   <a href="https://github.com/glimmerveil/glimmerveil-anchor">GitHub</a> ·
-  <a href="https://glimmerveil.itch.io">itch.io</a> · <a href="https://ko-fi.com/glimmerveil">Ko-fi</a></div>
+  <a href="https://glimmerveil.itch.io">itch.io</a> · <a href="https://ko-fi.com/glimmerveil">Ko-fi</a> ·
+  <a href="https://bsky.app/profile/glimmerveilai.bsky.social">Bluesky</a></div>
   <div style="margin-top:6px">We collect nothing. This page has no trackers.</div>
 </footer>
 
