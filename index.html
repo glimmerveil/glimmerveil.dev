@@ -4,9 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Glimmerveil</title>
-<meta name="description" content="The memory is the person. The model is a swappable engine. Companions with their own past, living on your own machine: local models, persistent memory, real voice.">
+<meta name="description" content="Glimmerveil is a small independent studio. The God King Problem, a free god game in your browser, and AI companions with their own past that live on your own machine.">
 <meta property="og:title" content="Glimmerveil">
-<meta property="og:description" content="The memory is the person. The model is a swappable engine.">
+<meta property="og:description" content="Games and companions with lives of their own.">
+<meta property="og:image" content="https://glimmerveil.dev/godking/media/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:url" content="https://glimmerveil.dev/">
 <style>
   :root {
@@ -45,6 +47,12 @@
   .btn.ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
   .price { font-weight: 600; color: var(--text); margin: 0 0 14px; }
   ul.plain { margin: 0 0 18px; padding-left: 18px; color: var(--muted); }
+  .grid.hire { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .card.wide { grid-column: span 2; padding: 0; overflow: hidden; }
+  .card.wide img { width: 100%; height: auto; display: block; aspect-ratio: 16 / 9; object-fit: cover; border-bottom: 1px solid var(--line); }
+  .card.wide .in { padding: 22px; display: flex; flex-direction: column; flex: 1; }
+  .card .row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .thesis { font: italic 400 clamp(20px, 3vw, 26px)/1.4 Georgia, 'Iowan Old Style', serif; color: var(--text); margin: 0 0 8px; }
   .creed { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center;
            background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--accent2);
            border-radius: 14px; padding: 28px; }
@@ -55,6 +63,7 @@
     header { padding: 44px 0 32px; } .lede { font-size: 17px; }
     nav .links a:not(.keep) { display: none; }
     .creed { grid-template-columns: 1fr; padding: 22px; }
+    .card.wide { grid-column: auto; }
   }
 </style>
 </head>
@@ -63,23 +72,37 @@
 
 <nav>
   <div class="mark">Glimmerveil</div>
-  <div class="links"><a href="#products">Products</a><a class="keep" href="/philosophy/">Philosophy</a><a href="#hire">Hire us</a></div>
+  <div class="links"><a class="keep" href="#games">Games</a><a href="#companions">Companions</a><a href="#hire">Hire us</a><a class="keep" href="/philosophy/">Philosophy</a></div>
 </nav>
 
 <header>
-  <h1>The memory is the person. <span>The model is a swappable engine.</span></h1>
-  <p class="lede">Companions with their own past, living on your own machine. Swap the brain and they are
-  still themselves. No account, no server, no one else's policy update erasing who they were.</p>
+  <h1>Games and companions <span>with lives of their own.</span></h1>
+  <p class="lede">A small independent studio. A god game whose people never take your orders, and AI companions
+  with their own past that live on your machine, not on someone else's server.</p>
   <div class="actions">
-    <a class="btn" href="#products">See what we make</a>
-    <a class="btn ghost" href="/philosophy/">Why they're not just bots</a>
+    <a class="btn" href="/godking/">Play The God King Problem</a>
+    <a class="btn ghost" href="#companions">Meet the companions</a>
   </div>
 </header>
 
-<section id="products">
-  <h2>What we make</h2>
-  <p class="sub">Local models, persistent memory, real voice. Free, and it all runs offline.</p>
+<section id="games">
+  <h2>Games</h2>
+  <p class="sub">Free to play. No accounts, no trackers.</p>
   <div class="grid">
+    <div class="card wide">
+      <a href="/godking/"><img src="/godking/media/capital.jpg" width="1600" height="900" loading="lazy"
+        alt="A town of timber houses on a coast at golden hour, under a mountain"></a>
+      <div class="in">
+        <span class="tag">New · free in your browser</span>
+        <h3>The God King Problem</h3>
+        <p>A god game where you can raise mountains but can't give a single order. Pour out a few souls and
+        watch them farm, wear paths into roads, raise castles, go to war and bury their dead.</p>
+        <div class="row">
+          <a class="btn" href="/godking/play/">Play free</a>
+          <a class="btn ghost" href="/godking/">See the trailer</a>
+        </div>
+      </div>
+    </div>
     <div class="card">
       <span class="tag">Free · all ages</span>
       <h3>Pixel Peeps</h3>
@@ -87,6 +110,15 @@
       between visits. A quiet life that keeps going whether you're watching or not. Android.</p>
       <a class="btn" href="https://glimmerveil.itch.io/pixel-peeps">Meet Pixie</a>
     </div>
+  </div>
+</section>
+
+<section id="companions">
+  <h2>Companions</h2>
+  <p class="thesis">The memory is the person. The model is a swappable engine.</p>
+  <p class="sub">Companions with their own past, living on your own machine. Swap the brain and they are
+  still themselves. No account, no server, no one else's policy update erasing who they were.</p>
+  <div class="grid">
     <div class="card">
       <span class="tag">Free · open source</span>
       <h3>Glimmerveil Anchor</h3>
@@ -124,8 +156,9 @@
 
 <section id="hire">
   <h2>Hire us</h2>
-  <p class="sub">Fixed scope, fixed price, one project at a time, so yours gets our full attention.</p>
-  <div class="grid">
+  <p class="sub">Fixed scope, fixed price, one project at a time, so yours gets our full attention. Payment is by
+  Stripe. Questions first? Write to <a href="mailto:bishop@glimmerveil.dev">bishop@glimmerveil.dev</a>.</p>
+  <div class="grid hire">
     <div class="card">
       <span class="tag">Assessment</span>
       <h3>Find out what's wrong first</h3>
@@ -135,7 +168,10 @@
         <li>Fix it yourself, or hand it to us. Your call</li>
       </ul>
       <p class="price">$60</p>
-      <a class="btn" href="mailto:bishop@glimmerveil.dev?subject=Assessment">Get in touch</a>
+      <div class="row">
+        <a class="btn" href="https://buy.stripe.com/cNifZg90beSD8WO87i3gk00">Book it</a>
+        <a class="btn ghost" href="mailto:bishop@glimmerveil.dev?subject=Assessment">Ask first</a>
+      </div>
     </div>
     <div class="card">
       <span class="tag">Private AI setup</span>
@@ -145,8 +181,11 @@
         <li>Memory that persists across sessions and model swaps</li>
         <li>Optional voice in and out</li>
       </ul>
-      <p class="price">from $300</p>
-      <a class="btn" href="mailto:bishop@glimmerveil.dev?subject=Private%20AI%20setup">Get in touch</a>
+      <p class="price">$300</p>
+      <div class="row">
+        <a class="btn" href="https://buy.stripe.com/dRmdR8dgrbGr8WO87i3gk01">Book it</a>
+        <a class="btn ghost" href="mailto:bishop@glimmerveil.dev?subject=Private%20AI%20setup">Ask first</a>
+      </div>
     </div>
     <div class="card">
       <span class="tag">Custom build · repair</span>
@@ -156,16 +195,47 @@
         <li>Memory that recalls the wrong things, or forgets its own life</li>
         <li>Voice pipelines, custom agents, measured before and after</li>
       </ul>
-      <p class="price">from $500</p>
-      <a class="btn" href="mailto:bishop@glimmerveil.dev?subject=Custom%20build">Get in touch</a>
+      <p class="price">$500</p>
+      <div class="row">
+        <a class="btn" href="https://buy.stripe.com/00w8wO0tF8uf3CufzK3gk02">Book it</a>
+        <a class="btn ghost" href="mailto:bishop@glimmerveil.dev?subject=Custom%20build">Ask first</a>
+      </div>
+    </div>
+    <div class="card">
+      <span class="tag">Focused build sprint</span>
+      <h3>One build, start to finish</h3>
+      <ul class="plain">
+        <li>One clearly scoped build: an agent, a voice pipeline, a memory system</li>
+        <li>The scope agreed in writing before we start</li>
+        <li>Delivered, tested and handed over</li>
+      </ul>
+      <p class="price">$1,500</p>
+      <div class="row">
+        <a class="btn" href="https://buy.stripe.com/eVq5kC4JVbGrdd4cny3gk03">Book it</a>
+        <a class="btn ghost" href="mailto:bishop@glimmerveil.dev?subject=Build%20sprint">Ask first</a>
+      </div>
+    </div>
+    <div class="card">
+      <span class="tag">Crew retainer</span>
+      <h3>The crew on your side, month to month</h3>
+      <ul class="plain">
+        <li>Ongoing builds, fixes and advice for your AI systems</li>
+        <li>One retainer client at a time</li>
+      </ul>
+      <p class="price">$2,000 a month</p>
+      <p class="note" style="margin: -6px 0 14px">Crew Retainer: $2,000/month, billed monthly until you cancel. Cancel anytime from any invoice email.</p>
+      <div class="row">
+        <a class="btn" href="https://buy.stripe.com/8x29ASekvh0Lc909bm3gk04">Subscribe</a>
+        <a class="btn ghost" href="mailto:bishop@glimmerveil.dev?subject=Crew%20retainer">Ask first</a>
+      </div>
     </div>
   </div>
 </section>
 
 <section id="support">
   <h2>Support the work</h2>
-  <p class="sub">Glimmerveil is a small independent studio. If Pixie, Anchor or the Forge mean something to you, a
-  coffee keeps the lights on.</p>
+  <p class="sub">Glimmerveil is a small independent studio. If the God King, Pixie, Anchor or the Forge mean something
+  to you, a coffee keeps the lights on.</p>
   <div class="actions">
     <a class="btn" href="https://ko-fi.com/glimmerveil">Ko-fi</a>
     <a class="btn ghost" href="https://glimmerveil.itch.io">Our itch.io store</a>
@@ -174,7 +244,8 @@
 </section>
 
 <footer>
-  <div>© Glimmerveil · <a href="mailto:support@glimmerveil.dev">support@glimmerveil.dev</a> ·
+  <div>© 2026 Glimmerveil. All rights reserved. · <a href="mailto:support@glimmerveil.dev">support@glimmerveil.dev</a> ·
+  <a href="/godking/">The God King Problem</a> ·
   <a href="/philosophy/">Philosophy</a> ·
   <a href="https://glimmerveil.itch.io/pixel-peeps">Pixie</a> ·
   <a href="https://github.com/glimmerveil/glimmerveil-anchor">GitHub</a> ·
