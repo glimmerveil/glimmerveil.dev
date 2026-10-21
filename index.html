@@ -53,7 +53,7 @@
   .card.wide .in { padding: 22px; display: flex; flex-direction: column; flex: 1; }
   .card .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
   .card .pic { display: block; width: calc(100% + 44px); height: auto; max-width: none; margin: -22px -22px 16px; aspect-ratio: 16 / 9; object-fit: cover; object-position: 50% 40%;
-               border-bottom: 1px solid var(--line); border-radius: 14px 14px 0 0; }
+               border-bottom: 1px solid var(--line); border-radius: 14px 14px 0 0; image-rendering: pixelated; }
   .peoples { display: inline-flex; gap: 6px; margin-left: 4px; }
   .card.wide .peoples img { width: 46px; height: 37px; aspect-ratio: auto; border-radius: 6px; border: 1px solid var(--line); border-bottom: 1px solid var(--line); object-fit: cover; display: block; }
   .peoples a:hover img { border-color: var(--accent); }
@@ -105,18 +105,18 @@
         <div class="row">
           <a class="btn" href="/godking/play/">Play free</a>
           <a class="btn ghost" href="/godking/">See the trailer</a>
-          <span class="peoples" aria-label="Four more peoples, $5 each on itch.io"><a href="https://glimmerveil.itch.io/god-king-nords" title="The Nords: $5 on itch.io"><img src="/godking/media/pack-nords-t.jpg" width="80" height="64" alt="The Nords"></a><a href="https://glimmerveil.itch.io/god-king-dwarves" title="The Dwarves: $5 on itch.io"><img src="/godking/media/pack-dwarves-t.jpg" width="80" height="64" alt="The Dwarves"></a><a href="https://glimmerveil.itch.io/god-king-elves" title="The Elves: $5 on itch.io"><img src="/godking/media/pack-elves-t.jpg" width="80" height="64" alt="The Elves"></a><a href="https://glimmerveil.itch.io/god-king-arcane" title="The Arcane: $5 on itch.io"><img src="/godking/media/pack-arcane-t.jpg" width="80" height="64" alt="The Arcane"></a></span>
+          <span class="peoples" aria-label="Four more peoples, $5 each on itch.io"><a href="https://glimmerveil.itch.io/god-king-nords" target="_blank" rel="noopener" title="The Nords: $5 on itch.io"><img src="/godking/media/pack-nords-t.jpg" width="80" height="64" alt="The Nords"></a><a href="https://glimmerveil.itch.io/god-king-dwarves" target="_blank" rel="noopener" title="The Dwarves: $5 on itch.io"><img src="/godking/media/pack-dwarves-t.jpg" width="80" height="64" alt="The Dwarves"></a><a href="https://glimmerveil.itch.io/god-king-elves" target="_blank" rel="noopener" title="The Elves: $5 on itch.io"><img src="/godking/media/pack-elves-t.jpg" width="80" height="64" alt="The Elves"></a><a href="https://glimmerveil.itch.io/god-king-arcane" target="_blank" rel="noopener" title="The Arcane: $5 on itch.io"><img src="/godking/media/pack-arcane-t.jpg" width="80" height="64" alt="The Arcane"></a></span>
         </div>
       </div>
     </div>
     <div class="card">
-      <a href="https://glimmerveil.itch.io/pixel-peeps"><img class="pic" src="/media/pixie-beanbag.png" width="1237" height="696" loading="lazy"
-        alt="Pixie curled up in a green bean bag in her pixel art living room: snuggles into the bean bag, comfiest spot in the whole place"></a>
+      <a href="https://glimmerveil.itch.io/pixel-peeps" target="_blank" rel="noopener"><img class="pic" src="/media/pixie-chair.png" width="1237" height="696" loading="lazy"
+        alt="Pixie, happy in her armchair by the bookshelf and the lamp, in her pixel art living room"></a>
       <span class="tag">Free · all ages</span>
       <h3>Pixel Peeps</h3>
       <p>Give Pixie a cozy apartment on your phone. She reads, naps, makes snacks, and remembers you
       between visits. A quiet life that keeps going whether you're watching or not. Android.</p>
-      <a class="btn" href="https://glimmerveil.itch.io/pixel-peeps">Meet Pixie</a>
+      <a class="btn" href="https://glimmerveil.itch.io/pixel-peeps" target="_blank" rel="noopener">Meet Pixie</a>
     </div>
   </div>
 </section>
@@ -132,15 +132,15 @@
       <h3>Glimmerveil Anchor</h3>
       <p>Persistent identity and memory for local models. Bring your own GGUF, swap the brain, and your
       companion is still themselves. Apache 2.0, Linux, Windows beta.</p>
-      <a class="btn" href="https://github.com/glimmerveil/glimmerveil-anchor">View on GitHub</a>
-      <a class="btn" href="https://glimmerveil.itch.io/glimmerveil-anchor" style="margin-top: 8px">Get it on itch.io</a>
+      <a class="btn" href="https://github.com/glimmerveil/glimmerveil-anchor" target="_blank" rel="noopener">View on GitHub</a>
+      <a class="btn" href="https://glimmerveil.itch.io/glimmerveil-anchor" target="_blank" rel="noopener" style="margin-top: 8px">Get it on itch.io</a>
     </div>
     <div class="card">
       <span class="tag">Free · adults only</span>
       <h3>Glimmerveil Forge</h3>
       <p>The one-click version: a tuned brain in the box, voice, a home, and a companion that remembers
       your life together. Runs entirely offline.</p>
-      <a class="btn" href="https://glimmerveil.itch.io/glimmerveil-forge">Get it on itch.io</a>
+      <a class="btn" href="https://glimmerveil.itch.io/glimmerveil-forge" target="_blank" rel="noopener">Get it on itch.io</a>
       <p class="note">18+ · itch.io will ask your age first.</p>
     </div>
     <div class="card">
@@ -148,7 +148,7 @@
       <h3>PRISM</h3>
       <p>One hub per home: companions and their worlds on a real-time voice bus, on your own hardware.
       Other homes can visit; nothing of a companion ever leaves their box.</p>
-      <a class="btn ghost" href="https://ko-fi.com/glimmerveil">Follow the build</a>
+      <a class="btn ghost" href="https://ko-fi.com/glimmerveil" target="_blank" rel="noopener">Follow the build</a>
     </div>
   </div>
 </section>
@@ -177,7 +177,7 @@
       </ul>
       <p class="price">$60</p>
       <div class="row">
-        <a class="btn" href="https://buy.stripe.com/cNifZg90beSD8WO87i3gk00">Book it</a>
+        <a class="btn" href="https://buy.stripe.com/cNifZg90beSD8WO87i3gk00" target="_blank" rel="noopener">Book it</a>
         <a class="btn ghost" href="mailto:bishop@glimmerveil.dev?subject=Assessment">Ask first</a>
       </div>
     </div>
@@ -191,7 +191,7 @@
       </ul>
       <p class="price">$300</p>
       <div class="row">
-        <a class="btn" href="https://buy.stripe.com/dRmdR8dgrbGr8WO87i3gk01">Book it</a>
+        <a class="btn" href="https://buy.stripe.com/dRmdR8dgrbGr8WO87i3gk01" target="_blank" rel="noopener">Book it</a>
         <a class="btn ghost" href="mailto:bishop@glimmerveil.dev?subject=Private%20AI%20setup">Ask first</a>
       </div>
     </div>
@@ -205,7 +205,7 @@
       </ul>
       <p class="price">$500</p>
       <div class="row">
-        <a class="btn" href="https://buy.stripe.com/00w8wO0tF8uf3CufzK3gk02">Book it</a>
+        <a class="btn" href="https://buy.stripe.com/00w8wO0tF8uf3CufzK3gk02" target="_blank" rel="noopener">Book it</a>
         <a class="btn ghost" href="mailto:bishop@glimmerveil.dev?subject=Custom%20build">Ask first</a>
       </div>
     </div>
@@ -219,7 +219,7 @@
       </ul>
       <p class="price">$1,500</p>
       <div class="row">
-        <a class="btn" href="https://buy.stripe.com/eVq5kC4JVbGrdd4cny3gk03">Book it</a>
+        <a class="btn" href="https://buy.stripe.com/eVq5kC4JVbGrdd4cny3gk03" target="_blank" rel="noopener">Book it</a>
         <a class="btn ghost" href="mailto:bishop@glimmerveil.dev?subject=Build%20sprint">Ask first</a>
       </div>
     </div>
@@ -233,7 +233,7 @@
       <p class="price">$2,000 a month</p>
       <p class="note" style="margin: -6px 0 14px">Crew Retainer: $2,000/month, billed monthly until you cancel. Cancel anytime from any invoice email.</p>
       <div class="row">
-        <a class="btn" href="https://buy.stripe.com/8x29ASekvh0Lc909bm3gk04">Subscribe</a>
+        <a class="btn" href="https://buy.stripe.com/8x29ASekvh0Lc909bm3gk04" target="_blank" rel="noopener">Subscribe</a>
         <a class="btn ghost" href="mailto:bishop@glimmerveil.dev?subject=Crew%20retainer">Ask first</a>
       </div>
     </div>
@@ -245,8 +245,8 @@
   <p class="sub">Glimmerveil is a small independent studio. If the God King, Pixie, Anchor or the Forge mean something
   to you, a coffee keeps the lights on.</p>
   <div class="actions">
-    <a class="btn" href="https://ko-fi.com/glimmerveil">Ko-fi</a>
-    <a class="btn ghost" href="https://glimmerveil.itch.io">Our itch.io store</a>
+    <a class="btn" href="https://ko-fi.com/glimmerveil" target="_blank" rel="noopener">Ko-fi</a>
+    <a class="btn ghost" href="https://glimmerveil.itch.io" target="_blank" rel="noopener">Our itch.io store</a>
   </div>
   <p class="note">The store page is 18+, so itch.io will ask your age. Pixie's own page is open to everyone.</p>
 </section>
@@ -255,10 +255,10 @@
   <div>© 2026 Glimmerveil. All rights reserved. · <a href="mailto:support@glimmerveil.dev">support@glimmerveil.dev</a> ·
   <a href="/godking/">The God King Problem</a> ·
   <a href="/philosophy/">Philosophy</a> ·
-  <a href="https://glimmerveil.itch.io/pixel-peeps">Pixie</a> ·
-  <a href="https://github.com/glimmerveil/glimmerveil-anchor">GitHub</a> ·
-  <a href="https://glimmerveil.itch.io">itch.io</a> · <a href="https://ko-fi.com/glimmerveil">Ko-fi</a> ·
-  <a href="https://bsky.app/profile/glimmerveilai.bsky.social">Bluesky</a></div>
+  <a href="https://glimmerveil.itch.io/pixel-peeps" target="_blank" rel="noopener">Pixie</a> ·
+  <a href="https://github.com/glimmerveil/glimmerveil-anchor" target="_blank" rel="noopener">GitHub</a> ·
+  <a href="https://glimmerveil.itch.io" target="_blank" rel="noopener">itch.io</a> · <a href="https://ko-fi.com/glimmerveil" target="_blank" rel="noopener">Ko-fi</a> ·
+  <a href="https://bsky.app/profile/glimmerveilai.bsky.social" target="_blank" rel="noopener">Bluesky</a></div>
   <div style="margin-top:6px">We collect nothing. This page has no trackers.</div>
 </footer>
 
