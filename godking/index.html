@@ -71,6 +71,15 @@
   .cta { text-align: center; padding: 56px 0; border-bottom: 1px solid var(--line); }
   .cta .tag { margin-bottom: 22px; }
   .cta .actions { justify-content: center; }
+  .packs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 24px; }
+  .pack { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
+  .pack img { aspect-ratio: 630 / 500; object-fit: cover; width: 100%; }
+  .pack div { padding: 14px 16px 18px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .pack h3 { font: 700 20px var(--display); color: var(--gold-hi); margin: 0; }
+  .pack p { margin: 0; color: var(--muted); font-size: 17px; flex: 1; }
+  .pack .btn { text-align: center; font-size: 14px; padding: 12px 14px; }
+  @media (max-width: 980px) { .packs { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .packs { grid-template-columns: 1fr; } }
   footer { padding: 30px 0 56px; color: var(--muted); font-size: 16px; }
   footer a { color: var(--muted); }
 
@@ -148,7 +157,7 @@
         alt="Lightning strikes a mountain above a town in the rain"></figure>
       <div><h2>Storms roll in. Blizzards bury them.</h2>
       <p>Rain feeds the fields, lightning strikes, and a hard winter buries the streets in snow while people dig
-      themselves out. Or you can call the storm down yourself.</p></div>
+      themselves out. Play <a href="#peoples">the Nords</a>, and you can call the storm down yourself.</p></div>
     </article>
     <article class="feat">
       <figure class="shot"><img src="media/siege.jpg" width="1600" height="900" loading="lazy"
@@ -162,9 +171,9 @@
       <figure class="shot"><img src="media/powers.jpg" width="1600" height="900" loading="lazy"
         alt="A meteor strikes the edge of a timber town, debris flying through the smoke and the woods alight"></figure>
       <div><h2>Call down a meteor</h2>
-      <p>You're their god, and you have a god's powers. Raise mountains and sink valleys. Send a tornado through a
-      town, call a lightning storm down on an army, drop a meteor out of a clear sky, or burn a hole through the
-      clouds with a column of the sun's fire. Feeling kind? Golden rain heals the hurt and greens the fields, and
+      <p>You're their god, and you have a god's powers. Raise mountains and sink valleys. Hurl a fireball that
+      bounces through a timber town, drop a meteor out of a clear sky, or burn a hole through the clouds with a
+      column of the sun's fire. Feeling kind? Golden rain heals the hurt and greens the fields, and
       inside a ring of Deny Death nobody can die. When a town raises a temple, its priests pray with your voice.</p>
       <p>You still can't give a single order. But you can pick people up and throw them.</p></div>
     </article>
@@ -179,18 +188,28 @@
       <figcaption>Winter judges everyone.</figcaption></figure>
   </section>
 
-  <section class="block">
-    <h2>More peoples are planned</h2>
+  <section class="block" id="peoples">
+    <h2>Four more peoples</h2>
     <p>The humans of the plains and their god are free, and they stay free: a full game, not a demo. Four more
-    peoples are planned, each with its own gods and powers: dwarves, elves, Nords, and the arcane, whose wizards,
-    druids and witches take the place of priests.</p>
+    peoples are out now as packs, $5 each on itch.io. Each brings its own towns, its own ways of living and its
+    own god's powers. Add one in the game under Saves › Packs › Add a pack…, and it keeps itself up to date from then on.</p>
+    <div class="packs">
+    <article class="pack"><img src="media/pack-nords.jpg" width="630" height="500" loading="lazy" alt="A Nord town of longhouses with a bolt of lightning striking down">
+      <div><h3>The Nords</h3><p>The storm gods' people. Longhouses, mead halls, pigs and longships, berserkers and witches. Your god gets Lightning, Storm and Tornado, plus Thor's Hammer and Gale.</p><a class="btn" href="https://glimmerveil.itch.io/god-king-nords">Get the Nords · $5</a></div></article>
+    <article class="pack"><img src="media/pack-dwarves.jpg" width="630" height="500" loading="lazy" alt="A Titan of jagged rock with crystals out of its shoulders over a dwarf town">
+      <div><h3>The Dwarves</h3><p>The people of the deep rock. Granite halls, deep mines, sheep and mushrooms, crossbows and runesmiths who burst enemy walls. Your god gets the Earthquake, the Stone Wall, the Boulder and the Titan.</p><a class="btn" href="https://glimmerveil.itch.io/god-king-dwarves">Get the Dwarves · $5</a></div></article>
+    <article class="pack"><img src="media/pack-elves.jpg" width="630" height="500" loading="lazy" alt="An elf town of round houses under leaf roofs and a house in a great tree">
+      <div><h3>The Elves</h3><p>The forest gods' people. Homes grown in the trees, elk and gourds, the best archers in the game and druids who pull walls down with roots. Your god gets Bramble, Living Vines, the Thornwall and the Treant.</p><a class="btn" href="https://glimmerveil.itch.io/god-king-elves">Get the Elves · $5</a></div></article>
+    <article class="pack"><img src="media/pack-arcane.jpg" width="630" height="500" loading="lazy" alt="A town of violet stone towers glowing at night around a moonwell">
+      <div><h3>The Arcane</h3><p>The Mystics. Violet towers, crystal fields and drifting motes, a people who never eat and never feel the cold. Your god gets the Time Bubble, the Time Field, Accelerated Decay and the Crystal Sentinel.</p><a class="btn" href="https://glimmerveil.itch.io/god-king-arcane">Get the Arcane · $5</a></div></article>
+    </div>
   </section>
 
   <section class="block">
     <h2>Questions</h2>
     <div class="faq">
       <div><h3>Does it cost anything?</h3>
-        <p>No. The whole game with the humans of the plains is free. The other peoples will be paid unlocks when they're ready.</p></div>
+        <p>No. The whole game with the humans of the plains is free. The other four peoples are <a href="#peoples">$5 each</a>, as packs on itch.io.</p></div>
       <div><h3>What does it run on?</h3>
         <p>A computer with a recent browser: Chrome, Edge, Firefox or Safari. Nothing to install. Your saves stay in
         your browser, and you can download them as files.</p></div>
