@@ -51,7 +51,12 @@
   .card.wide { grid-column: span 2; padding: 0; overflow: hidden; }
   .card.wide img { width: 100%; height: auto; display: block; aspect-ratio: 16 / 9; object-fit: cover; border-bottom: 1px solid var(--line); }
   .card.wide .in { padding: 22px; display: flex; flex-direction: column; flex: 1; }
-  .card .row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .card .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .card .pic { display: block; width: calc(100% + 44px); height: auto; max-width: none; margin: -22px -22px 16px; aspect-ratio: 16 / 9; object-fit: cover; object-position: 50% 40%;
+               border-bottom: 1px solid var(--line); border-radius: 14px 14px 0 0; }
+  .peoples { display: inline-flex; gap: 6px; margin-left: 4px; }
+  .card.wide .peoples img { width: 46px; height: 37px; aspect-ratio: auto; border-radius: 6px; border: 1px solid var(--line); border-bottom: 1px solid var(--line); object-fit: cover; display: block; }
+  .peoples a:hover img { border-color: var(--accent); }
   .thesis { font: italic 400 clamp(20px, 3vw, 26px)/1.4 Georgia, 'Iowan Old Style', serif; color: var(--text); margin: 0 0 8px; }
   .creed { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center;
            background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--accent2);
@@ -100,10 +105,13 @@
         <div class="row">
           <a class="btn" href="/godking/play/">Play free</a>
           <a class="btn ghost" href="/godking/">See the trailer</a>
+          <span class="peoples" aria-label="Four more peoples, $5 each on itch.io"><a href="https://glimmerveil.itch.io/god-king-nords" title="The Nords: $5 on itch.io"><img src="/godking/media/pack-nords-t.jpg" width="80" height="64" alt="The Nords"></a><a href="https://glimmerveil.itch.io/god-king-dwarves" title="The Dwarves: $5 on itch.io"><img src="/godking/media/pack-dwarves-t.jpg" width="80" height="64" alt="The Dwarves"></a><a href="https://glimmerveil.itch.io/god-king-elves" title="The Elves: $5 on itch.io"><img src="/godking/media/pack-elves-t.jpg" width="80" height="64" alt="The Elves"></a><a href="https://glimmerveil.itch.io/god-king-arcane" title="The Arcane: $5 on itch.io"><img src="/godking/media/pack-arcane-t.jpg" width="80" height="64" alt="The Arcane"></a></span>
         </div>
       </div>
     </div>
     <div class="card">
+      <a href="https://glimmerveil.itch.io/pixel-peeps"><img class="pic" src="/media/pixie-beanbag.png" width="1237" height="696" loading="lazy"
+        alt="Pixie curled up in a green bean bag in her pixel art living room: snuggles into the bean bag, comfiest spot in the whole place"></a>
       <span class="tag">Free · all ages</span>
       <h3>Pixel Peeps</h3>
       <p>Give Pixie a cozy apartment on your phone. She reads, naps, makes snacks, and remembers you
