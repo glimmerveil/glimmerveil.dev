@@ -28,6 +28,22 @@ const google = /<link href="https:\/\/fonts\.googleapis\.com\/[^"]*" rel="styles
 if (!google.test(page)) throw new Error('the packer no longer links Google Fonts: check the font swap');
 page = page.replace(google, '<link href="../fonts/fonts.css" rel="stylesheet">');
 page = `<!doctype html>\n<html lang="en">\n<!-- build ${sha} -->\n` + page;
+// the link people share is this page: give it a preview card (title, words, picture) like the landing page's
+const card = [
+  '<meta property="og:type" content="website">',
+  '<meta property="og:site_name" content="Glimmerveil">',
+  '<meta property="og:title" content="The God King Problem: play free">',
+  '<meta property="og:description" content="A god game where you can raise mountains but can\'t give a single order. Free in your browser, on any device, alone or with friends.">',
+  '<meta property="og:url" content="https://glimmerveil.dev/godking/play/">',
+  '<meta property="og:image" content="https://glimmerveil.dev/godking/media/og.jpg">',
+  '<meta property="og:image:width" content="1200">',
+  '<meta property="og:image:height" content="630">',
+  '<meta property="og:image:alt" content="The God King Problem: a timber town on a coast under a mountain">',
+  '<meta name="twitter:card" content="summary_large_image">',
+  '<meta name="twitter:image" content="https://glimmerveil.dev/godking/media/og.jpg">',
+].join('\n');
+if (!/<\/title>\n/.test(page)) throw new Error('no </title> to hang the preview card on');
+page = page.replace(/<\/title>\n/, '</title>\n' + card + '\n');
 if (!page.includes('Copyright © 2026 Glimmerveil. All rights reserved.')) throw new Error('copyright notice missing');
 const outside = [...page.matchAll(/(?:src|href)=["'](https?:)?\/\/[^"']+/g)].map(m => m[0]);
 if (outside.length) throw new Error('the game would call out to: ' + outside.join(', '));
