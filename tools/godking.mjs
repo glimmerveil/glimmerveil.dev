@@ -41,6 +41,9 @@ const card = [
   '<meta property="og:image:alt" content="The God King Problem: a timber town on a coast under a mountain">',
   '<meta name="twitter:card" content="summary_large_image">',
   '<meta name="twitter:image" content="https://glimmerveil.dev/godking/media/og.jpg">',
+  '<meta name="twitter:title" content="The God King Problem: play free">',
+  '<meta name="twitter:description" content="A god game where you can raise mountains but can\'t give a single order. Free in your browser, on any device, alone or with friends.">',
+  '<meta name="twitter:image:alt" content="The God King Problem: a timber town on a coast under a mountain">',
 ].join('\n');
 if (!/<\/title>\n/.test(page)) throw new Error('no </title> to hang the preview card on');
 page = page.replace(/<\/title>\n/, '</title>\n' + card + '\n');
