@@ -33,7 +33,12 @@
   #labels .drop { position: absolute; left: 0; top: 0; pointer-events: auto; cursor: var(--glove, pointer); padding: 1px 7px; background: rgba(0,0,0,0.72); border: 1px solid #222; font-size: calc(14px * var(--ts)); white-space: nowrap; }
   #labels .drop.way { color: #ffd890; border-color: #6a5020; font: 600 calc(15px * var(--ts)) 'Cinzel', serif; padding: 2px 10px; }
   #labels .drop.normal { color: #ddd; } #labels .drop.magic { color: #7d9cff; } #labels .drop.rare { color: #ffdd55; } #labels .drop.blend { color: #d58cff; border-color: #6a3a8a; }
-  #hud { position: fixed; inset: 0; pointer-events: none; }
+  #hud { position: fixed; left: 0; top: 0; width: 100vw; height: 100vh; transform-origin: 0 0; pointer-events: none; }
+  /* a phone, on its side: bigger buttons to hit with a finger, the tools at the top left, no mouse buttons (hud.js fit) */
+  #hud.touch .slot { width: 72px; height: 72px; } #hud.touch .pot { width: 56px; height: 72px; } #hud.touch .side, #hud.touch #chooser { display: none; }
+  #hud.touch .orb { width: 110px; height: 110px; } #hud.touch #lvl { bottom: calc(var(--safeB) + 88px); }
+  #hud.touch #tools { left: var(--safe); right: auto; top: var(--safeB); gap: 5px; } #hud.touch #tools button { width: 46px; height: 46px; padding: 9px; }
+  #hud.touch #corner { width: 140px; } #hud.touch #corner canvas { width: 140px; height: 140px; }
   #hud button { pointer-events: auto; font: inherit; color: inherit; cursor: var(--glove, pointer); }
   .orb { position: absolute; bottom: var(--safeB); width: 128px; height: 128px; border-radius: 50%; overflow: hidden; border: 3px solid #3a2e1c; box-shadow: 0 0 0 2px #120d07, inset 0 0 22px #000, 0 6px 18px rgba(0,0,0,0.8); background: #070505; }
   .orb.life { left: var(--safe); } .orb.mana { right: var(--safe); }
@@ -167,13 +172,16 @@
   #death .t { font: 700 calc(52px * var(--ts)) 'Cinzel'; color: #c02a1a; text-shadow: 0 0 20px #000; } #death .s { font: italic calc(22px * var(--ts)) 'EB Garamond'; color: #c8b8a0; }
   #title { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; background: radial-gradient(ellipse at 50% 40%, #1c120a, #000 70%); transition: opacity 0.6s; z-index: 10; }
   #title.gone { opacity: 0; pointer-events: none; }
+  /* a phone held upright: the game wants it on its side (Bishop: "it works fine in landscape mode") */
+  #turn { display: none; position: fixed; inset: 0; z-index: 40; align-items: center; justify-content: center; text-align: center; padding: 30px; background: #000; color: #e8d6a8; font: 600 calc(20px * var(--ts)) 'Cinzel'; }
+  @media (orientation: portrait) and (pointer: coarse) { #turn { display: flex; } }
   #title h1 { font: 700 clamp(40px, 8vw, 84px) 'Cinzel'; margin: 0; letter-spacing: 0.08em; color: #e6cf98; text-shadow: 0 0 30px rgba(255,140,40,0.25), 0 4px 12px #000; }
   #title p { margin: 0; font: italic calc(20px * var(--ts)) 'EB Garamond'; color: #a89878; }
   #title .kits { display: flex; gap: 18px; flex-wrap: wrap; justify-content: center; }
   #title button { width: 220px; padding: 16px; background: linear-gradient(#1c150d, #0d0906); border: 2px solid var(--edge); border-radius: 8px; color: var(--ink); cursor: var(--glove, pointer); text-align: left; }
   #title button b { display: block; font: 700 calc(22px * var(--ts)) 'Cinzel'; color: #e8d6a8; } #title button span { color: var(--dim); font-size: calc(15px * var(--ts)); }
   #title button:hover { border-color: var(--gold); }
-  #ver { position: absolute; right: 14px; bottom: 10px; color: #5a4e3a; font: calc(13px * var(--ts)) 'EB Garamond'; }
+  #ver { position: absolute; left: 14px; bottom: 10px; color: #5a4e3a; font: calc(13px * var(--ts)) 'EB Garamond'; }
   #title .kits { flex-direction: column; align-items: center; max-width: min(960px, 94vw); max-height: 70vh; overflow-y: auto; }
   .roster { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
   .hcard { width: 230px; padding: 14px 16px; background: linear-gradient(#1c150d, #0d0906); border: 2px solid var(--edge); border-radius: 8px; display: flex; flex-direction: column; gap: 3px; }
@@ -206,6 +214,7 @@
 <canvas id="c"></canvas>
 <div id="labels"></div>
 <div id="hud"></div>
+<div id="turn"><div>Turn your phone on its side to play</div></div>
 <div id="title">
   <h1>Spellwrought</h1>
   <p>It goes down forever. Pick a hero, or make a new one.</p>
