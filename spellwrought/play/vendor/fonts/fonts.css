@@ -1,0 +1,6 @@
+/* Cinzel and EB Garamond (SIL Open Font License 1.1), latin subsets, served locally. */
+@font-face { font-family: 'Cinzel'; font-style: normal; font-weight: 500; font-display: swap; src: url(Cinzel-normal-500-latin.woff2) format('woff2'); }
+@font-face { font-family: 'Cinzel'; font-style: normal; font-weight: 700; font-display: swap; src: url(Cinzel-normal-700-latin.woff2) format('woff2'); }
+@font-face { font-family: 'EB Garamond'; font-style: normal; font-weight: 400; font-display: swap; src: url(EBGaramond-normal-400-latin.woff2) format('woff2'); }
+@font-face { font-family: 'EB Garamond'; font-style: italic; font-weight: 400; font-display: swap; src: url(EBGaramond-italic-400-latin.woff2) format('woff2'); }
+@font-face { font-family: 'EB Garamond'; font-style: normal; font-weight: 600; font-display: swap; src: url(EBGaramond-normal-600-latin.woff2) format('woff2'); }
