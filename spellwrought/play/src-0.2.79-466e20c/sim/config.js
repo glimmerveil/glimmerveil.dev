@@ -1,0 +1,1 @@
+const VERSION="0.2.79";const TPS=20;const DT=1/TPS;const VOID=0,FLOOR=1,WALL=2,PILLAR=3,CHASM=4,WATER=5;const flyable=t=>t===FLOOR||t===CHASM||t===WATER;const walkable=t=>t===FLOOR;const ACT=5;const isBoss=depth=>depth>0&&depth%ACT===0;const actOf=depth=>Math.floor((depth-1)/ACT);export{ACT,CHASM,DT,FLOOR,PILLAR,TPS,VERSION,VOID,WALL,WATER,actOf,flyable,isBoss,walkable};
