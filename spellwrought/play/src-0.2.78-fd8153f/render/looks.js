@@ -1,0 +1,1 @@
+const RACE_BODY={};const RACE_HAND={};const RACE_FIGURE={};const ITEM_LOOK=[];export{ITEM_LOOK,RACE_BODY,RACE_FIGURE,RACE_HAND};
