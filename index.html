@@ -48,9 +48,7 @@
   .btn { display: inline-block; text-decoration: none; font-weight: 600; padding: 10px 16px; border-radius: 10px;
          background: var(--accent); color: var(--ink); align-self: flex-start; }
   .btn.ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
-  .price { font-weight: 600; color: var(--text); margin: 0 0 14px; }
   ul.plain { margin: 0 0 18px; padding-left: 18px; color: var(--muted); }
-  .grid.hire { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
   .card.wide { grid-column: span 2; padding: 0; overflow: hidden; }
   .card.wide img { width: 100%; height: auto; display: block; aspect-ratio: 16 / 9; object-fit: cover; border-bottom: 1px solid var(--line); }
   .card.wide .in { padding: 22px; display: flex; flex-direction: column; flex: 1; }
@@ -80,7 +78,7 @@
 
 <nav>
   <div class="mark">Glimmerveil</div>
-  <div class="links"><a class="keep" href="#games">Games</a><a href="#companions">Companions</a><a href="#hire">Hire us</a><a class="keep" href="/philosophy/">Philosophy</a></div>
+  <div class="links"><a class="keep" href="#games">Games</a><a href="#companions">Companions</a><a class="keep" href="/philosophy/">Philosophy</a></div>
 </nav>
 
 <header>
@@ -174,83 +172,6 @@
   </div>
 </section>
 
-<section id="hire">
-  <h2>Hire us</h2>
-  <p class="sub">Fixed scope, fixed price, one project at a time, so yours gets our full attention. Payment is by
-  Stripe. Questions first? Write to <a href="mailto:bishop@glimmerveil.dev">bishop@glimmerveil.dev</a>.</p>
-  <div class="grid hire">
-    <div class="card">
-      <span class="tag">Assessment</span>
-      <h3>Find out what's wrong first</h3>
-      <ul class="plain">
-        <li>Send us one problem: what it does, what you've tried</li>
-        <li>You get a written report: what's wrong, why, and how to fix it</li>
-        <li>Fix it yourself, or hand it to us. Your call</li>
-      </ul>
-      <p class="price">$60</p>
-      <div class="row">
-        <a class="btn" href="https://buy.stripe.com/cNifZg90beSD8WO87i3gk00" target="_blank" rel="noopener">Book it</a>
-        <a class="btn ghost" href="mailto:bishop@glimmerveil.dev?subject=Assessment">Ask first</a>
-      </div>
-    </div>
-    <div class="card">
-      <span class="tag">Private AI setup</span>
-      <h3>AI that never leaves your machine</h3>
-      <ul class="plain">
-        <li>A local model sized to your hardware</li>
-        <li>Memory that persists across sessions and model swaps</li>
-        <li>Optional voice in and out</li>
-      </ul>
-      <p class="price">$300</p>
-      <div class="row">
-        <a class="btn" href="https://buy.stripe.com/dRmdR8dgrbGr8WO87i3gk01" target="_blank" rel="noopener">Book it</a>
-        <a class="btn ghost" href="mailto:bishop@glimmerveil.dev?subject=Private%20AI%20setup">Ask first</a>
-      </div>
-    </div>
-    <div class="card">
-      <span class="tag">Custom build · repair</span>
-      <h3>When your AI keeps falling apart</h3>
-      <ul class="plain">
-        <li>Agents and companions that loop, hallucinate, or write both sides</li>
-        <li>Memory that recalls the wrong things, or forgets its own life</li>
-        <li>Voice pipelines, custom agents, measured before and after</li>
-      </ul>
-      <p class="price">$500</p>
-      <div class="row">
-        <a class="btn" href="https://buy.stripe.com/00w8wO0tF8uf3CufzK3gk02" target="_blank" rel="noopener">Book it</a>
-        <a class="btn ghost" href="mailto:bishop@glimmerveil.dev?subject=Custom%20build">Ask first</a>
-      </div>
-    </div>
-    <div class="card">
-      <span class="tag">Focused build sprint</span>
-      <h3>One build, start to finish</h3>
-      <ul class="plain">
-        <li>One clearly scoped build: an agent, a voice pipeline, a memory system</li>
-        <li>The scope agreed in writing before we start</li>
-        <li>Delivered, tested and handed over</li>
-      </ul>
-      <p class="price">$1,500</p>
-      <div class="row">
-        <a class="btn" href="https://buy.stripe.com/eVq5kC4JVbGrdd4cny3gk03" target="_blank" rel="noopener">Book it</a>
-        <a class="btn ghost" href="mailto:bishop@glimmerveil.dev?subject=Build%20sprint">Ask first</a>
-      </div>
-    </div>
-    <div class="card">
-      <span class="tag">Crew retainer</span>
-      <h3>The crew on your side, month to month</h3>
-      <ul class="plain">
-        <li>Ongoing builds, fixes and advice for your AI systems</li>
-      </ul>
-      <p class="price">$2,000 a month</p>
-      <p class="note" style="margin: -6px 0 14px">Crew Retainer: $2,000/month, billed monthly until you cancel. Cancel anytime from any invoice email.</p>
-      <div class="row">
-        <a class="btn" href="https://buy.stripe.com/8x29ASekvh0Lc909bm3gk04" target="_blank" rel="noopener">Subscribe</a>
-        <a class="btn ghost" href="mailto:bishop@glimmerveil.dev?subject=Crew%20retainer">Ask first</a>
-      </div>
-    </div>
-  </div>
-</section>
-
 <section id="support">
   <h2>Support the work</h2>
   <p class="sub">Glimmerveil is a small independent studio. If the God King, Pixie, Anchor or the Forge mean something
@@ -264,6 +185,7 @@
 
 <footer>
   <div>© 2026 Glimmerveil. All rights reserved. · <a href="mailto:support@glimmerveil.dev">support@glimmerveil.dev</a> ·
+  Studios, publishers and press: <a href="mailto:bishop@glimmerveil.dev">bishop@glimmerveil.dev</a> ·
   <a href="/godking/">The God King Problem</a> ·
   <a href="/spellwrought/">Spellwrought</a> ·
   <a href="/philosophy/">Philosophy</a> ·
