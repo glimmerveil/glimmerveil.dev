@@ -50,6 +50,7 @@
   #hud.touch #chooser button { width: 56px; height: 56px; }
   #hud.touch ~ #book .page { height: var(--pageH, 600px); }
   #stick.on { opacity: 1 !important; }
+  @media (pointer: coarse) { #stick.rest { pointer-events: auto; z-index: 4; touch-action: none; } }
   #hud.touch #atk { display: block; position: absolute; width: 100px; height: 100px; padding: 0; border-radius: 50%; border: 3px solid #8a6a32; background: #0a0705; overflow: hidden; box-shadow: 0 0 0 2px #120d07, 0 4px 16px rgba(0,0,0,0.85); }
   #hud.touch #atk .ic, #hud.touch #atk .ic svg { width: 100%; height: 100%; display: block; }
   #hud.touch #atk.down, #hud.touch .slot.down { border-color: var(--gold); filter: brightness(1.25); }
@@ -272,6 +273,6 @@
 </div>
 <div id="stick" class="rest"><b></b></div><div id="cancel">&#x2715;</div>
 <script type="importmap">{ "imports": { "three": "./vendor/three/three.module.js" } }</script>
-<script type="module" src="src/main.js"></script>
+<script type="module" src="src-0.2.78-fd8153f/main.js"></script>
 </body>
 </html>
