@@ -13,12 +13,12 @@
 <meta property="og:image" content="https://glimmerveil.dev/spellwrought/media/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Spellwrought: a wizard's polymorph storm turns a pack of monsters into sheep">
+<meta property="og:image:alt" content="Spellwrought: a wizard's Lightning runs through a flock of sheep that were monsters a moment ago">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://glimmerveil.dev/spellwrought/media/og.jpg">
 <meta name="twitter:title" content="Spellwrought: play free">
 <meta name="twitter:description" content="An endless action RPG where the world makes its own spells, and any spell you find is yours. Free in your browser.">
-<meta name="twitter:image:alt" content="Spellwrought: a wizard's polymorph storm turns a pack of monsters into sheep">
+<meta name="twitter:image:alt" content="Spellwrought: a wizard's Lightning runs through a flock of sheep that were monsters a moment ago">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="vendor/fonts/fonts.css">
 <style>
@@ -240,6 +240,11 @@
   .backup .pk small { color: var(--dim); font-weight: 400; } .backup .pk.bad { color: #c96a5a; border-color: #6a2a20; }
   #title .backup .pk button { padding: 2px 8px; } #title .backup .pk button.armed { color: #e8a090; }
   .hcard.away { opacity: 0.6; }
+  #giftnote { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); width: max-content; max-width: min(640px, 92vw); box-sizing: border-box; padding: 12px 22px; text-align: center; background: rgba(10,7,5,0.94); border: 2px solid #8a7040; border-radius: 8px; box-shadow: 0 6px 24px #000; pointer-events: none; opacity: 0; z-index: 2; }
+  #giftnote .t { font: 700 calc(24px * var(--ts)) 'Cinzel', serif; color: #ffd36a; } #giftnote.bad { border-color: #6a2a20; } #giftnote.bad .t { color: #e8a090; }
+  #giftnote .s { font: italic calc(17px * var(--ts)) 'EB Garamond'; color: #c8b890; margin-top: 4px; }
+  #giftnote.show { animation: giftnote 9s ease forwards; }
+  @keyframes giftnote { 0% { opacity: 0; } 6% { opacity: 1; } 85% { opacity: 1; } 100% { opacity: 0; } }
   .maker input, .hcard input { font: 600 calc(18px * var(--ts)) 'Cinzel'; padding: 8px 12px; width: 260px; background: #0d0906; color: #e8d6a8; border: 2px solid var(--edge); border-radius: 6px; user-select: text; -webkit-user-select: text; }
   .hcard input { width: 100%; box-sizing: border-box; font-size: calc(16px * var(--ts)); padding: 4px 8px; }
   @media (max-width: 700px) {
@@ -257,6 +262,7 @@
     .maker { gap: 8px; } .maker h2 { font-size: calc(19px * var(--ts)); }
     #title .mrow button { padding: 6px 10px; } #title .kitrow button { padding: 8px 12px; } #title .kitrow button span { font-size: calc(13px * var(--ts)); }
     #title .cover { width: min(240px, 60vw, 40vh); } #ver { display: none; }
+    #giftnote { top: 6px; width: 92vw; padding: 8px 14px; background: #0a0705; } #giftnote .t { font-size: calc(18px * var(--ts)); } #giftnote .s { font-size: calc(14px * var(--ts)); }
   }
 </style>
 </head>
@@ -273,6 +279,6 @@
 </div>
 <div id="stick" class="rest"><b></b></div><div id="cancel">&#x2715;</div>
 <script type="importmap">{ "imports": { "three": "./vendor/three/three.module.js" } }</script>
-<script type="module" src="src-0.2.79.1-84ab7af/main.js"></script>
+<script type="module" src="src-0.2.82-c53c0d8/main.js"></script>
 </body>
 </html>
