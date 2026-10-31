@@ -66,9 +66,13 @@
   .ways { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px 28px; margin-top: 8px; }
   .ways h3, .faq h3 { font: 600 20px var(--serif); margin: 0 0 4px; color: var(--text); }
   .ways p, .faq p { margin: 0; color: var(--muted); font-size: 18px; }
-  .peoples { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
-  .peoples span { font: 700 14px var(--display); letter-spacing: .08em; color: var(--muted); border: 1px solid var(--line);
-                  border-radius: 999px; padding: 8px 16px; }
+  .packs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px 28px; margin-top: 22px; }
+  .pack { display: grid; grid-template-columns: 120px 1fr; gap: 14px; align-items: start; }
+  .pack img { width: 120px; height: 95px; border-radius: 8px; border: 1px solid var(--line); object-fit: cover; }
+  .pack h3 { font: 700 18px var(--display); color: var(--gold-hi); margin: 0 0 4px; }
+  .pack h3 a { color: inherit; text-decoration: none; }
+  .pack p { margin: 0; color: var(--muted); font-size: 17px; line-height: 1.45; }
+  .pack .get { font: 700 13px var(--display); letter-spacing: .06em; white-space: nowrap; }
   .faq { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px 32px; }
   .cta { text-align: center; padding: 56px 0; border-bottom: 1px solid var(--line); }
   .cta .tag { margin-bottom: 22px; }
@@ -82,7 +86,7 @@
     .kicker { margin-top: 40px; }
     .feat { grid-template-columns: 1fr; gap: 18px; padding: 30px 0; }
     .feat:nth-child(even) .shot { order: 0; }
-    .ways, .faq { grid-template-columns: 1fr; }
+    .ways, .faq, .packs { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -101,7 +105,7 @@
       <a class="btn" href="play/">Play free in your browser</a>
       <a class="btn ghost" href="#spells">See the spells</a>
     </div>
-    <p class="fine">Early build, updated often. No download, no account. Your heroes are saved in your browser.</p>
+    <p class="fine">Early build, updated often. No download, no account. Your heroes are saved in your browser. <a href="#peoples">Four more peoples</a>, $10 each.</p>
   </div>
 </header>
 
@@ -157,20 +161,29 @@
   </section>
 
   <section class="block" id="peoples">
-    <h2>Four more peoples are coming</h2>
+    <h2>Four more peoples</h2>
     <p>The humans, with their priest and their wizard, are free and stay free: a full game, not a demo. Four more
-    peoples are on their way as packs, each with two heroes of its own, its own spells, new pieces for the world to
-    blend, new gear and its own music.</p>
-    <div class="peoples" aria-label="Coming peoples"><span>The Arcane</span><span>The Elves</span><span>The Dwarves</span><span>The Nords</span></div>
+    peoples come as packs, $10 each on itch.io, each with two heroes of its own, its own spells, new pieces for the
+    world to blend, new gear and its own music. Once you have one, add it with Add a pack… on the title screen.</p>
+    <div class="packs">
+    <article class="pack"><a href="https://glimmerveil.itch.io/spellwrought-elves" target="_blank" rel="noopener"><img src="media/pack-elves-t.jpg" width="120" height="95" loading="lazy" alt="The Elves: the Ranger in green and the Druid with an antler crown, in a forest"></a>
+      <div><h3><a href="https://glimmerveil.itch.io/spellwrought-elves" target="_blank" rel="noopener">The Elves</a></h3><p>Two heroes of the forest, the moon, and spells that take root. The Ranger fans arrows and shoots thorns that go through; the Druid calls living vines, brambles and bark over the skin. <a class="get" href="https://glimmerveil.itch.io/spellwrought-elves" target="_blank" rel="noopener">Get it · $10</a></p></div></article>
+    <article class="pack"><a href="https://glimmerveil.itch.io/spellwrought-arcane" target="_blank" rel="noopener"><img src="media/pack-arcane-t.jpg" width="120" height="95" loading="lazy" alt="The Arcane: the Time Mage and the Enchanter in violet robes on dark stone"></a>
+      <div><h3><a href="https://glimmerveil.itch.io/spellwrought-arcane" target="_blank" rel="noopener">The Arcane</a></h3><p>Bend time, sleep your foes, and let the crystals grow. The Time Mage throws time bolts and time bubbles; the Enchanter enchants a weapon, and the ward, sleep and the crystal sentinel wait deeper. <a class="get" href="https://glimmerveil.itch.io/spellwrought-arcane" target="_blank" rel="noopener">Get it · $10</a></p></div></article>
+    <article class="pack"><a href="https://glimmerveil.itch.io/spellwrought-nords" target="_blank" rel="noopener"><img src="media/pack-nords-t.jpg" width="120" height="95" loading="lazy" alt="The Nords: the Stormcaller in a horned helm under his storm cloud and the Witch in black with a tornado behind her, in snowy pines"></a>
+      <div><h3><a href="https://glimmerveil.itch.io/spellwrought-nords" target="_blank" rel="noopener">The Nords</a></h3><p>Call the storm, curse your foes, and send the ravens. The Stormcaller brings lightning and the gale; the Witch hexes foes weak and mends with a charm. <a class="get" href="https://glimmerveil.itch.io/spellwrought-nords" target="_blank" rel="noopener">Get it · $10</a></p></div></article>
+    <article class="pack"><a href="https://glimmerveil.itch.io/spellwrought-dwarves" target="_blank" rel="noopener"><img src="media/pack-dwarves-t.jpg" width="120" height="95" loading="lazy" alt="The Dwarves: the Runesmith and the Golemancer in a woodland ruin"></a>
+      <div><h3><a href="https://glimmerveil.itch.io/spellwrought-dwarves" target="_blank" rel="noopener">The Dwarves</a></h3><p>Runes, forges and golems that fight beside you. The Runesmith rolls boulders and breaks with runes; the Golemancer hurls stone and raises a golem of clay. <a class="get" href="https://glimmerveil.itch.io/spellwrought-dwarves" target="_blank" rel="noopener">Get it · $10</a></p></div></article>
+    </div>
   </section>
 
   <section class="block">
     <h2>Questions</h2>
     <div class="faq">
       <div><h3>Does it cost anything?</h3>
-        <p>No. The whole game with the humans is free. The other peoples will come as packs.</p></div>
+        <p>No. The whole game with the humans is free. The other four peoples come as packs, $10 each on itch.io.</p></div>
       <div><h3>What does it run on?</h3>
-        <p>A computer with a recent browser: Chrome, Edge, Firefox or Safari. Nothing to install. Your heroes stay in
+        <p>A computer or a phone with a recent browser: Chrome, Edge, Firefox or Safari. Nothing to install. Your heroes stay in
         your browser, and you can back them up to a file from the title screen.</p></div>
       <div><h3>Does it collect anything?</h3>
         <p>No. No account, no trackers, no ads, and nothing ever comes back to us. The game runs on your machine. The
