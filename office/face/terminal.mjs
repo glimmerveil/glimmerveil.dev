@@ -104,9 +104,14 @@ async function main() {
   await take(await remote.lines(0), me);
   const send = async (act, data) => {
     for (let i = 0; i < 8; i++) {
-      const r = await remote.send(await signed(me, { world: seed, seq: seq + 1, act, data }));
-      if (r.status === 200) { seq = Math.max(seq, r.seq || seq + 1); return r; }
-      if (r.status === 409) { await take(await remote.lines(seq), me); continue; }  // someone spoke first: catch up, try again
+      const want = seq + 1;                                               // the line's own number: never one past what the room already showed
+      const r = await remote.send(await signed(me, { world: seed, seq: want, act, data }));
+      if (r.status === 200) { seq = Math.max(seq, r.seq || want); return r; }   // (Bishop 10-31: the room's echo came first and the page counted his line twice)
+      if (r.status === 409) {                                             // out of step: the house says where the world is; that is the count
+        const at = /world is at (\d+)/.exec(r.why || '') || (Number.isInteger(r.seq) ? [0, r.seq] : null);
+        if (at) seq = +at[1];
+        await take(await remote.lines(seq), me); continue;
+      }
       return r;
     }
     return { status: 409, why: 'the room kept moving' };
