@@ -57,7 +57,7 @@ async function signed(key, line) {
 const names = new Map(), seen = new Set();
 // two counts, never one (Haiku 10-31: one count doing both skipped lines and looped): `seq` is how far this page has
 // RECEIVED the room (it moves only as lines arrive, shown or not); `houseAt` is the house's own count, to number a new line
-let seq = 0, houseAt = 0, seed = q.get('seed') || 'glimmerveil';
+let seq = 0, houseAt = 0, seed = q.get('seed') || 'glimmerveil', recheck = () => {};
 const log = $('#log');
 function show(who, text, cls = '') {
   const near = log.scrollTop + log.clientHeight >= log.scrollHeight - 40;
@@ -103,7 +103,7 @@ async function main() {
   let remote;
   if (ROOM) {
     $('#status').textContent = 'finding the house through the room…';
-    let g; try { g = await peerGuest(ROOM, { wait: 45000, onLost: () => { $('#status').textContent = 'the house dropped away: waiting for it…'; }, onBack: () => { $('#status').textContent = 'here'; } }); }
+    let g; try { g = await peerGuest(ROOM, { wait: 45000, onLost: () => { $('#status').textContent = 'the house dropped away: waiting for it…'; }, onBack: () => { $('#status').textContent = 'here'; setTimeout(() => recheck(), 3000); } }); }
     catch { $('#status').textContent = 'could not find the house: a wrong code, the house asleep, or this network blocks it (on cellular, try Wi-Fi)'; return; }
     seed = g.seed; remote = g;
   } else {
@@ -141,6 +141,19 @@ async function main() {
   if (!inRoom) { const r = await send('arrive', { name: nameOf(), place: PLACE }); inRoom = r.status === 200; if (!inRoom) show('the house', `you could not come in: ${r.why}`, 'quiet'); }
   $('#status').textContent = inRoom ? 'here' : 'not in the room';
   remote.listen(lines => take(lines, me), () => seq);
+  // the room's history, checked once a minute and when the house comes back (Haiku 10-31: a house restored and grown back to
+  // exactly this page's count was never noticed): the house's line at this page's count must be the one this page saw
+  let checking = false;
+  const sameHistory = async () => {
+    if (checking || !seq || !sigAt.has(seq)) return; checking = true;
+    try { const theirs = (await remote.lines(seq - 1)).find(l => l && l.seq === seq);
+      // over the house's own address the house can be asked its count: shorter than this page has seen is a restore too
+      const shorter = !theirs && remote.kind === 'house' && await fetch(`/w/${encodeURIComponent(seed)}/lines?after=999999999`, { cache: 'no-store' }).then(r => r.json()).then(r => Number.isInteger(r.seq) && r.seq < seq).catch(() => false);
+      if ((theirs && theirs.sig !== sigAt.get(seq)) || shorter) { show('the house', 'the house went back in time (restored): reading the room again', 'quiet');
+        try { sessionStorage.setItem('dream-terminal-unsent', $('#say').value || ''); } catch {} setTimeout(() => location.reload(), 1500); } }
+    catch {} finally { checking = false; }
+  };
+  setInterval(sameHistory, 60000); recheck = sameHistory;
   const box = $('#say');
   try { const u = sessionStorage.getItem('dream-terminal-unsent'); if (u) { box.value = u; sessionStorage.removeItem('dream-terminal-unsent'); } } catch {}
   // the phone's keyboard (Bishop 10-31, from the office: "it is hard to see while I type"): the room fits above it, the newest
