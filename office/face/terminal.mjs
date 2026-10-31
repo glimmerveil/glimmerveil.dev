@@ -121,11 +121,19 @@ async function main() {
   $('#status').textContent = inRoom ? 'here' : 'not in the room';
   remote.listen(lines => take(lines, me), () => seq);
   const box = $('#say');
+  // the phone's keyboard (Bishop 10-31, from the office: "it is hard to see while I type"): the room fits above it, the newest
+  // lines stay in view, and the box grows with what he writes
+  const vv = window.visualViewport;
+  const fit = () => { if (vv) document.body.style.height = `${Math.round(vv.height)}px`; log.scrollTop = log.scrollHeight; };
+  if (vv) { vv.addEventListener('resize', fit); vv.addEventListener('scroll', () => { if (window.scrollY) window.scrollTo(0, 0); }); }
+  const grow = () => { box.style.height = 'auto'; box.style.height = `${Math.min(box.scrollHeight, Math.round((vv ? vv.height : innerHeight) * 0.4))}px`; };
+  box.addEventListener('focus', () => setTimeout(fit, 250));
+  box.addEventListener('input', () => { grow(); log.scrollTop = log.scrollHeight; });
   for (const b of document.querySelectorAll('[data-seat]')) b.onclick = () => { box.value = `${b.dataset.seat}, ${box.value.replace(/^(?:(?:Office|Game|Art|Matt|Opus|Everyone)\b(?:\s*(?:,|and)\s*)?)+/i, '')}`; box.focus(); };
   $('#form').onsubmit = async e => {
     e.preventDefault();
     const text = box.value.replace(/\s+/g, ' ').trim(); if (!text) return;
-    box.value = ''; box.disabled = true;
+    box.value = ''; box.disabled = true; grow();
     try {
       for (let rest = text; rest; ) {                                       // a long message in breaths: the first carries who it is for
         let cut = rest.length <= MOST_SAY ? rest.length : Math.max(rest.lastIndexOf('. ', MOST_SAY - 1) + 1, rest.lastIndexOf(' ', MOST_SAY));
