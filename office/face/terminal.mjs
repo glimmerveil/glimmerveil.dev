@@ -3,8 +3,9 @@
 // who is here, what is said, one line to type (the phone's own keyboard is his voice). No Pixie, no 3D, no kernel: the house
 // checks every line; this page only signs its own and shows everyone's.
 //   ?seed=office&place=park            over the house's own address (the tailnet), or
-//   ?room=<code>&place=park            browser to browser through the room's code (no address, no app: face/p2p.mjs). The
-//                                      code is kept in this browser and taken out of the address bar (history, sharing)
+//   #room=<code>                       browser to browser through the room's code (no address, no app: face/p2p.mjs). The
+//                                      code rides after the #, which is never sent to any server; this page never stores it:
+//                                      the bookmark is the key (Haiku, deploy review: ?room= reached the site's logs)
 // Its key is made HERE, once, and never leaves this browser: WebCrypto Ed25519 with the private half NOT extractable, kept in
 // this browser's IndexedDB. Paired once (the house's owners list), its words move the seats; unpaired it can only talk.
 import { houseRemote, peerGuest } from './remote.mjs';
@@ -13,12 +14,18 @@ import { canonical, keyId, pubOf } from '../engine/keys.mjs';
 const $ = s => document.querySelector(s), q = new URLSearchParams(location.search);
 const PLACE = q.get('place') || 'park', MOST_SAY = 400;
 const store = { get: k => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch {} } };
-if (q.get('room')) { store.set('dream-terminal-room', q.get('room')); q.delete('room'); history.replaceState(null, '', `${location.pathname}?${q}`); }
+try { localStorage.removeItem('dream-terminal-room'); } catch {}          // (a code kept by an older page: never kept now)
 // a page served by the house itself talks to it over its address; a page served anywhere else (glimmerveil.dev/office) finds
-// the house only by the room's code, asked for once and kept here
+// the house only by the room's code, from the address after # (or asked for, then put there, so a bookmark keeps it)
 const AT_HOUSE = q.get('seed') || /^\/face\//.test(location.pathname);
-let ROOM = !AT_HOUSE ? store.get('dream-terminal-room') : null;
-if (!AT_HOUSE && !ROOM) { for (let i = 0; !ROOM && i < 2; i++) ROOM = (prompt('The room code?') || '').trim().toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 64) || null; if (ROOM) store.set('dream-terminal-room', ROOM); }
+const clean = c => { const x = String(c || '').toLowerCase().replace(/[^a-z0-9]/g, ''); return x.length >= 8 && x.length <= 64 ? x : null; };
+let ROOM = null;
+if (!AT_HOUSE) {
+  const fromUrl = new URLSearchParams(location.hash.slice(1)).get('room') || q.get('room');   // (?room= still taken, once, then moved after the #)
+  ROOM = clean(fromUrl);
+  for (let i = 0; !ROOM && i < 2; i++) ROOM = clean(prompt(fromUrl ? 'That room code does not look right. The room code?' : 'The room code?'));
+  if (ROOM) { q.delete('room'); history.replaceState(null, '', `${location.pathname}${[...q].length ? `?${q}` : ''}#room=${ROOM}`); }
+}
 // who this phone says it is, asked once (Haiku 10-31: every phone arrived as "Bishop"); a name is shown, never trusted: the key is who
 function nameOf() {                                                      // asked twice at most; a browser that will not ask gets a guest's name (Haiku r3: it spun)
   let n = (q.get('name') || store.get('dream-terminal-name') || '').trim().slice(0, 32);
@@ -79,14 +86,15 @@ async function take(lines, me) {
 }
 
 async function main() {
+  $('#forget').onclick = () => { history.replaceState(null, '', location.pathname); location.reload(); };   // the code leaves the address; the bookmark is his to delete
+  if (!AT_HOUSE && !ROOM) { $('#status').textContent = 'no room code: open the link you were given (it ends #room=…)'; return; }   // (no key is made for a page with no room)
   const me = await myKey();
   $('#key').textContent = me.id; $('#copy').onclick = () => navigator.clipboard?.writeText(me.id);
-  $('#forget').onclick = () => { try { localStorage.removeItem('dream-terminal-room'); } catch {} location.reload(); };
   let remote;
-  if (!AT_HOUSE && !ROOM) { $('#status').textContent = 'no room code: open this page with ?room=<code>'; return; }
   if (ROOM) {
     $('#status').textContent = 'finding the house through the room…';
-    const g = await peerGuest(ROOM, { onLost: () => { $('#status').textContent = 'the house dropped away: waiting for it…'; }, onBack: () => { $('#status').textContent = 'here'; } });
+    let g; try { g = await peerGuest(ROOM, { wait: 45000, onLost: () => { $('#status').textContent = 'the house dropped away: waiting for it…'; }, onBack: () => { $('#status').textContent = 'here'; } }); }
+    catch { $('#status').textContent = 'could not find the house: a wrong code, the house asleep, or this network blocks it (on cellular, try Wi-Fi)'; return; }
     seed = g.seed; remote = g;
   } else {
     remote = houseRemote(seed);
