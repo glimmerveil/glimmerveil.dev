@@ -5,7 +5,7 @@
 // two browsers met, never what they said or where they are. No relay (TURN): two people behind the strictest home
 // networks may not reach each other; most do.
 //
-//   const room = await joinRoom(code, { onPeer(peer), onLeave(id) })   // peer: { id, send(obj), onMessage(fn) }
+//   const room = await joinRoom(code, { onPeer(peer), onLeave(id) })   // peer: { id, send(obj) → sent?, onMessage(fn) }
 //   room.leave()
 const TRACKERS = ['wss://tracker.openwebtorrent.com', 'wss://tracker.webtorrent.dev'];
 const ICE = [{ urls: 'stun:stun.l.google.com:19302' }, { urls: 'stun:stun.cloudflare.com:3478' }];
@@ -33,6 +33,7 @@ export async function joinRoom(code, { onPeer = () => {}, onLeave = () => {} } =
   // two links to one browser (each answered the other's offer): both sides keep the one the LOWER id offered, the same
   // choice on both; the friend stays one and the same (only the link under them changes), and is met once
   function wire(id, pc, channel, offerer) {
+    if (closed) { pc.close(); return; }                                 // (a link that finished after leave(): Haiku 11-02)
     const keep = me < id ? me : id;
     let peer = peers.get(id);
     if (peer) {
@@ -42,7 +43,9 @@ export async function joinRoom(code, { onPeer = () => {}, onLeave = () => {} } =
     }
     seen.linked++;
     peer = { id, offerer, pc, channel, met: false, handlers: new Set(), relinks: new Set(),
-      send(o) { if (this.channel.readyState === 'open') this.channel.send(JSON.stringify(o)); }, onMessage(f) { this.handlers.add(f); }, onRelink(f) { this.relinks.add(f); }, close() { this.pc.close(); } };
+      // false when the link is not open (or the send throws): never a silent drop (Bishop 11-02: a phone page left open across
+      // the power cut sent into a dead link and never came back; the guest takes a false as the host lost)
+      send(o) { if (this.channel.readyState !== 'open') return false; try { this.channel.send(JSON.stringify(o)); return true; } catch { return false; } }, onMessage(f) { this.handlers.add(f); }, onRelink(f) { this.relinks.add(f); }, close() { this.pc.close(); } };
     peers.set(id, peer); attach(peer);
   }
   function attach(peer) {
