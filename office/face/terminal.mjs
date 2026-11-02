@@ -10,6 +10,7 @@
 // this browser's IndexedDB. Paired once (the house's owners list), its words move the seats; unpaired it can only talk.
 import { houseRemote, peerGuest } from './remote.mjs';
 import { canonical, keyId, pubOf } from '../engine/keys.mjs';
+import { needsRejoin, takenName, notHere, alreadyHere, otherName, lockNote } from './terminal-help.mjs';
 
 const $ = s => document.querySelector(s), q = new URLSearchParams(location.search);
 const PLACE = q.get('place') || 'park', MOST_SAY = 400;
@@ -103,7 +104,8 @@ async function main() {
   let remote;
   if (ROOM) {
     $('#status').textContent = 'finding the house through the room…';
-    let g; try { g = await peerGuest(ROOM, { wait: 45000, onLost: () => { $('#status').textContent = 'the house dropped away: waiting for it…'; }, onBack: () => { $('#status').textContent = 'here'; setTimeout(() => recheck(), 3000); } }); }
+    let g; try { g = await peerGuest(ROOM, { wait: 45000, onLost: () => { $('#status').textContent = 'the house dropped away: waiting for it…'; }, onBack: () => { $('#status').textContent = 'here'; setTimeout(() => recheck(), 3000); },
+      onGone: () => { $('#status').textContent = 'the house is away: still looking for it (reload to start over)'; } }); }
     catch { $('#status').textContent = 'could not find the house: a wrong code, the house asleep, or this network blocks it (on cellular, try Wi-Fi)'; return; }
     seed = g.seed; remote = g;
   } else {
@@ -113,6 +115,7 @@ async function main() {
   }
   await take(await remote.lines(0), me);
   const send = async (act, data) => {
+    let cameAgain = false;
     for (let i = 0; i < 20; i++) {
       const want = Math.max(seq, houseAt) + 1;                            // the line's own number (Bishop 10-31: the room's echo came first and it was counted twice)
       const r = await remote.send(await signed(me, { world: seed, seq: want, act, data }));
@@ -133,14 +136,41 @@ async function main() {
         await new Promise(res => setTimeout(res, 50 + Math.random() * 250));   // a busy room: a breath before the next try
         continue;
       }
+      // not in the room (a house restored to before this page came in): come in again, once, then the line goes again
+      if (act !== 'arrive' && !cameAgain && notHere(r.why)) { cameAgain = true; if (await comeIn()) continue; }
       return r;
     }
     return { status: 409, why: 'the room kept moving' };
   };
+  // coming in: under this browser's name or, when another key holds it (most often his own paired browser: Bishop 11-02, a
+  // new browser on his phone was turned away and nothing said why), under another, and said in plain words
   let inRoom = names.has(me.id);
-  if (!inRoom) { const r = await send('arrive', { name: nameOf(), place: PLACE }); inRoom = r.status === 200; if (!inRoom) show('the house', `you could not come in: ${r.why}`, 'quiet'); }
-  $('#status').textContent = inRoom ? 'here' : 'not in the room';
+  const comeIn = async () => {
+    const name = nameOf();
+    let as = name, r = await send('arrive', { name, place: PLACE });
+    const held = takenName(r.why);
+    for (let n = 2; n <= 9 && r.status !== 200 && takenName(r.why); n++) r = await send('arrive', { name: as = otherName(name, n), place: PLACE });
+    inRoom = r.status === 200 || alreadyHere(r.why);
+    if (inRoom && held) { store.set('dream-terminal-name', as); show('the house', lockNote(held, as), 'quiet'); }
+    else if (!inRoom) show('the house', held ? `${lockNote(held, null)} (${r.why})` : `you could not come in: ${r.why}`, 'quiet');
+    $('#status').textContent = inRoom ? 'here' : 'not in the room';
+    return inRoom;
+  };
+  if (!inRoom) await comeIn(); else $('#status').textContent = 'here';
   remote.listen(lines => take(lines, me), () => seq);
+  // waking (Bishop 11-02: his page, left open across the power cut, never came back): a page back from a while away, a
+  // network that changed, or a page restored from the back/forward cache starts afresh in the room (terminal-help.mjs)
+  if (remote.rejoin) {
+    let hiddenAt = document.visibilityState === 'hidden' ? Date.now() : 0, lastWake = 0;
+    const wake = why => {
+      if (!needsRejoin({ why, hiddenMs: hiddenAt ? Date.now() - hiddenAt : 0, alive: remote.alive(), sinceLastMs: Date.now() - lastWake })) return;
+      lastWake = Date.now(); remote.rejoin().catch(() => {});
+      $('#status').textContent = 'coming back into the room…';
+    };
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') hiddenAt = Date.now(); else { wake('visible'); hiddenAt = 0; } });
+    addEventListener('pageshow', e => { if (e.persisted) wake('restored'); });
+    addEventListener('online', () => wake('online'));
+  }
   // the room's history, checked once a minute and when the house comes back (Haiku 10-31: a house restored and grown back to
   // exactly this page's count was never noticed): the house's line at this page's count must be the one this page saw
   let checking = false;
