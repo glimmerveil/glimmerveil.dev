@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Glimmerveil</title>
+<meta name="description" content="Step into Glimmerveil: your own corner of a small world, with your own Pixie, kept in your browser.">
+<meta name="glimmerveil-public" content="1">
+<style>
+  :root { --bg: #06080f; --fg: #d8d2c2; --dim: #a39c8f; --faint: #8a847a; color-scheme: dark; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); font: 13px/1.45 ui-monospace, "JetBrains Mono", "Fira Mono", Menlo, Consolas, monospace; overflow: hidden; }
+  body { -webkit-user-select: none; user-select: none; }
+  #text { position: fixed; left: 0; top: 0; display: block; touch-action: none; }   
+  #state { position: fixed; left: 0; right: 0; bottom: 0; padding: 8px 14px calc(10px + env(safe-area-inset-bottom));
+           padding-left: calc(14px + env(safe-area-inset-left)); padding-right: calc(14px + env(safe-area-inset-right));
+           color: var(--dim);
+           background: linear-gradient(to top, rgba(6,8,15,0.92) 70%, rgba(6,8,15,0)); }
+  
+  #info { white-space: pre-wrap; max-height: 22vh; overflow: auto; }
+  #state b { color: var(--fg); font-weight: 500; }
+  #state .hash { color: var(--faint); display: block; text-align: right; }   
+  #hint { color: var(--faint); }
+  #buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+  #buttons button { font: inherit; color: var(--fg); background: rgba(21,23,31,0.9); border: 1px solid #2a2d38; border-radius: 6px; padding: 6px 12px; min-height: 36px; }
+  #buttons button:active { background: #23263a; }
+  #chat { display: none; margin-top: 6px; }
+  #chatlog { max-height: 16vh; overflow: auto; margin-bottom: 4px; }
+  #chatlog div { white-space: pre-wrap; overflow-wrap: anywhere; }
+  #chatlog b { color: var(--fg); font-weight: 500; }
+  #chat form { display: flex; gap: 8px; }
+  #chat input { flex: 1; min-width: 0; font: inherit; color: var(--fg); background: rgba(14,16,24,0.95); border: 1px solid #4a4536; border-radius: 6px; padding: 7px 10px; min-height: 22px; outline: none; -webkit-user-select: text; user-select: text; }
+  #chat input:focus { border-color: #8a7a52; }
+  #chat button { font: inherit; color: var(--fg); background: rgba(21,23,31,0.9); border: 1px solid #2a2d38; border-radius: 6px; padding: 6px 12px; min-height: 36px; }
+  #welcome, #notice { display: none; position: fixed; z-index: 30; top: max(12px, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); width: min(380px, calc(100vw - 32px)); box-sizing: border-box; padding: 14px 16px 12px; color: var(--fg); background: rgba(14,16,24,0.96); border: 1px solid #4a4536; border-radius: 10px; font-size: 14px; line-height: 1.45; box-shadow: 0 8px 28px rgba(0,0,0,0.5); }
+  #welcome .wl-head, #notice .wl-head { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+  #welcome p, #notice p { margin: 5px 0; }
+  #welcome b, #notice b { color: #e8d9a8; font-weight: 600; }
+  #welcome button, #notice button { font: inherit; color: var(--fg); background: #23263a; border: 1px solid #8a7a52; border-radius: 6px; padding: 7px 18px; min-height: 40px; margin-top: 8px; float: right; }
+  #notice { max-height: calc(100vh - 32px); overflow: auto; }
+  #notice .fine { font-size: 11px; color: var(--dim); margin-top: 8px; }
+  #welcome::after, #notice::after { content: ''; display: block; clear: both; }
+  @media (max-width: 520px) { html, body { font-size: 11px; } html.public #info { max-height: 11vh; } html.public #buttons { gap: 5px; margin-top: 4px; } html.public #buttons button { padding: 4px 8px; min-height: 30px; } }   
+  html.public #state .hash { display: none; }   
+</style>
+<script type="importmap">
+{ "imports": { "three": "./face/vendor/three/three.module.min.js", "three/addons/": "./face/vendor/three/addons/", "@pixiv/three-vrm": "./face/vendor/three-vrm/three-vrm.module.min.js" } }
+</script>
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Glimmerveil">
+<meta property="og:description" content="Step into your own corner of a small world. Your own Pixie, your lane, your garden, kept in your browser.">
+<meta property="og:image" content="https://glimmerveil.dev/shard/media/arrival.png">
+<meta property="og:url" content="https://glimmerveil.dev/shard/">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+<canvas id="text"></canvas>
+<div id="state"><div id="info"><span id="hint">loading the park…</span></div></div>
+<script type="module" src="./face/face.mjs"></script>
+<!-- © 2026 Glimmerveil. All rights reserved. -->
+</body>
+</html>

@@ -1,0 +1,2 @@
+// © 2026 Glimmerveil. All rights reserved.
+function fnv1a(str,h=2166136261){for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}function fnvBytes(bytes,h=2166136261){for(let i=0;i<bytes.length;i++){h^=bytes[i];h=Math.imul(h,16777619)}return h>>>0}const hex=n=>(n>>>0).toString(16).padStart(8,"0");const sortKeys=v=>Array.isArray(v)?v.map(sortKeys):v&&typeof v==="object"?Object.fromEntries(Object.keys(v).sort().map(k=>[k,sortKeys(v[k])])):v;const canon=v=>JSON.stringify(sortKeys(v));export{canon,fnv1a,fnvBytes,hex,sortKeys};
