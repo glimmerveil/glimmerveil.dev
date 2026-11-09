@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glimmerveil: licences</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; background: #12131a; color: #e8e2d4; font: 16px/1.55 Georgia, 'Times New Roman', serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
+  h1 { font-size: 1.6rem; margin: 0 0 8px; color: #e8c070; }
+  h2 { font-size: 1.15rem; margin: 32px 0 8px; color: #e8c070; }
+  p, li { margin: 6px 0; }
+  ul { padding-left: 20px; }
+  a { color: #e8c070; }
+  code { font-size: 0.9em; }
+  .fine { color: #b8b0a0; font-size: 0.9rem; }
+</style>
+</head>
+<body>
+<main>
+<h1>Licences</h1>
+<p>Glimmerveil and the Shard are © 2026 Glimmerveil. All rights reserved, <b>except</b> the open-source parts below,
+which are each under their own licence, named here with their authors. Each licence text is linked in full.</p>
+
+<h2>Pixie's mind: Built with Llama</h2>
+<p><b>Built with Llama.</b> Pixie thinks with Meta Llama 3.2 1B Instruct, quantized to GGUF Q8_0 with no further
+training, downloaded once from Hugging Face
+(<a href="https://huggingface.co/Glimmerveil/Llama-3.2-1B-Instruct-Pixie-GGUF">Glimmerveil/Llama-3.2-1B-Instruct-Pixie-GGUF</a>).</p>
+<p>Llama 3.2 is licensed under the Llama 3.2 Community License, Copyright © Meta Platforms, Inc. All Rights Reserved.</p>
+<ul>
+  <li><a href="./licenses/LLAMA-3.2-COMMUNITY-LICENSE.txt">Llama 3.2 Community License Agreement</a></li>
+  <li><a href="./licenses/LLAMA-3.2-ACCEPTABLE-USE-POLICY.md">Llama 3.2 Acceptable Use Policy</a></li>
+</ul>
+<p class="fine">Glimmerveil is not affiliated with, sponsored by, or endorsed by Meta.</p>
+
+<h2>Libraries this page ships</h2>
+<ul>
+  <li><b>three.js</b>, © 2010-2025 three.js authors. MIT. <a href="./licenses/three.js-LICENSE.txt">licence</a></li>
+  <li><b>three-vrm</b>, © 2019-2026 pixiv Inc. MIT. <a href="./licenses/three-vrm-LICENSE.txt">licence</a></li>
+  <li><b>sql.js</b>, © 2017 sql.js authors (SQLite itself is public domain). MIT. <a href="./licenses/sql.js-LICENSE.txt">licence</a></li>
+  <li><b>wllama</b>, © 2024 Xuan Son Nguyen, which includes <b>llama.cpp</b>, © The ggml authors. MIT.
+    <a href="./licenses/wllama-LICENSE.txt">licence</a></li>
+  <li><b>ONNX Runtime Web</b> 1.30.0, © Microsoft Corporation. MIT. <a href="./licenses/onnxruntime-1.30.0-LICENSE.txt">licence</a>,
+    and its <a href="./licenses/onnxruntime-1.30.0-ThirdPartyNotices.txt">third-party notices</a> (in full).</li>
+</ul>
+
+<h2>The ear (the Mic)</h2>
+<p>When you switch the Mic on, the page fetches <b>Moonshine Tiny</b> (Useful Sensors; MIT), as ONNX files from
+<a href="https://huggingface.co/onnx-community/moonshine-tiny-ONNX">onnx-community/moonshine-tiny-ONNX</a> (MIT). It hears you on
+your own device; nothing is sent anywhere.</p>
+
+<h2>Her voice (only when you switch it on)</h2>
+<p><b>The voice</b> is Piper's <b>libritts "high"</b> voice (<a href="https://huggingface.co/rhasspy/piper-voices/tree/main/en/en_US/libritts/high">rhasspy/piper-voices</a>),
+speaker p3922, fetched once from Hugging Face and run on your device. It is licensed under
+<a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0</a>
+(<a href="./licenses/VOICE-CC-BY-4.0.txt">full text</a>).</p>
+<ul>
+  <li><b>Credit:</b> trained by the Piper project (rhasspy) on <b>LibriTTS</b> (Heiga Zen, Viet Dang, Rob Clark, Yu Zhang,
+    Ron J. Weiss, Ye Jia, Zhifeng Chen and Yonghui Wu; Google, 2019;
+    <a href="http://www.openslr.org/60/">openslr.org/60</a>; CC BY 4.0), which was made from LibriVox recordings, read by
+    volunteers and in the public domain. Speaker p3922 is one of those LibriVox readers.</li>
+  <li><b>Changes:</b> the recordings were trained into a Piper text-to-speech model by the Piper project. Glimmerveil uses that
+    model unchanged. <a href="./licenses/VOICE-piper-libritts-high-MODEL_CARD.txt">Its model card.</a></li>
+  <li><b>No warranty:</b> the voice is offered as-is, as the CC BY 4.0 licence says (its section 5).</li>
+</ul>
+<p><b>The phonemizer</b> (text into speech sounds) is <b>eSpeak NG</b>, © its authors, licensed under the
+<b>GNU General Public License, version 3 or later</b> (<a href="./licenses/VOICE-GPL-3.0.txt">GPL-3.0</a>; some of its files under
+<a href="./licenses/VOICE-espeak-ng-COPYING.APACHE.txt">Apache-2.0</a>, <a href="./licenses/VOICE-espeak-ng-COPYING.BSD2.txt">BSD-2-Clause</a>
+and <a href="./licenses/VOICE-espeak-ng-COPYING.UCD.txt">the Unicode data licence</a>; <a href="./licenses/VOICE-espeak-ng-COPYING.txt">its COPYING</a>),
+run as <b>piper-phonemize</b> (© 2023 Michael Hansen; MIT; <a href="./licenses/VOICE-piper-phonemize-LICENSE.txt">licence</a>; it carries
+uni-algo, public domain, <a href="./licenses/VOICE-uni-algo-LICENSE.txt">licence</a>), compiled to WebAssembly by
+<b>piper-wasm</b> (diffusion-studio; MIT).</p>
+<p>These GPL parts run only inside <code>face/voice-phonemize-worker.js</code>, a separate program that talks to the page by
+messages (text in, phoneme numbers out). That worker is © 2026 Glimmerveil and licensed under GPL-3.0-or-later.
+<b>The complete corresponding source of all of it is here, on this site</b>
+(<a href="./source/README.txt">what each file is, and exactly how it was built</a>):</p>
+<ul>
+  <li><a href="./source/espeak-ng-0f65aa30-compiled.tar.gz">eSpeak NG at 0f65aa30</a> (the code compiled in, as upstream holds it; the build made two small edits to it, quoted exactly in the README)</li>
+  <li><a href="./source/espeak-ng-8593723f-data.tar.gz">eSpeak NG at 8593723f</a> (its data)</li>
+  <li><a href="./source/piper-phonemize-cfff8e52.tar.gz">piper-phonemize at cfff8e52</a></li>
+  <li><a href="./source/piper-wasm-022edba0.tar.gz">piper-wasm at 022edba0</a> (the build steps)</li>
+  <li><a href="./source/npm-piper-wasm-1.0.0.tgz">the npm package @diffusionstudio/piper-wasm 1.0.0</a> (the compiled files this page ships, as published)</li>
+  <li><a href="./source/voice-phonemize-worker.js">voice-phonemize-worker.js</a> (the worker, as shipped)</li>
+</ul>
+
+<h2>Questions</h2>
+<p>Glimmerveil: <a href="mailto:glimmerveilAI@proton.me">glimmerveilAI@proton.me</a>. If we have missed a notice, tell us and we
+will put it right.</p>
+</main>
+</body>
+</html>

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Glimmerveil</title>
 <meta name="description" content="Step into Glimmerveil: your own corner of a small world, with your own Pixie, kept in your browser.">
-<meta name="glimmerveil-public" content="1" data-mind="https://huggingface.co/Glimmerveil/Llama-3.2-1B-Instruct-Pixie-GGUF/resolve/main/Llama-3.2-1B-Instruct-Pixie-Q8_0.gguf" data-clothes="0">
+<meta name="glimmerveil-public" content="1" data-mind="https://huggingface.co/Glimmerveil/Llama-3.2-1B-Instruct-Pixie-GGUF/resolve/main/Llama-3.2-1B-Instruct-Pixie-Q8_0.gguf" data-clothes="0" data-voice="1">
 <style>
   :root { --bg: #06080f; --fg: #d8d2c2; --dim: #a39c8f; --faint: #8a847a; color-scheme: dark; }
   html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); font: 13px/1.45 ui-monospace, "JetBrains Mono", "Fira Mono", Menlo, Consolas, monospace; overflow: hidden; }
@@ -68,7 +68,9 @@
 <div id="state"><div id="info"><span id="hint">loading the park…</span></div></div>
 <script type="module">
 let went = false;
-const go = () => { if (went) return; went = true; import('./face/face.mjs'); };
+const go = () => { if (went) return; went = true; import('./face/face.mjs').catch(e => { console.error('the page could not load', e); const h = document.getElementById('hint'); if (h) h.textContent = 'the page could not load (' + ((e && e.message) || e) + '): reload to try again'; }); };   // (never a silent 'loading the park…': Haiku 11-08)
+let touched = false;                                                   // (once they have touched a key or the screen, the page never reloads under them: Haiku 11-08)
+for (const ev of ['pointerdown', 'keydown', 'touchstart']) addEventListener(ev, () => { touched = true; }, { capture: true, passive: true, once: true });
 setTimeout(go, 10000);   // (whatever the worker does, the page starts: a reload that skipped the worker, as a hard reload does, stayed on 'loading the park…', art 11-08)
 const once = () => { try { const t = +sessionStorage.getItem('coi-reloaded') || 0; if (Date.now() - t < 30000) return false; sessionStorage.setItem('coi-reloaded', String(Date.now())); return true; } catch { return false; } };   // (a reload at most every 30 s: never a loop, and a hard reload later still gets its cores back)
 const again = () => { if (!went && once()) location.reload(); else go(); };
@@ -76,7 +78,10 @@ if (globalThis.crossOriginIsolated || !('serviceWorker' in navigator) || !isSecu
 else navigator.serviceWorker.register('./coi-sw.js').then(reg => {
   if (navigator.serviceWorker.controller || reg.active) { again(); return; }
   const t = setTimeout(go, 4000);
-  navigator.serviceWorker.addEventListener('controllerchange', () => { clearTimeout(t); again(); }, { once: true });
+  // (a slow first visit that already started on one core: once the worker takes charge, one reload gives her every core, but only
+  // before her mind has started downloading and before they have touched anything, never under either: Haiku 11-08. Not started
+  // yet: as before, again())
+  navigator.serviceWorker.addEventListener('controllerchange', () => { clearTimeout(t); const p = window.__dream && window.__dream.pixie; if (went) { if (!globalThis.crossOriginIsolated && !touched && !(p && p.mindStarted) && once()) location.reload(); } else again(); }, { once: true });
 }).catch(go);
 </script>
 <!-- © 2026 Glimmerveil. All rights reserved. -->
