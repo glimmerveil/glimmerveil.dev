@@ -35,6 +35,7 @@ const card = [
   '<meta property="og:title" content="The God King Problem: play free">',
   '<meta property="og:description" content="A god game where you can raise mountains but can\'t give a single order. Free in your browser, on any device, alone or with friends.">',
   '<meta property="og:url" content="https://glimmerveil.dev/godking/play/">',
+  '<link rel="canonical" href="https://glimmerveil.dev/godking/play/">',
   '<meta property="og:image" content="https://glimmerveil.dev/godking/media/og.jpg">',
   '<meta property="og:image:width" content="1200">',
   '<meta property="og:image:height" content="630">',
