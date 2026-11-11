@@ -1,0 +1,78 @@
+{
+ "godking/nords": {
+  "short": "The storm gods' people. Lightning, tornadoes, Thor's Hammer, longhouses and longships.",
+  "paras": [
+   "Pour out Nords instead of plains folk and watch a different people build. They raise bow-sided longhouses under great thatched roofs, a stave Hof with dragons on every gable, and mead halls where they drink to their dead. They keep pigs instead of cows, pen them at the edge of town and salt them down for winter. They grow barley instead of wheat. Their god-priests, the godi, call down the storm. And when there's timber to spare, they build longships.",
+   "They're the hardest people in a fight, and harder still in a storm. One footman in five is a berserker, and their veterans become champions. Half their bowmen ride as horse archers. Their witches follow the army and curse whoever stands against it, halving their blows and making them sick.",
+   "<b>Your god gets the storm.</b> Lightning, Storm and Tornado, plus two powers of their own: <b>Thor's Hammer</b>, one great bolt that shatters what it hits and leaps on to the enemies around it, and <b>Gale</b>, a howling wind that throws people off their feet and tears down timber walls. Their god's hand is bare. A cruel god grows black veins up the back of it. A kind one gets glowing storm-blue butterflies.",
+   "Play them in Sandbox, or pick them in Skirmish and fight the other gods."
+  ]
+ },
+ "spellwrought/nords": {
+  "short": "Call the storm, curse your foes, and send the ravens. A people for Spellwrought.",
+  "paras": [
+   "Two heroes of the storm gods' people. The <b>Stormcaller</b> carries a storm staff: Lightning Strike, Gale and Storm's Blood, which hits harder and jolts your attackers still, and deeper in, Chain Lightning, Tornado and Thunderstorm. The <b>Witch</b> carries a bone wand: Hex, which leaves foes Weak, and a Mending Charm that gives life back every second, and deeper in, Evil Eye, Pestilence, Blood Rite, Ravens and Doom.",
+   "The Nords change the world's spells too. Once they're yours, the world starts blending in the curse, an element that leaves whatever it hits Weak, and two new twists: <b>Thunderclap</b> and <b>Squall</b>.",
+   "New gear: a storm staff, a bone wand, a horned helm, a raven hood, a fur mantle, a witch's shawl, fur boots, a raven charm and an arm ring. Tall, broad heroes with beards, braids and furs, a bare hand for your pointer that gathers butterflies as a stormcaller grows and black veins as a witch does, and their own music of horns and drones."
+  ],
+  "needs": "0.2.41"
+ },
+ "godking/dwarves": {
+  "short": "The stone gods' people. Granite halls, deep mines, runesmiths and the Titan.",
+  "paras": [
+   "Pour out dwarves instead of plains folk and watch a different people build. They sink stone houses into the turf and raise halls of dressed granite under slate and crow-stepped gables. Their granaries are eight-sided, their quarries cut in square terraces, and the iron headframe of the delving stands over every mine. The ancestors are carved at the great doors of their Hall.",
+   "They're slower on their feet and quicker with a trowel. They take half as much again from every quarry and mine, a little less from the fields, and they hit harder than anyone. They keep sheep in folds instead of cows, shear them for wool against the winter, and grow mushrooms in the mines and cellars. Their priests pray stone and ore up out of the ground and bless the mines.",
+   "In a war they're the turtle. They wall up early and shoot crossbows from behind it. Their runesmiths march with the army, cut a rune of breaking into an enemy's wall, and a few seconds later that stretch bursts.",
+   "<b>Your god gets the mountain.</b> The <b>Earthquake</b>, whose fissures branch and whose wave rolls in off the water. The <b>Stone Wall</b>, rising out of the ground for a season. The <b>Boulder</b>, thrown and rolling. And the <b>Titan</b>, a giant of jagged rock with crystal out of its shoulders, woken and sent to stamp an enemy's town flat. Their god's hand is carved stone. A cruel god's cracks with the deep's fire; a kind one's grows gold seams and crystals.",
+   "Play them in Sandbox, or pick them in Skirmish and fight the other gods."
+  ]
+ },
+ "spellwrought/dwarves": {
+  "short": "Runes, forges and golems that fight beside you. A people for Spellwrought.",
+  "paras": [
+   "Two heroes of the deep rock. The <b>Runesmith</b> carries a rune hammer: Boulder, Rune of Breaking and Forged Skin, which armours you, and deeper in, Fire Rune, Forge Blow and Earthquake. The <b>Golemancer</b> carries a mason's staff: Hurl Stone, Clay Golem and Mason's Bond, which makes your golems hit harder and mend, and deeper in, Stone Spikes, Iron Golem, Fire Golem and the Titan.",
+   "Golems are allies: they keep near you, fight, stand in the way, and follow you down to the next level.",
+   "The Dwarves change the world's spells too. Once they're yours, the world starts blending in the forge, an element that sears, and two new twists: <b>Quake</b> and <b>Shatter</b>.",
+   "New gear: a rune hammer, a mason's staff, a war hammer, an iron helm, a mason's hood, dwarven mail, a stone robe, forge gloves, iron-shod boots and a rune belt. Short, broad heroes with great beards and braids, a carved stone hand for your pointer, and their own marching music with the ring of the anvil."
+  ],
+  "needs": "0.2.51"
+ },
+ "godking/elves": {
+  "short": "The forest gods' people. Homes grown not built, the best archers, living vines and the Treant.",
+  "paras": [
+   "Pour out elves instead of plains folk and watch a different people grow a town. Their homes are grown, not built: woven huts, round houses under leaf roofs, oval halls, and houses up in great trees. Their temple is a Grove. They store food in willow and hive granaries, meet in the moon-hall, and keep watch from the trees.",
+   "They forage instead of farming wheat, hunt elk instead of keeping cows, and grow gourd vines up the trees round their towns. Their god keeps the woods around them grown. Light on their feet, short on stone, and quick to quarrel.",
+   "They're the best archers in the game. Their rangers go unseen in the woods with great bows and two-handed swords. Their druids march with the army and sing roots into an enemy's wall until it comes down.",
+   "<b>Your god gets the wild.</b> <b>Bramble</b> and <b>Living Vines</b> that crawl along the ground and coil round whoever they catch. <b>Eating Vines</b> that pass from one living thing to the next. The <b>Thornwall</b>, and at its biggest a briar with roses. The <b>Treant</b>, woken from a tree to guard the town and rooted back down when it's done. And the <b>Thorn Elemental</b> against a great army. Their god's hand is living wood: thorns and blackened bark for a cruel god, leaves and blossom for a kind one.",
+   "Play them in Sandbox, or pick them in Skirmish and fight the other gods."
+  ]
+ },
+ "spellwrought/elves": {
+  "short": "Two heroes of the forest, the moon, and spells that take root. A people for Spellwrought.",
+  "paras": [
+   "Two new heroes from the forest. The <b>Ranger</b> carries a long bow: Multishot and Thorn Arrow from the start, and deeper in, Rain of Arrows, Moon Arrow and Starfall. The <b>Druid</b> carries a druid's staff: Living Vines, Bramble and Barkskin, and deeper in, Moonbeam, Eating Vines, Thorn Wall and Hurricane.",
+   "The Elves change the world's spells too. Once they're yours, the world starts blending in the moon, an element that blinds, and two new twists: <b>Entangle</b>, which roots whatever it hits and everything around it, and <b>Seed</b>, which sows brambles where it lands.",
+   "New gear: long and short bows, an elven blade, a druid's staff, a leaf circlet, a ranger's hood, an elven cloak, bark mail, bracers, soft boots and a moonstone. Long ears and a slighter build, a hand of living wood for your pointer that greens as a druid grows and blackens as a ranger does, and their own harp and flute music."
+  ],
+  "needs": "0.2.39"
+ },
+ "godking/arcane": {
+  "short": "Magic as a religion. Violet towers, crystal fields, and a god of time and space.",
+  "paras": [
+   "Pour out the Mystics instead of plains folk and watch a town of violet twilight grow. Tall, pale and jewel-haired, they build towers of violet stone under slate spires with crystals at their peaks and glowing roses at their doors. A moonwell stands at the heart of every square, and their granary is a crystal tower.",
+   "They don't farm and they don't eat. They grow crystal instead of crops and live on its energy, they keep drifting crystal motes instead of cattle, and the cold never touches them. They sow their crystals right through the winter, and they fell trees and raise their towers by channelling.",
+   "In a war their enchanters charm, glamour and put the enemy to sleep, while the crystals over their heads fire beams of violet. Their magisters call the god's own powers down on whoever stands against them.",
+   "<b>Your god gets time and space.</b> The <b>Time Bubble</b>, which ages everyone caught inside. The <b>Time Field</b>, which stops time dead for every soldier in it. The <b>Spatial Warp</b>. <b>Accelerated Decay</b>, which ages people and buildings until they fall apart. And the <b>Crystal Sentinel</b>, with a beam of its own. Their god draws faith from their spells.",
+   "Play them in Sandbox, or pick them in Skirmish and fight the other gods."
+  ]
+ },
+ "spellwrought/arcane": {
+  "short": "Bend time, sleep your foes, and let the crystals grow. A people for Spellwrought.",
+  "paras": [
+   "Two heroes of the Mystics. The <b>Time Mage</b> carries an hourglass staff: Time Bolt and Time Bubble from the start, and deeper in, Haste, Accelerated Decay, a Spatial Warp that teleports you, and Stop Time. The <b>Enchanter</b> carries a rose wand: Arcane Bolt and Enchant Weapon, which sets your hits leaping with sparks, and deeper in, Glamour, an Arcane Ward that takes harm from your mana instead of your life, Sleep, and the Crystal Sentinel.",
+   "The Arcane change the world's spells too. Once they're yours, the world starts blending in decay, an element that withers, and two new twists: <b>Lull</b>, a moment's sleep for whatever it hits, and <b>Warp</b>, which throws it through space.",
+   "New gear: an hourglass staff, a rose wand, a crystal staff, a star wand, a crystal crown, a star hood, a twilight robe, a pearl gown, an hourglass charm and a crystal band. Tall, porcelain-pale heroes with jewel hair, a crystal hand for your pointer that grows more crystals the more magic you work, and their own music of bells."
+  ],
+  "needs": "0.2.51"
+ }
+}
