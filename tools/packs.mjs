@@ -1,5 +1,7 @@
 // Write the eight pack pages: godking/<people>/index.html and spellwrought/<people>/index.html.
-// Each says what is in the pack, shows its screenshots, and links to its itch.io page (where it is sold).
+// Each says what is in the pack, shows its screenshots, and sells it: a Buy button (a form POST to our shop,
+// which sends the buyer to Stripe's checkout; the shop's code is the office's tools/ship/shop) and a link to its
+// itch.io page, the second shelf.
 // The words come from tools/packs.json (each pack's itch page text, kept word for word); the layout,
 // headings and picture descriptions are here. Pictures live in <game>/media/packs/.
 // usage: node tools/packs.mjs
@@ -12,33 +14,40 @@ const kit = JSON.parse(readFileSync(join(site, 'tools/packs.json'), 'utf8'));
 const NAMES = { nords: 'The Nords', dwarves: 'The Dwarves', elves: 'The Elves', arcane: 'The Arcane' };
 const ORDER = ['nords', 'dwarves', 'elves', 'arcane'];
 const GEAR = 'New gear, their own look, their own music';
+const SHOP = 'https://shop.glimmerveil.workers.dev/buy?p=';
+const AGAIN = 'The page you land on after paying gives the file again for as long as we run this shop, so keep its address. Bought on itch.io, it is in your itch library.';
+const LICENCE = "You pay once. That gives you a personal licence to use the pack on your own devices. Please don't pass the file around: the packs are how we keep the base game free.";
 
 const GAMES = {
   godking: {
     name: 'The God King Problem', kind: 'A people for The God King Problem', price: 5, itch: 'god-king-', freeItch: 'the-god-king-problem',
     fonts: '/godking/fonts/fonts.css', icon: '/favicon.svg', hero: [20, 16, 11],
     vars: '--bg: #14100b; --panel: #1d1710; --line: rgba(227, 181, 90, .22); --text: #f3e7cf; --muted: #c9b896; --gold: #e3b55a; --gold-hi: #ffd98a; --ink: #1a1208;',
-    needs: 'Needs The God King Problem (free), v81 or later. The game on this site is always new enough.',
+    needs: 'Needs The God King Problem (free), v81 or later. The game on this site is new enough.',
     steps: p => [
-      `Get the pack on <a href="${p.itch}" target="_blank" rel="noopener">its itch.io page</a>. You download one file, ${p.id}.godking.`,
+      `Press <b>Buy the pack</b> on this page. When you have paid you land on a page that gives you one file, ${p.id}.godking. The pack is on <a href="${p.itch}" target="_blank" rel="noopener">its itch.io page</a> too.`,
       'Open the free game, <a href="/godking/play/">here on this site</a> or on <a href="https://glimmerveil.itch.io/the-god-king-problem" target="_blank" rel="noopener">its itch page</a>.',
       'Go to <b>Saves › Packs › Add a pack…</b> and pick the file.'],
     after: p => [
-      'It stays in that browser. On an iPhone, save the file to Files first. If you play in both places, add it in each. You can download it again any time from your itch library.',
-      `<b>Updates come in on their own.</b> Fixes and new things for ${p.the} arrive by themselves: the game checks glimmerveil.dev for the pack's newest version (a plain download, nothing about you is sent) and it's in from the next time you play.`,
-      "One purchase, yours to keep. Please don't pass the file around: the packs are how we keep the base game free."],
+      "The pack is saved in that browser. If you clear that browser's data, add the file again. On an iPhone, save the file to Files first. If you play in both places, add it in each.",
+      AGAIN,
+      `<b>Updates come in on their own.</b> When we fix or add something for ${p.the}, it arrives by itself: the game checks glimmerveil.dev for the pack's newest version (a plain download, the game sends nothing about you) and it's in from the next time you play.`,
+      LICENCE],
     other: 'spellwrought', otherLine: p => `${p.name} are a people in Spellwrought too, our action RPG.`,
   },
   spellwrought: {
-    name: 'Spellwrought', kind: 'A people for Spellwrought', price: 10, itch: 'spellwrought-', freeItch: 'spellwrought',
+    name: 'Spellwrought', kind: 'A people for Spellwrought', price: 5, itch: 'spellwrought-', freeItch: 'spellwrought',
     fonts: '/spellwrought/play/vendor/fonts/fonts.css', icon: '/spellwrought/play/favicon.svg', hero: [15, 13, 12],
     vars: '--bg: #0f0d0c; --panel: #181412; --line: rgba(201, 162, 74, .22); --text: #e8dcc0; --muted: #b3a688; --gold: #c9a24a; --gold-hi: #f0cf7e; --ink: #140f08;',
-    needs: 'Needs Spellwrought (free). The game on this site is always new enough.',
+    needs: 'Needs Spellwrought (free). The game on this site is new enough.',
     steps: p => [
-      `Get the pack on <a href="${p.itch}" target="_blank" rel="noopener">its itch.io page</a>. You download one file.`,
+      `Press <b>Buy the pack</b> on this page. When you have paid you land on a page that gives you one file. The pack is on <a href="${p.itch}" target="_blank" rel="noopener">its itch.io page</a> too.`,
       'Open Spellwrought, free, <a href="/spellwrought/play/">here on this site</a> or on <a href="https://glimmerveil.itch.io/spellwrought" target="_blank" rel="noopener">its itch page</a>.',
       'Click <b>Add a pack…</b> on the title and pick the file.'],
-    after: () => ['It stays in your browser from then on and keeps itself up to date.'],
+    after: () => [
+      "The pack is saved in that browser from then on and keeps itself up to date. If you clear that browser's data, add the file again.",
+      AGAIN,
+      LICENCE],
     other: 'godking', otherLine: p => `${p.name} are a people in The God King Problem too, our god game.`,
   },
 };
@@ -133,7 +142,7 @@ function page(gid, id) {
   const p = { id, name: NAMES[id], the: NAMES[id].replace(/^The /, 'the '), itch: `https://glimmerveil.itch.io/${g.itch}${id}` };
   const url = `https://glimmerveil.dev/${gid}/${id}/`, media = `/${gid}/media/packs/${id}`;
   const title = `${p.name} · a people for ${g.name}`;
-  const desc = `${k.short.replace(/ A people for Spellwrought\.$/, '')} A pack for ${g.name}, $${g.price} on itch.io.`;
+  const desc = `${k.short.replace(/ A people for Spellwrought\.$/, '')} A pack for ${g.name}, $${g.price}.`;
   const [r, gr, b] = g.hero;
   const used = new Set();
   const feats = lay.feats.map(f => {
@@ -156,8 +165,10 @@ function page(gid, id) {
   const ld = { '@context': 'https://schema.org', '@type': 'Product', name: `${g.name}: ${p.name}`, description: plain(desc), url,
     image: `https://glimmerveil.dev${media}-cover.jpg`, category: 'Video game add-on', brand: { '@type': 'Organization', name: 'Glimmerveil', url: 'https://glimmerveil.dev/' },
     isRelatedTo: { '@type': 'VideoGame', name: g.name, url: `https://glimmerveil.dev/${gid}/` },
-    offers: { '@type': 'Offer', price: String(g.price), priceCurrency: 'USD', availability: 'https://schema.org/InStock', url: p.itch } };
-  const get = `<a class="btn" href="${p.itch}" target="_blank" rel="noopener">Get it on itch.io · $${g.price}</a>`;
+    offers: { '@type': 'Offer', price: String(g.price), priceCurrency: 'USD', availability: 'https://schema.org/InStock', url } };
+  // A form, not a link: nothing that only follows links (a crawler, a link preview) ever opens a checkout.
+  const get = `<form class="buy" method="post" action="${SHOP}${gid}-${id}"><button class="btn" type="submit">Buy the pack · $${g.price}</button></form>`;
+  const small = `Tax is calculated at checkout. Sold through Stripe. <a href="/terms/">Shop terms</a>. Or get it <a href="${p.itch}" target="_blank" rel="noopener">on itch.io</a>.`;
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -209,6 +220,8 @@ function page(gid, id) {
          padding: 14px 22px; border-radius: 10px; background: var(--gold); color: var(--ink); }
   .btn:hover { background: var(--gold-hi); }
   .btn.ghost { background: transparent; color: var(--gold); border: 1px solid var(--gold); }
+  .buy { display: flex; margin: 0; }
+  button.btn { border: 0; cursor: pointer; -webkit-appearance: none; appearance: none; }
   .fine { font-size: 16px; color: var(--muted); margin: 14px 0 0; }
   .cover { margin: 0; width: 400px; border-radius: 14px; overflow: hidden; border: 1px solid var(--line);
            box-shadow: 0 18px 48px rgba(0,0,0,.55); }
@@ -266,10 +279,11 @@ function page(gid, id) {
       <p class="kicker">${g.kind} · $${g.price}</p>
       <h1>${p.name}</h1>
       <p class="tag">${k.short.replace(/ A people for Spellwrought\.$/, '')}</p>
-      <div class="actions">
+      <div class="actions" id="get">
         ${get}
         <a class="btn ghost" href="/${gid}/play/">Play the free game</a>
       </div>
+      <p class="fine">${small}</p>
       <p class="fine">${g.needs}</p>
     </div>
     <figure class="cover"><img src="${media}-cover.jpg" width="630" height="500" alt="${esc(`${p.name}: the pack's cover`)}"></figure>
@@ -308,12 +322,14 @@ ${others}
       ${get}
       <a class="btn ghost" href="/${gid}/">About ${g.name}</a>
     </div>
+    <p class="fine">${small}</p>
   </section>
 </main>
 
 <footer class="wrap">
   <div>© 2026 Glimmerveil. All rights reserved. · <a href="/">Glimmerveil</a> ·
   <a href="/${gid}/">${g.name}</a> ·
+  <a href="/terms/">Shop terms</a> ·
   <a href="https://ko-fi.com/glimmerveil" target="_blank" rel="noopener">Ko-fi</a> ·
   <a href="https://bsky.app/profile/glimmerveilai.bsky.social" target="_blank" rel="noopener">Bluesky</a></div>
   <div style="margin-top:6px">This page counts how many times it is opened. We keep no record of who opened it.</div>
