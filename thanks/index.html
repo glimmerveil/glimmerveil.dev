@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your pack · Glimmerveil</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link href="/godking/fonts/fonts.css" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #14100b; --panel: #1d1710; --line: rgba(227, 181, 90, .22); --text: #f3e7cf; --muted: #c9b896; --gold: #e3b55a; --gold-hi: #ffd98a; --ink: #1a1208;
+    --serif: 'EB Garamond', Georgia, serif; --display: 'Cinzel', 'Times New Roman', serif;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 20px/1.55 var(--serif); }
+  a { color: var(--gold); }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 16px; }
+  header { padding: 22px 0 0; font: 700 14px var(--display); letter-spacing: .14em; text-transform: uppercase; }
+  header a { color: var(--muted); text-decoration: none; }
+  main { padding: 40px 0 30px; display: grid; gap: 22px; }
+  h1 { font: 700 clamp(34px, 6vw, 56px)/1.06 var(--display); margin: 0; color: var(--gold-hi); text-wrap: balance; }
+  p, ol { margin: 0; }
+  ol { padding-left: 1.3em; display: grid; gap: 8px; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; display: grid; gap: 12px; }
+  .panel h2 { margin: 0; font: 700 16px var(--display); letter-spacing: .1em; text-transform: uppercase; color: var(--gold); }
+  .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .btn { display: inline-block; text-decoration: none; font: 700 15px var(--display); letter-spacing: .06em; text-transform: uppercase;
+    background: var(--gold); color: var(--ink); border: 0; border-radius: 8px; padding: 13px 20px; cursor: pointer; }
+  .btn.ghost { background: transparent; color: var(--gold); border: 1px solid var(--gold); }
+  .btn:focus-visible, a:focus-visible { outline: 3px solid var(--gold-hi); outline-offset: 3px; }
+  .addr { font: 15px/1.4 ui-monospace, Consolas, monospace; color: var(--muted); overflow-wrap: anywhere; }
+  .muted { color: var(--muted); }
+  footer { padding: 30px 0 56px; color: var(--muted); font-size: 16px; }
+  footer a { color: var(--muted); }
+  @media (max-width: 560px) { body { font-size: 19px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><a href="/">Glimmerveil</a></header>
+<main>
+
+<section id="s-checking">
+  <h1>Looking for your pack</h1>
+  <p class="muted">One moment.</p>
+</section>
+
+<section id="s-ok" hidden>
+  <h1>Thank you. Here is <span id="title">your pack</span>.</h1>
+  <div class="panel">
+    <h2>Your pack</h2>
+    <p>It is one file, <b id="file">the pack file</b>. Download it and keep a copy.</p>
+    <div class="row"><a class="btn" id="get" href="#">Download the pack</a></div>
+  </div>
+  <div class="panel">
+    <h2>Add it to the game</h2>
+    <ol id="how-godking" hidden>
+      <li>Open <a href="/godking/play/">The God King Problem</a>, free, here on this site.</li>
+      <li>Go to <b>Saves › Packs › Add a pack…</b> and pick the file.</li>
+      <li>The pack is saved in that browser. If you ever clear the browser's data, add the file again. On an iPhone, save the file to Files first.</li>
+    </ol>
+    <ol id="how-spellwrought" hidden>
+      <li>Open <a href="/spellwrought/play/">Spellwrought</a>, free, here on this site.</li>
+      <li>Click <b>Add a pack…</b> on the title and pick the file.</li>
+      <li>The pack is saved in that browser. If you ever clear the browser's data, add the file again. On an iPhone, save the file to Files first.</li>
+    </ol>
+  </div>
+  <div class="panel">
+    <h2>Keep this page</h2>
+    <p>This page's address gives you the pack again, on any device, for as long as we run this shop. Anyone who has the address can get the pack, so keep it to yourself.</p>
+    <p class="addr" id="addr"></p>
+    <div class="row"><button class="btn ghost" id="copy" type="button">Copy the address</button></div>
+  </div>
+  <div class="panel">
+    <h2>Your receipt</h2>
+    <p>Stripe's Link service took the payment and emails your receipt. On your card statement the charge starts with <b>LINK.COM*</b> and then our name.</p>
+    <p>A question about the pack, or you want your money back? Write to <a href="mailto:support@glimmerveil.dev">support@glimmerveil.dev</a>. The <a href="/terms/">shop terms</a> say how it all works.</p>
+  </div>
+</section>
+
+<section id="s-waiting" hidden>
+  <h1>Your payment has not come through yet</h1>
+  <p>Some ways of paying take a few minutes. This page looks again by itself for the next two minutes, and you can press Look again whenever you like. If you did not finish paying, nothing was charged.</p>
+  <div class="row"><button class="btn ghost" id="again" type="button">Look again</button></div>
+</section>
+
+<section id="s-refunded" hidden>
+  <h1>This purchase was refunded or is in dispute</h1>
+  <p>So this page no longer gives the pack. If that is a mistake, write to <a href="mailto:support@glimmerveil.dev">support@glimmerveil.dev</a>.</p>
+</section>
+
+<section id="s-unknown" hidden>
+  <h1>We cannot find that purchase</h1>
+  <p>Check that the whole address was copied. It ends with a long code, and every letter of it matters. If you paid and still see this, write to <a href="mailto:support@glimmerveil.dev">support@glimmerveil.dev</a> and send your receipt along.</p>
+</section>
+
+<section id="s-busy" hidden>
+  <h1>The shop is busy</h1>
+  <p>Give it a minute and look again. If this page still does not give your pack later today, write to <a href="mailto:support@glimmerveil.dev">support@glimmerveil.dev</a> and send your receipt along.</p>
+  <div class="row"><button class="btn ghost" id="again2" type="button">Look again</button></div>
+</section>
+
+</main>
+<footer>
+  <div>© 2026 Glimmerveil. All rights reserved. · <a href="/">Glimmerveil</a> · <a href="/terms/">Shop terms</a></div>
+</footer>
+</div>
+<script>
+(function () {
+  var s = new URLSearchParams(location.search).get('s') || '';
+  var shop = /^cs_test_/.test(s) ? 'https://shop-test.glimmerveil.workers.dev' : 'https://shop.glimmerveil.workers.dev';
+  var tries = 0, timer = 0;
+  function show(id) {
+    ['checking', 'ok', 'waiting', 'refunded', 'unknown', 'busy'].forEach(function (k) { document.getElementById('s-' + k).hidden = k !== id; });
+  }
+  function look() {
+    clearTimeout(timer);
+    if (!/^cs_(test|live)_[A-Za-z0-9]{10,200}$/.test(s)) return show('unknown');
+    fetch(shop + '/claim?s=' + encodeURIComponent(s)).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (j) {
+        if (r.status === 200 && j.ok) {
+          document.getElementById('title').textContent = j.title;
+          document.getElementById('file').textContent = j.file;
+          document.getElementById('get').href = shop + '/claim?s=' + encodeURIComponent(s) + '&file=1';
+          var game = String(j.page || '').split('/')[0];
+          var how = document.getElementById('how-' + game);
+          if (how) how.hidden = false;
+          document.getElementById('addr').textContent = location.href;
+          show('ok');
+        } else if (r.status === 402) { show('waiting'); if (++tries < 20) timer = setTimeout(look, 6000); }
+        else if (r.status === 410) show('refunded');
+        else if (r.status === 404) show('unknown');
+        else show('busy');
+      });
+    }).catch(function () { show('busy'); });
+  }
+  document.getElementById('again').onclick = function () { tries = 0; show('checking'); look(); };
+  document.getElementById('again2').onclick = function () { show('checking'); look(); };
+  document.getElementById('copy').onclick = function () {
+    var b = this, done = function (t) { b.textContent = t; setTimeout(function () { b.textContent = 'Copy the address'; }, 1600); };
+    try { navigator.clipboard.writeText(location.href).then(function () { done('Copied'); }, function () { done('Select it above and copy'); }); }
+    catch (e) { done('Select it above and copy'); }
+  };
+  look();
+})();
+</script>
+</body>
+</html>
