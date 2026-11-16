@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Arcane · a people for The God King Problem</title>
 <link rel="canonical" href="https://glimmerveil.dev/godking/arcane/">
-<meta name="description" content="Magic as a religion. Violet towers, crystal fields, and a god of time and space. A pack for The God King Problem, $5 on itch.io.">
+<meta name="description" content="Magic as a religion. Violet towers, crystal fields, and a god of time and space. A pack for The God King Problem, $5.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="The God King Problem: The Arcane">
 <meta property="og:description" content="Magic as a religion. Violet towers, crystal fields, and a god of time and space.">
@@ -17,7 +17,7 @@
 <meta name="twitter:title" content="The God King Problem: The Arcane">
 <meta name="twitter:description" content="Magic as a religion. Violet towers, crystal fields, and a god of time and space.">
 <meta name="twitter:image" content="https://glimmerveil.dev/godking/media/packs/arcane-cover.jpg">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"The God King Problem: The Arcane","description":"Magic as a religion. Violet towers, crystal fields, and a god of time and space. A pack for The God King Problem, $5 on itch.io.","url":"https://glimmerveil.dev/godking/arcane/","image":"https://glimmerveil.dev/godking/media/packs/arcane-cover.jpg","category":"Video game add-on","brand":{"@type":"Organization","name":"Glimmerveil","url":"https://glimmerveil.dev/"},"isRelatedTo":{"@type":"VideoGame","name":"The God King Problem","url":"https://glimmerveil.dev/godking/"},"offers":{"@type":"Offer","price":"5","priceCurrency":"USD","availability":"https://schema.org/InStock","url":"https://glimmerveil.itch.io/god-king-arcane"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"The God King Problem: The Arcane","description":"Magic as a religion. Violet towers, crystal fields, and a god of time and space. A pack for The God King Problem, $5.","url":"https://glimmerveil.dev/godking/arcane/","image":"https://glimmerveil.dev/godking/media/packs/arcane-cover.jpg","category":"Video game add-on","brand":{"@type":"Organization","name":"Glimmerveil","url":"https://glimmerveil.dev/"},"isRelatedTo":{"@type":"VideoGame","name":"The God King Problem","url":"https://glimmerveil.dev/godking/"},"offers":{"@type":"Offer","price":"5","priceCurrency":"USD","availability":"https://schema.org/InStock","url":"https://glimmerveil.dev/godking/arcane/"}}</script>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link href="/godking/fonts/fonts.css" rel="stylesheet">
 <style>
@@ -49,6 +49,8 @@
          padding: 14px 22px; border-radius: 10px; background: var(--gold); color: var(--ink); }
   .btn:hover { background: var(--gold-hi); }
   .btn.ghost { background: transparent; color: var(--gold); border: 1px solid var(--gold); }
+  .buy { display: flex; margin: 0; }
+  button.btn { border: 0; cursor: pointer; -webkit-appearance: none; appearance: none; }
   .fine { font-size: 16px; color: var(--muted); margin: 14px 0 0; }
   .cover { margin: 0; width: 400px; border-radius: 14px; overflow: hidden; border: 1px solid var(--line);
            box-shadow: 0 18px 48px rgba(0,0,0,.55); }
@@ -106,11 +108,12 @@
       <p class="kicker">A people for The God King Problem · $5</p>
       <h1>The Arcane</h1>
       <p class="tag">Magic as a religion. Violet towers, crystal fields, and a god of time and space.</p>
-      <div class="actions">
-        <a class="btn" href="https://glimmerveil.itch.io/god-king-arcane" target="_blank" rel="noopener">Get it on itch.io · $5</a>
+      <div class="actions" id="get">
+        <form class="buy" method="post" action="https://shop.glimmerveil.workers.dev/buy?p=godking-arcane"><button class="btn" type="submit">Buy the pack · $5</button></form>
         <a class="btn ghost" href="/godking/play/">Play the free game</a>
       </div>
-      <p class="fine">Needs The God King Problem (free), v81 or later. The game on this site is always new enough.</p>
+      <p class="fine">Tax is calculated at checkout. Sold through Stripe. <a href="/terms/">Shop terms</a>. Or get it <a href="https://glimmerveil.itch.io/god-king-arcane" target="_blank" rel="noopener">on itch.io</a>.</p>
+      <p class="fine">Needs The God King Problem (free), v81 or later. The game on this site is new enough.</p>
     </div>
     <figure class="cover"><img src="/godking/media/packs/arcane-cover.jpg" width="630" height="500" alt="The Arcane: the pack's cover"></figure>
   </div>
@@ -149,13 +152,14 @@
   <section class="block" id="add">
     <h2>How to add it</h2>
     <ol class="steps">
-      <li>Get the pack on <a href="https://glimmerveil.itch.io/god-king-arcane" target="_blank" rel="noopener">its itch.io page</a>. You download one file, arcane.godking.</li>
+      <li>Press <b>Buy the pack</b> on this page. When you have paid you land on a page that gives you one file, arcane.godking. The pack is on <a href="https://glimmerveil.itch.io/god-king-arcane" target="_blank" rel="noopener">its itch.io page</a> too.</li>
       <li>Open the free game, <a href="/godking/play/">here on this site</a> or on <a href="https://glimmerveil.itch.io/the-god-king-problem" target="_blank" rel="noopener">its itch page</a>.</li>
       <li>Go to <b>Saves › Packs › Add a pack…</b> and pick the file.</li>
     </ol>
-    <p>It stays in that browser. On an iPhone, save the file to Files first. If you play in both places, add it in each. You can download it again any time from your itch library.</p>
-    <p><b>Updates come in on their own.</b> Fixes and new things for the Arcane arrive by themselves: the game checks glimmerveil.dev for the pack's newest version (a plain download, nothing about you is sent) and it's in from the next time you play.</p>
-    <p>One purchase, yours to keep. Please don't pass the file around: the packs are how we keep the base game free.</p>
+    <p>The pack is saved in that browser. If you clear that browser's data, add the file again. On an iPhone, save the file to Files first. If you play in both places, add it in each.</p>
+    <p>The page you land on after paying gives the file again for as long as we run this shop, so keep its address. Bought on itch.io, it is in your itch library.</p>
+    <p><b>Updates come in on their own.</b> When we fix or add something for the Arcane, it arrives by itself: the game checks glimmerveil.dev for the pack's newest version (a plain download, the game sends nothing about you) and it's in from the next time you play.</p>
+    <p>You pay once. That gives you a personal licence to use the pack on your own devices. Please don't pass the file around: the packs are how we keep the base game free.</p>
   </section>
 
   <section class="block">
@@ -175,15 +179,17 @@
     <h2>The Arcane</h2>
     <p class="tag">Magic as a religion. Violet towers, crystal fields, and a god of time and space.</p>
     <div class="actions">
-      <a class="btn" href="https://glimmerveil.itch.io/god-king-arcane" target="_blank" rel="noopener">Get it on itch.io · $5</a>
+      <form class="buy" method="post" action="https://shop.glimmerveil.workers.dev/buy?p=godking-arcane"><button class="btn" type="submit">Buy the pack · $5</button></form>
       <a class="btn ghost" href="/godking/">About The God King Problem</a>
     </div>
+    <p class="fine">Tax is calculated at checkout. Sold through Stripe. <a href="/terms/">Shop terms</a>. Or get it <a href="https://glimmerveil.itch.io/god-king-arcane" target="_blank" rel="noopener">on itch.io</a>.</p>
   </section>
 </main>
 
 <footer class="wrap">
   <div>© 2026 Glimmerveil. All rights reserved. · <a href="/">Glimmerveil</a> ·
   <a href="/godking/">The God King Problem</a> ·
+  <a href="/terms/">Shop terms</a> ·
   <a href="https://ko-fi.com/glimmerveil" target="_blank" rel="noopener">Ko-fi</a> ·
   <a href="https://bsky.app/profile/glimmerveilai.bsky.social" target="_blank" rel="noopener">Bluesky</a></div>
   <div style="margin-top:6px">This page counts how many times it is opened. We keep no record of who opened it.</div>
