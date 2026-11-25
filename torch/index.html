@@ -57,6 +57,7 @@
 
   .feats { padding: 24px 0 8px; }
   .feat { display: grid; grid-template-columns: 1.25fr 1fr; gap: 40px; align-items: center; padding: 40px 0; border-bottom: 1px solid var(--line); }
+  .feat:nth-child(even) { grid-template-columns: 1fr 1.25fr; }
   .feat:nth-child(even) .shot { order: 2; }
   .shot { margin: 0; }
   .shot img { border-radius: 12px; border: 1px solid var(--line); }
@@ -70,6 +71,7 @@
   .ways { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px 28px; margin-top: 8px; }
   .ways h3, .faq h3 { font: 600 19px var(--sans); margin: 0 0 4px; color: var(--text); }
   .ways p, .faq p { margin: 0; color: var(--muted); font-size: 17px; }
+  .faq p + p { margin-top: 10px; }
   .full { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 26px 26px 22px; margin-top: 22px; max-width: 760px; }
   .full ol { margin: 14px 0 0; padding-left: 22px; color: var(--muted); }
   .full li + li { margin-top: 6px; }
