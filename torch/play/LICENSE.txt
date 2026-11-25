@@ -1,0 +1,6 @@
+Project Torch (the demo), version 3.99.27
+© 2026 Glimmerveil. All rights reserved.
+
+It uses two libraries, each under the MIT licence:
+  three.js   vendor/three/LICENSE
+  Trystero   vendor/trystero/LICENSE
