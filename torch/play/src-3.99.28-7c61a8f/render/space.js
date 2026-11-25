@@ -12,10 +12,10 @@ import*as THREE from"three";import{makeRng}from"../sim/rng.js";import{Q}from"./q
       void main() {
         vec2 p = (vP + uOff) * 0.0016;
         vec3 q = vec3(p, uSeed);
-        float w = fbm(q + vec3(fbm(q * 1.7 + 3.1), fbm(q * 1.3 - 7.7), 0.0) * 1.6);       // warped: wisps, not blobs
+        float w = fbm(q + vec3(fbm(q * 1.7 + 3.1), fbm(q * 1.3 - 7.7), 0.0) * 1.6);
         float d = fbm(q * 3.1 + 11.0);
         float dust = smoothstep(0.42, 0.95, w);
-        float lanes = smoothstep(0.55, 0.35, fbm(q * 2.2 + 5.0)) * 0.65;                    // dark dust lanes across it
+        float lanes = smoothstep(0.55, 0.35, fbm(q * 2.2 + 5.0)) * 0.65;
         vec3 col = vec3(0.004, 0.006, 0.014);
         col += uA * smoothstep(0.25, 0.8, w) * 1.4;
         col += uB * dust * dust * 1.5 * (0.6 + 0.6 * d);
@@ -34,7 +34,6 @@ import*as THREE from"three";import{makeRng}from"../sim/rng.js";import{Q}from"./q
       }`,fragmentShader:`varying vec3 vCol; varying float vA;
       void main() { vec2 c = gl_PointCoord - 0.5; float r = length(c) * 2.0; float a = smoothstep(1.0, 0.0, r); a = a * a;
         float core = smoothstep(0.35, 0.0, r); gl_FragColor = vec4(vCol * (a + core * 1.5) * vA, 1.0); }`,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending});for(const[n,y,size,L]of[[5200,-1100,2.3,3600],[2600,-600,2,2200],[900,-260,1.7,1300]]){const pos=new Float32Array(n*3),mag=new Float32Array(n),col=new Float32Array(n*3);for(let i=0;i<n;i++){pos[i*3]=rng.range(-L/2,L/2);pos[i*3+1]=y+rng.range(-40,40);pos[i*3+2]=rng.range(-L/2,L/2);mag[i]=Math.pow(rng.next(),3.2)*1.6+.12;const t=rng.next(),c=t<.15?[.7,.8,1]:t<.25?[1,.82,.6]:t<.29?[1,.6,.55]:[.92,.94,1];col.set(c,i*3)}const g=new THREE.BufferGeometry;g.setAttribute("position",new THREE.BufferAttribute(pos,3));g.setAttribute("aMag",new THREE.BufferAttribute(mag,1));g.setAttribute("aCol",new THREE.BufferAttribute(col,3));const pts=new THREE.Points(g,starMat(size,L));pts.frustumCulled=false;pts.renderOrder=-9;group.add(pts);layers.push(pts)}const sunDir=new THREE.Vector3(rng.range(-.8,.8),.55,rng.range(-.9,-.2)).normalize();const sunTex=glowTexture();const sun=new THREE.Sprite(new THREE.SpriteMaterial({map:sunTex,color:16773848,blending:THREE.AdditiveBlending,depthWrite:false,transparent:true}));const sunCore=new THREE.Sprite(new THREE.SpriteMaterial({map:sunTex,color:16777215,blending:THREE.AdditiveBlending,depthWrite:false,transparent:true}));sun.scale.set(900,900,1);sunCore.scale.set(150,150,1);group.add(sun);group.add(sunCore);let sky=null,shown=true,sunK=1;const starTint=new THREE.Color;function system(sys){if(sky){group.remove(sky.root);disposeTree(sky.root)}const r=makeRng(seed*2654435761>>>0^hashStr(sys?.name||""));const star=STAR[sys?.star]||STAR.G;sun.material.color.set(sys?.color||star[0]).lerp(new THREE.Color(16777215),.25);sunCore.material.color.set(sys?.color||star[0]).lerp(new THREE.Color(16777215),.7);sunK=star[1];const planets=sys?sys.planets:[{kind:r.pick(["barren","ice","gas","gas","ocean","jungle","ruin"])}];starTint.set(sys?.color||star[0]).lerp(WHITE,.55);sky=buildSky(r,planets,!!sys?.field,sunDir,palette,starTint);group.add(sky.root);sky.root.visible=shown}system(null);const real=realBodies(scene,()=>{if(sky)sky.root.visible=shown&&!real.any;sun.visible=sunCore.visible=shown&&!real.any});return{sunDir,palette,system,bodies(show){shown=show;sun.visible=sunCore.visible=show&&!real.any;if(sky)sky.root.visible=show&&!real.any;real.show(show)},update(camera,t,pr=1){const c=camera.position;const K=Math.max(1,(c.y+1400)/1472);nebMat.uniforms.uOff.value.set(c.x*.12/K,-c.z*.12/K);nebMat.uniforms.uT.value=t;neb.position.set(c.x,c.y-72*K-1400*K,c.z);neb.scale.set(K,K,1);for(const l of layers){l.material.uniforms.uCam.value.copy(c);l.material.uniforms.uT.value=t;l.material.uniforms.uPR.value=pr;l.material.uniforms.uK.value=K}sun.position.set(c.x*.9+sunDir.x*950*K,c.y-72*K-900*K,c.z*.9-sunDir.z*760*K);sunCore.position.copy(sun.position);sun.scale.setScalar(900*sunK*K);sunCore.scale.setScalar(150*sunK*K*(1+.03*Math.sin(t*2.3)));if(sky)sky.update(c,t,pr)},world(w){real.update(w)},dispose(){scene.remove(group);disposeTree(group);real.dispose()}}}const STAR={O:[10203391,1.5],B:[11190271,1.35],A:[13819647,1.2],F:[16316415,1.08],G:[16773334,1],K:[16764047,.9],M:[16751194,.78]};const WHITE=new THREE.Color(1,1,1);const KIND={barren:0,ice:1,jungle:2,ocean:3,gas:4,ruin:5};const hsl=(h,s,l)=>new THREE.Color().setHSL((h%1+1)%1,s,l);function hashStr(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}function worldLook(kind,r){const j=(a=.02)=>r.range(-a,a);switch(kind){case"barren":return{c1:hsl(.07+j(.03),.14,.3),c2:hsl(.08+j(.03),.1,.56),c3:hsl(.06,.12,.17),air:hsl(.6,.1,.6),airK:0};case"ice":return{c1:hsl(.57+j(),.3,.66),c2:hsl(.55,.4,.84),c3:hsl(.58+j(),.6,.42),air:hsl(.55,.6,.75),airK:.45};case"jungle":return{c1:hsl(.3+j(.04),.55,.2),c2:hsl(.2+j(.04),.45,.38),c3:hsl(.58+j(),.6,.22),air:hsl(.58,.7,.65),airK:1};case"ocean":return{c1:hsl(.22+j(),.35,.42),c2:hsl(.13,.4,.62),c3:hsl(.6+j(),.7,.2),air:hsl(.58,.8,.68),airK:1.15};case"gas":{const warm=r.chance(.6),h=warm?r.pick([.07,.09,.11]):r.pick([.5,.56,.62,.75]);return{c1:hsl(h,.45,.36),c2:hsl(h+(warm?.03:-.04),.32,.6),c3:hsl(warm?.02:h+.08,.6,.5),air:hsl(h,.5,.7),airK:.75}}default:return{c1:hsl(.07+j(),.18,.24),c2:hsl(.09,.14,.42),c3:hsl(.08,.95,.58),air:hsl(.07,.4,.5),airK:.6}}}const WORLD_VS="varying vec3 vN, vNw, vW; void main() { vN = normalize(normal); vNw = normalize(mat3(modelMatrix) * normal); vW = (modelMatrix * vec4(position, 1.0)).xyz; gl_Position = projectionMatrix * viewMatrix * vec4(vW, 1.0); }";const WORLD_FS=`${NOISE}
-  // (pass 2: craters, cellular: in some cells a bowl, its floor dark, its rim bright, a faint ring of ejecta round it)
   vec3 cr3(vec3 p) { p = vec3(dot(p, vec3(127.1, 311.7, 74.7)), dot(p, vec3(269.5, 183.3, 246.1)), dot(p, vec3(113.5, 271.9, 124.6))); return fract(sin(p) * 43758.5453); }
   float craters(vec3 p, float keep) {
     vec3 i = floor(p), f = fract(p); float s = 1.0;
@@ -49,20 +48,20 @@ import*as THREE from"three";import{makeRng}from"../sim/rng.js";import{Q}from"./q
   void main() {
     vec3 n = normalize(vN), nw = normalize(vNw);
     vec3 col; float spec = 0.0, lights = 0.0;
-    if (uKind < 0.5) {                                  // BARREN: mottled rock, crater rims, dark old basins
+    if (uKind < 0.5) {
       float h = fbm(n * 3.0 + uSeed);
       float basin = smoothstep(0.55, 0.7, fbm(n * 1.6 + uSeed + 4.0));
       col = mix(uC1, uC2, smoothstep(0.3, 0.75, h));
       col = mix(col, uC3, basin * 0.75);
-      col *= craters(n * 3.2 + uSeed, 0.45) * craters(n * 9.0 + uSeed * 1.7 + 3.0, 0.6) * (0.9 + 0.14 * n3(n * 40.0 + uSeed));   // (big craters sparse, small ones many, a fine grain)
-    } else if (uKind < 1.5) {                           // ICE: white plains, blue cracks, a shine
+      col *= craters(n * 3.2 + uSeed, 0.45) * craters(n * 9.0 + uSeed * 1.7 + 3.0, 0.6) * (0.9 + 0.14 * n3(n * 40.0 + uSeed));
+    } else if (uKind < 1.5) {
       float h = fbm(n * 2.5 + uSeed);
       col = mix(uC1, uC2, smoothstep(0.35, 0.7, h));
       float crack = 1.0 - smoothstep(0.0, 0.03, abs(fbm(n * 4.0 + uSeed + 2.0) - 0.5));
       float crack2 = 1.0 - smoothstep(0.0, 0.02, abs(fbm(n * 9.0 + uSeed + 6.0) - 0.5));
       col = mix(col, uC3, crack * 0.8 + crack2 * 0.35);
       spec = 0.35;
-    } else if (uKind < 3.5) {                           // JUNGLE (much land) and OCEAN (a few islands): seas, shallows, cloud
+    } else if (uKind < 3.5) {
       bool jungle = uKind < 2.5;
       float h = fbm(n * 2.4 + uSeed), at = jungle ? 0.48 : 0.62;
       float land = smoothstep(at, at + 0.025, h);
@@ -73,7 +72,7 @@ import*as THREE from"three";import{makeRng}from"../sim/rng.js";import{Q}from"./q
       float cl = smoothstep(0.5, 0.78, fbm(n * 3.6 + vec3(uT * 0.004, 0.0, uSeed + 3.0) + fbm(n * 7.0 + uSeed) * 0.45));
       col = mix(col, vec3(0.96), cl * (jungle ? 0.7 : 0.76));
       spec = (1.0 - land) * (1.0 - cl);
-    } else if (uKind < 4.5) {                           // GAS GIANT: bands that curl, a great storm
+    } else if (uKind < 4.5) {
       float tb = fbm(vec3(n.x * 2.0, n.y * 14.0, n.z * 2.0) + uSeed);
       float b = n.y * 9.0 + tb * 1.8 + 0.35 * sin(n.x * 6.0 + n.z * 4.0 + uT * 0.02);
       col = mix(uC1, uC2, 0.5 + 0.5 * sin(b * 2.1));
@@ -81,14 +80,13 @@ import*as THREE from"three";import{makeRng}from"../sim/rng.js";import{Q}from"./q
       vec3 sp = normalize(vec3(0.62, -0.28, 0.73)); float sd = distance(n, sp) + 0.05 * n3(n * 26.0 + uSeed);
       col = mix(col, uC3, smoothstep(0.2, 0.11, sd));
       col = mix(col, uC2 * 1.1, smoothstep(0.11, 0.06, sd) * 0.6);
-    } else {                                            // RUIN: a dead world, ash and dry seas, scars, old cities lit on the night side
+    } else {
       float h = fbm(n * 2.6 + uSeed);
       float land = smoothstep(0.47, 0.5, h);
       col = mix(uC1 * 0.55, mix(uC1, uC2, fbm(n * 7.0 + uSeed)), land);
       float scar = 1.0 - smoothstep(0.0, 0.018, abs(fbm(n * 5.0 + uSeed + 9.0) - 0.5));
       col = mix(col, uC1 * 0.3, scar * 0.7);
       float city = land * smoothstep(0.48, 0.62, fbm(n * 3.0 + uSeed + 1.0));
-      // (pass 3: by day the dead cities show: grey sprawl in blocks, its streets a dark grid, the old bombardment's craters over it)
       vec3 g3 = abs(fract(n * 70.0 + uSeed) - 0.5); float street = 1.0 - smoothstep(0.0, 0.06, min(g3.x, min(g3.y, g3.z)));
       float block = 0.75 + 0.25 * h3(floor(n * 70.0 + uSeed));
       col = mix(col, vec3(0.42, 0.4, 0.38) * block * (1.0 - 0.45 * street), city * 0.7);
@@ -111,10 +109,9 @@ import*as THREE from"three";import{makeRng}from"../sim/rng.js";import{Q}from"./q
   void main() {
     float r = length(vP.xy), u = (r - uIn) / (uOut - uIn);
     float b1 = n3(vec3(u * 26.0, uSeed, 0.0)), b2 = n3(vec3(u * 95.0, uSeed + 5.0, 0.0)), b3 = n3(vec3(u * 7.0, uSeed + 9.0, 0.0));
-    float dens = (0.3 + 0.7 * b3) * (0.5 + 0.5 * b1) * (0.7 + 0.3 * b2);                 // (broad soft bands, fine grain in them)
-    float gaps = smoothstep(0.012, 0.04, abs(u - 0.64)) * smoothstep(0.0, 0.12, u) * smoothstep(1.0, 0.78, u);   // (one clean gap, soft edges)
+    float dens = (0.3 + 0.7 * b3) * (0.5 + 0.5 * b1) * (0.7 + 0.3 * b2);
+    float gaps = smoothstep(0.012, 0.04, abs(u - 0.64)) * smoothstep(0.0, 0.12, u) * smoothstep(1.0, 0.78, u);
     float a = dens * gaps * 0.58;
-    // the planet's shadow across the ring (on the side away from the sun)
     vec3 d = vW - uPC; float along = dot(d, uSun); float off = length(d - uSun * along);
     float shade = along < 0.0 ? smoothstep(uR * 0.92, uR * 1.02, off) : 1.0;
     vec3 col = mix(uC1, uC2, u) * (0.25 + 0.85 * shade);
@@ -135,22 +132,19 @@ import*as THREE from"three";import{makeRng}from"../sim/rng.js";import{Q}from"./q
         float n = fbm(vec3(vB.x * 0.005, vB.y * 0.014, uSeed)); float a = band * (0.3 + 0.7 * smoothstep(0.3, 0.75, n)) * 0.32;
         gl_FragColor = vec4(uA * a, 1.0); }`,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false}));dust.frustumCulled=false;dust.renderOrder=-9;root.add(dust);const m4=new THREE.Matrix4,q=new THREE.Quaternion,e=new THREE.Euler,p=new THREE.Vector3,sc=new THREE.Vector3;return{root,update(cam,t,pr){O.set(cam.x*.6+off.x,cam.z*.6+off.y);const cu=(cam.x-O.x)*D.x+(cam.z-O.y)*D.y;u.uCamU.value=cu;u.uPR.value=pr;for(const k of rocks){const w=cu+((k.u-cu+L/2)%L+L)%L-L/2;p.set(O.x+D.x*w+P.x*k.v,k.y,O.y+D.y*w+P.y*k.v);e.set(k.ax+t*k.wx,k.ay+t*k.wy,0);q.setFromEuler(e);sc.setScalar(k.s);k.m.setMatrixAt(k.j,m4.compose(p,q,sc))}for(const m of meshes)m.instanceMatrix.needsUpdate=true}}}function disposeTree(o){o.traverse(x=>{x.geometry?.dispose();const ms=Array.isArray(x.material)?x.material:x.material?[x.material]:[];for(const m of ms){m.map?.dispose();m.dispose()}})}function glowTexture(size=128){const cv=document.createElement("canvas");cv.width=cv.height=size;const g=cv.getContext("2d"),grd=g.createRadialGradient(size/2,size/2,0,size/2,size/2,size/2);grd.addColorStop(0,"rgba(255,255,255,1)");grd.addColorStop(.18,"rgba(255,255,255,0.55)");grd.addColorStop(.45,"rgba(255,255,255,0.12)");grd.addColorStop(1,"rgba(255,255,255,0)");g.fillStyle=grd;g.fillRect(0,0,size,size);const t=new THREE.CanvasTexture(cv);t.colorSpace=THREE.SRGBColorSpace;return t}function burnZone(star,col){const R0=star.r,R1=star.burn,u={uT:{value:0},uR0:{value:R0},uR1:{value:R1},uCol:{value:col.clone()},uRays:{value:1}};const m=new THREE.Mesh(new THREE.RingGeometry(R0*.82,R1*1.05,160,1).rotateX(-Math.PI/2),new THREE.ShaderMaterial({uniforms:u,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,toneMapped:false,side:THREE.DoubleSide,vertexShader:"varying vec2 vP; void main() { vP = position.xz; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }",fragmentShader:`varying vec2 vP; uniform float uT, uR0, uR1, uRays; uniform vec3 uCol;
       float h(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
-      // noise round the star: it comes back to itself after a turn (n cells round), and runs on along the other way
       float ring(float a, float y, float n) { float x = a / 6.2831853 * n, i = floor(x), f = fract(x), j = floor(y), g = fract(y); f = f * f * (3.0 - 2.0 * f); g = g * g * (3.0 - 2.0 * g);
         return mix(mix(h(vec2(mod(i, n), j)), h(vec2(mod(i + 1.0, n), j)), f), mix(h(vec2(mod(i, n), j + 1.0)), h(vec2(mod(i + 1.0, n), j + 1.0)), f), g); }
       void main() {
         float d = length(vP), a = atan(vP.y, vP.x) + 3.14159265, span = uR1 - uR0;
-        float k = clamp(1.0 - (d - uR0) / span, 0.0, 1.0), inside = step(d, uR1) * smoothstep(uR0 * 0.82, uR0 * 0.97, d);   // (k: how deep, 0 at the edge, 1 at the star's face)
+        float k = clamp(1.0 - (d - uR0) / span, 0.0, 1.0), inside = step(d, uR1) * smoothstep(uR0 * 0.82, uR0 * 0.97, d);
         float rays = 0.0;
         if (uRays > 0.5) { float out1 = d / span * 2.2 - uT * 0.22, out2 = d / span * 5.0 - uT * 0.38;
           rays = smoothstep(0.45, 0.9, ring(a, out1, 31.0)) * 0.6 + smoothstep(0.55, 0.95, ring(a + 1.7, out2, 73.0)) * 0.4;
-          rays *= smoothstep(0.0, 0.1, k) * (0.4 + 0.6 * smoothstep(0.0, 0.6, k)); }                              // (they die at the edge)
+          rays *= smoothstep(0.0, 0.1, k) * (0.4 + 0.6 * smoothstep(0.0, 0.6, k)); }
         float body = (0.05 + 0.27 * k * k + rays * (0.045 + 0.2 * k)) * inside;
         float w = span * 0.011, flick = 0.6 + 0.4 * ring(a, uT * 0.9, 97.0);
-        float e1 = (d - uR1) / w, e2 = (d - uR1 + w * 4.0) / (w * 3.0);   // (squared by hand: pow of a negative number is not defined in GLSL)
+        float e1 = (d - uR1) / w, e2 = (d - uR1 + w * 4.0) / (w * 3.0);
         float rim = exp(-e1 * e1) * flick * 0.85 + exp(-e2 * e2) * 0.14 * inside;
-        // (the fire's own colour: orange at the zone's edge, where it is thin, the star's colour toward its face; a plain warm
-        // white over the violet sky made an olive haze, seen 11-11)
         vec3 c = mix(mix(uCol, vec3(1.0, 0.46, 0.14), 0.7), mix(uCol, vec3(1.0, 0.8, 0.5), 0.4), k) * body + mix(uCol, vec3(1.0, 0.86, 0.62), 0.55) * rim;
         if (c.r + c.g + c.b < 0.004) discard;
         gl_FragColor = vec4(c, 1.0);

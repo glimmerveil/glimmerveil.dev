@@ -16,12 +16,12 @@ import*as THREE from"three";import{join,PAINTS}from"./detail.js";import{Q}from".
       uniform float uT; uniform vec3 uCol; varying vec2 vP;
       void main() {
         float r = length(vP) / ${RV.toFixed(2)}, a = atan(vP.y, vP.x);
-        float sw = a + 4.2 * (1.0 - r) * (1.0 - r) - uT * 0.32;                       // wound tighter toward the middle, turning
+        float sw = a + 4.2 * (1.0 - r) * (1.0 - r) - uT * 0.32;
         vec2 q = vec2(cos(sw), sin(sw)) * (0.5 + r * 1.6);
         float n = fbm(vec3(q * 2.2, uT * 0.07));
         float arms = 0.5 + 0.5 * sin(sw * 3.0 + n * 4.0 - r * 7.0 + uT * 0.6);
-        float edge = smoothstep(0.84, 0.985, r) * smoothstep(1.0, 0.975, r);          // the lip where the emitters hold it
-        float deep = smoothstep(0.12, 0.72, r);                                        // the arms fade into the well
+        float edge = smoothstep(0.84, 0.985, r) * smoothstep(1.0, 0.975, r);
+        float deep = smoothstep(0.12, 0.72, r);
         vec3 c = uCol * (0.015 + 0.46 * arms * arms * n * deep) + uCol * edge * 0.26 + vec3(0.55, 0.62, 1.0) * pow(max(0.0, 1.0 - r), 10.0) * 0.07;
         gl_FragColor = vec4(c, 1.0);
         #include <colorspace_fragment>
@@ -29,7 +29,7 @@ import*as THREE from"three";import{join,PAINTS}from"./detail.js";import{Q}from".
       uniform float uT; uniform vec3 uCol; varying vec2 vP;
       void main() {
         float r = length(vP), a = atan(vP.y, vP.x); if (a < 0.0) a += 6.2831853;
-        float s = a / 6.2831853 * ${N.toFixed(1)}, k = floor(s), t = fract(s);        // between emitter k and k + 1
+        float s = a / 6.2831853 * ${N.toFixed(1)}, k = floor(s), t = fract(s);
         float tick = floor(uT * 9.0), on = step(0.42, h3(vec3(k, tick, 3.1)));
         float jit = (n3(vec3(t * 9.0, k * 3.7, uT * 14.0)) - 0.5) * 1.3;
         float rt = ${(ri-1).toFixed(2)} - 2.4 * sin(3.14159 * t) + jit * sin(3.14159 * t);

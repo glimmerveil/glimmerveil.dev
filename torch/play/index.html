@@ -98,15 +98,17 @@
   .tg-link { display: flex; gap: 6px; align-items: center; } .tg-link input { margin: 0; }
   .tg-p i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 7px; } .tg-p.no { opacity: 0.5; }
   .tg-wait { position: fixed; top: 70px; left: 50%; transform: translateX(-50%); padding: 5px 12px; background: rgba(6,10,20,0.75); border: 1px solid var(--line); border-radius: 8px; color: #ffcf6a; z-index: 6; font-size: 13px; }
-  .title { position: fixed; inset: 0; z-index: 9; display: grid; place-items: center; background: radial-gradient(ellipse at 50% 45%, rgba(2,4,10,0.15), rgba(2,4,10,0.75)); }
-  .title-box { text-align: center; padding: 28px 34px; }
-  .title-name { font-size: clamp(56px, 11vw, 120px); font-weight: 800; letter-spacing: 0.32em; margin-right: -0.32em; color: #ffd9a0; text-shadow: 0 0 40px rgba(255,160,70,0.55), 0 0 8px rgba(255,200,140,0.6); }
+  .title { position: fixed; inset: 0; z-index: 9; display: grid; overflow-y: auto; background: radial-gradient(ellipse at 50% 45%, rgba(2,4,10,0.15), rgba(2,4,10,0.75)); }
+  .title-box { text-align: center; padding: 28px 34px; margin: auto; }   
+  .title-name { font-size: clamp(40px, min(11vw, 17vh), 120px); font-weight: 800; letter-spacing: 0.32em; margin-right: -0.32em; color: #ffd9a0; text-shadow: 0 0 40px rgba(255,160,70,0.55), 0 0 8px rgba(255,200,140,0.6); }
   .title-pre { font-size: clamp(13px, 2.1vw, 22px); font-weight: 700; letter-spacing: 0.9em; margin-right: -0.9em; margin-bottom: -0.4em; color: #ffd9a0; opacity: 0.82; }   
   .title-sub { color: var(--dim); letter-spacing: 0.12em; margin: 4px 0 22px; }
   .title-btns { display: flex; flex-direction: column; gap: 8px; width: min(320px, calc(100vw - 48px)); margin: 0 auto; }
   .title-btns .tb { padding: 10px 14px; font-size: 15px; background: rgba(8,14,26,0.72); }
   .title-btns .tb.main { background: linear-gradient(90deg, #ff9a3c, #ffcf6a); }
   .title-foot { color: var(--dim); font-size: 12px; margin-top: 16px; }
+  @media (max-height: 720px) { .title-box { padding: 14px 34px; } .title-sub { margin: 2px 0 14px; } .title-btns { gap: 6px; } .title-btns .tb { padding: 8px 14px; } .title-foot { margin-top: 10px; } }
+  @media (max-height: 600px) { .title-box { padding: 8px 34px; } .title-name { font-size: clamp(36px, min(11vw, 13vh), 120px); } .title-sub { margin: 0 0 10px; } .title-btns { gap: 4px; } .title-btns .tb { padding: 5px 14px; font-size: 14px; } .title-foot { margin-top: 6px; } }
   .starter { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(720px, calc(100vw - 32px)); max-height: calc(100vh - 40px); overflow: auto; text-align: left; padding: 16px 20px; z-index: 11; }
   .starter .pick { display: grid; grid-template-columns: 74px 1fr auto; gap: 12px; align-items: center; padding: 8px; border: 1px solid var(--line); border-radius: 10px; margin: 6px 0; background: rgba(255,255,255,0.03); }
   #skirmish .pick { grid-template-columns: 56px 1fr auto; padding: 6px 8px; } #skirmish canvas { width: 56px; height: 56px; } #skirmish select { background: rgba(10,16,28,0.9); color: var(--ink); border: 1px solid var(--line); border-radius: 7px; padding: 4px 6px; font: inherit; font-size: 12px; max-width: 190px; } #skirmish .foes { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0; } #skirmish .foe { text-align: center; font-size: 11px; color: var(--dim); width: 72px; } #skirmish .foe canvas { width: 48px; height: 48px; } #skirmish .dock-group { margin-top: 12px; }
@@ -153,6 +155,8 @@
   .sb-t { position: relative; height: 8px; border-radius: 4px; background: rgba(255, 255, 255, 0.1); margin: 3px 0; overflow: hidden; } .sb-t i { position: absolute; left: 0; top: 0; bottom: 0; min-width: 3px; }
   .sb-green .sb-t i { background: #4fd68a; } .sb-yellow .sb-t i { background: #ffc23a; } .sb-red .sb-t i { background: #ff5a6a; } .sb-green .sb-h b { color: #6fe8a0; } .sb-yellow .sb-h b { color: #ffc23a; } .sb-red .sb-h b { color: #ff5a6a; }
   .sb-t u { position: absolute; top: 0; bottom: 0; background: repeating-linear-gradient(135deg, rgba(8, 12, 20, 0.9) 0 3px, transparent 3px 6px); border-left: 2px solid #fff; }
+  #dk-stats .sb { display: block; min-width: 0; padding: 0; border: 0; border-radius: 0; background: none; cursor: default; } #dk-stats .sb-h span { font-size: 12px; color: var(--ink); }
+  #dk-stats .row { gap: 8px; } #dk-stats .row b { text-align: right; }
   .sb-s { color: var(--dim); } .sb-n { color: #ffc23a; } .sb-red .sb-n { color: #ff8a94; } .sb-f { color: var(--dim); font-style: italic; }
   .launch.off { filter: grayscale(1); opacity: 0.5; } .cpdot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 5px; } .cpdot.ok { background: #4fd68a; } .cpdot.bad { background: #ff5a6a; }
   .check { margin-top: 8px; font-size: 12px; } .check div { padding: 3px 0; } .warn { color: #ffb03a; } .bad { color: #ff5a6a; font-weight: 700; } .ok { color: #6fe8a0; }
@@ -281,7 +285,7 @@
   <p style="color:var(--dim);font-size:13px;margin:8px 0 0">READINESS (the campaign): every fight wears a ship down; supplies win it back day by day (a friendly port does it for free). Below 40% it's slow and its guns jam.</p>
   <p style="color:var(--dim);font-size:13px;margin:8px 0 0">SENSORS: you only see what your fleet's sensors reach; the rest are fading contacts. Big ships are loud, and firing, the shield and the engines make any ship louder: hold fire and coast to creep in. A lock takes seconds (small ships take longer); sensor arrays reach further and lock faster. Jammers break locks held on their ship.</p>
 </div></div>
-<script type="module" src="./src-3.99.27-dad49c8/boot.js"></script>
+<script type="module" src="./src-3.99.28-7c61a8f/boot.js"></script>
 <div id="gatecard"><b>Through the gate</b></div>
 </body>
 </html>
