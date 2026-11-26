@@ -85,7 +85,7 @@
   @media (max-width: 820px) {
     .hero { background: linear-gradient(180deg, rgba(7,11,13,.72), rgba(7,11,13,.97) 62%), url(media/fleet.jpg) center top / cover no-repeat; }
     .kicker { margin-top: 40px; }
-    .feat { grid-template-columns: 1fr; gap: 18px; padding: 30px 0; }
+    .feat, .feat:nth-child(even) { grid-template-columns: 1fr; gap: 18px; padding: 30px 0; }
     .feat:nth-child(even) .shot { order: 0; }
     .ways, .faq { grid-template-columns: 1fr; }
     .full { padding: 20px 18px; }
