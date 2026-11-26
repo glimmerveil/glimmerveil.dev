@@ -1,4 +1,4 @@
-Project Torch (the demo), version 3.99.34
+Project Torch (the demo), version 3.99.35
 © 2026 Glimmerveil. All rights reserved.
 
 It uses two libraries, each under the MIT licence:
