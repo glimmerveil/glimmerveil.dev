@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Project Torch</title>
+<meta name="description" content="Build your ships tile by tile, crew them, and lead your fleet across a sector that lives whether you are there or not. Free demo, in your browser.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Glimmerveil">
+<meta property="og:title" content="Project Torch: play the demo">
+<meta property="og:description" content="Build your ships tile by tile, crew them, and lead your fleet across a sector that lives whether you are there or not. Free demo, in your browser.">
+<meta property="og:url" content="https://glimmerveil.dev/torch/play/">
+<link rel="canonical" href="https://glimmerveil.dev/torch/play/">
+<meta name="twitter:title" content="Project Torch: play the demo">
+<meta name="twitter:description" content="Build your ships tile by tile, crew them, and lead your fleet across a sector that lives whether you are there or not. Free demo, in your browser.">
+<meta property="og:image" content="https://glimmerveil.dev/torch/media/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Project Torch: a fleet of ships built tile by tile, in a fight">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://glimmerveil.dev/torch/media/og.jpg">
+<meta name="twitter:image:alt" content="Project Torch: a fleet of ships built tile by tile, in a fight">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3 L22 14 L19 14 L19 29 L13 29 L13 14 L10 14 Z' fill='%23ffb35c'/%3E%3C/svg%3E">
+<script type="importmap">
+{ "imports": { "three": "./vendor/three/three.module.min.js" } }
+</script>
+<style>
+  :root { --ink: #e8eef8; --dim: #8fa2bd; --line: rgba(140,180,230,0.28); --panel: rgba(8,14,26,0.72); --us: #5fe3ff; --them: #ff6a4a; --heat: #ffb03a; --hard: #ff4f8b; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: #02040a; color: var(--ink); font: 14px/1.35 "Segoe UI", system-ui, sans-serif; overflow: hidden; user-select: none; }
+  canvas { display: block; position: fixed; inset: 0; width: 100vw; height: 100vh; cursor: crosshair; touch-action: none; }
+  body:not(.direct) canvas#view { cursor: default; }
+  .bar { position: fixed; top: 12px; left: 12px; display: flex; gap: 10px; z-index: 5; }
+  .group { display: flex; gap: 4px; padding: 4px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; backdrop-filter: blur(6px); }
+  .btn { width: 40px; height: 40px; border: 0; border-radius: 8px; background: transparent; color: var(--ink); cursor: pointer; display: grid; place-items: center; position: relative; }
+  .btn:hover { background: rgba(120,170,230,0.16); }
+  .btn.on { background: rgba(95,227,255,0.18); box-shadow: inset 0 0 0 1px rgba(95,227,255,0.55); }
+  .btn svg { width: 22px; height: 22px; }
+  .btn[data-tip]:hover::after { content: attr(data-tip); position: absolute; top: 46px; left: 0; white-space: nowrap; background: #0b1424; border: 1px solid var(--line); padding: 4px 8px; border-radius: 6px; font-size: 12px; color: var(--ink); }
+  .hud { position: fixed; left: 12px; bottom: 76px; width: 272px; padding: 10px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; backdrop-filter: blur(6px); z-index: 4; }
+  .hud .name { font-weight: 600; letter-spacing: 0.04em; display: flex; justify-content: space-between; gap: 18px; }
+  .hud .name span { color: var(--dim); font-weight: 400; }
+  .meter { height: 9px; background: rgba(255,255,255,0.07); border-radius: 5px; overflow: hidden; position: relative; margin: 6px 0 2px; }
+  .meter i { position: absolute; top: 0; bottom: 0; left: 0; border-radius: 5px; }
+  .row { display: flex; justify-content: space-between; font-size: 12px; color: var(--dim); }
+  .hud .row { flex-wrap: wrap; gap: 1px 14px; }
+  .row b { color: var(--ink); font-weight: 600; }
+  .sysbar { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; }
+  .shipbar { position: fixed; left: 0; right: 0; margin: 0 auto; width: max-content; bottom: 12px; max-width: calc(100vw - 24px); padding: 6px 8px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; backdrop-filter: blur(6px); z-index: 4; }
+  .shipbar:has(> .sysbar[style*="none"]) { display: none; }
+  .shippic { position: static; display: block; width: 100%; height: 118px; margin: 0 0 6px; border-radius: 8px; background: radial-gradient(ellipse at center, rgba(40,70,110,0.35), rgba(4,8,16,0.2)); }
+  .sb { display: flex; flex-direction: column; align-items: center; min-width: 74px; padding: 4px 9px; border: 1px solid var(--line); border-radius: 8px; background: rgba(255,255,255,0.04); color: var(--ink); cursor: pointer; font: inherit; line-height: 1.15; }
+  .sb b { font-size: 11px; letter-spacing: 0.08em; } .sb span { font-size: 11px; color: var(--dim); }
+  .sb:hover { background: rgba(120,170,230,0.16); }
+  .dk-bp { display: inline-flex; gap: 2px; } .dk-del { padding: 2px 7px; opacity: 0.7; } .dk-del:hover { opacity: 1; color: #ff8a94; }   
+  .sb span i { font-style: normal; padding: 0 3px; border-radius: 4px; cursor: pointer; } .sb span i.on { color: #bff4ff; background: rgba(95,227,255,0.22); } .sb span i:hover { color: var(--ink); }   
+  .sb.on { border-color: rgba(95,227,255,0.7); background: rgba(95,227,255,0.16); } .sb.on span { color: #bff4ff; }
+  .sb.go { border-color: rgba(111,232,160,0.6); } .sb.go span { color: #6fe8a0; } .sb.dim { opacity: 0.6; }
+  #gatecard { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: radial-gradient(circle, rgba(60,20,90,0.75), rgba(4,6,12,0.95)); z-index: 60; color: #e8d8ff; font: 600 22px "Segoe UI", system-ui, sans-serif; letter-spacing: 0.04em; }
+  .nc-sectors { display: flex; align-items: center; gap: 10px; margin: 6px 0 10px; font: 13px "Segoe UI", system-ui, sans-serif; }
+  .nc-sectors input[type=number] { width: 46px; background: #0d1522; color: #dfe8f5; border: 1px solid #2a3a52; border-radius: 4px; padding: 2px 4px; }
+  #speeds .btn { width: 34px; font: 600 13px "Segoe UI", system-ui, sans-serif; position: relative; touch-action: manipulation; }
+  #speeds .btn.locked { background: rgba(255,90,74,0.17); box-shadow: inset 0 0 0 1.5px #ff5a4a, 0 0 9px rgba(255,90,74,0.42); color: #ffe0da; }
+  #speeds .btn.locked::before { content: ""; position: absolute; right: -5px; top: -5px; width: 15px; height: 15px; border-radius: 50%; pointer-events: none; z-index: 2;
+    background: #170a0c url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3.7 5.6V4.1a2.3 2.3 0 0 1 4.6 0v1.5' fill='none' stroke='%23ffd6cf' stroke-width='1.45' stroke-linecap='round'/%3E%3Crect x='2.1' y='5.3' width='7.8' height='5.6' rx='1.3' fill='%23ff5a4a'/%3E%3Crect x='2.1' y='5.3' width='7.8' height='1.2' rx='0.6' fill='%23ff9a8c'/%3E%3Ccircle cx='6' cy='7.75' r='0.95' fill='%231a0b0d'/%3E%3Crect x='5.55' y='7.9' width='0.9' height='1.75' rx='0.4' fill='%231a0b0d'/%3E%3C/svg%3E") no-repeat center / 10px 10px; box-shadow: 0 0 0 1.5px #ff5a4a, 0 0 6px rgba(255,90,74,0.65); }
+  .status { text-align: center; font-weight: 700; letter-spacing: 0.12em; height: 18px; margin-top: 4px; }
+  .fleet { position: fixed; left: 12px; top: 72px; width: 210px; display: flex; flex-direction: column; gap: 6px; z-index: 4; }
+  .card { padding: 6px 9px; background: var(--panel); border: 1px solid var(--line); border-radius: 9px; font-size: 12px; }
+  .card.them { border-color: rgba(255,106,74,0.35); }
+  .card.lost { opacity: 0.38; }
+  .card .t { display: flex; justify-content: space-between; } .card .t span { color: var(--dim); }
+  .mini { height: 4px; background: rgba(255,255,255,0.07); border-radius: 3px; margin-top: 4px; overflow: hidden; position: relative; }
+  .mini i { position: absolute; top: 0; bottom: 0; left: 0; }
+  .target { position: fixed; right: 12px; top: 12px; width: 230px; z-index: 4; }
+  .log { position: fixed; top: 72px; left: 50%; transform: translateX(-50%); text-align: center; z-index: 4; font-size: 13px; pointer-events: none; }
+  .log div { padding: 3px 10px; margin-bottom: 4px; background: rgba(6,10,20,0.6); border-radius: 6px; transition: opacity 1s; }
+  .help { position: fixed; inset: 0; display: none; place-items: center; background: rgba(2,4,10,0.6); z-index: 10; }
+  .ask { position: fixed; inset: 0; display: none; place-items: center; background: rgba(2,4,10,0.62); z-index: 60; pointer-events: auto; }
+  .ask-box { width: min(460px, calc(100vw - 32px)); padding: 16px 20px; font-size: 14px; } .ask-text { margin: 0 0 4px; line-height: 1.45; white-space: pre-wrap; }
+  .ask-in { width: 100%; box-sizing: border-box; margin-top: 8px; padding: 6px 8px; background: rgba(0,0,0,0.35); color: var(--ink); border: 1px solid var(--line); border-radius: 7px; font: 12px ui-monospace, monospace; resize: vertical; }
+  .help.show { display: grid; }
+  .help .box { width: min(560px, calc(100vw - 32px)); padding: 18px 22px; background: #08101e; border: 1px solid var(--line); border-radius: 14px; }
+  .help h2 { margin: 0 0 8px; font-size: 18px; letter-spacing: 0.06em; }
+  .help table { width: 100%; border-collapse: collapse; font-size: 13px; } .help td { padding: 3px 0; } .help td:first-child { color: var(--heat); width: 38%; font-weight: 600; }
+  .banner { position: fixed; top: 38%; left: 50%; transform: translate(-50%, -50%); font-size: 46px; font-weight: 800; letter-spacing: 0.25em; text-shadow: 0 0 30px currentColor; display: none; z-index: 6; pointer-events: none; }
+  .reticle { position: fixed; width: 34px; height: 34px; margin: -17px 0 0 -17px; pointer-events: none; z-index: 3; display: none; color: var(--them); }
+  .reticle svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 0 5px currentColor); }
+  .reticle circle, .reticle path { fill: none; stroke: currentColor; vector-effect: non-scaling-stroke; }
+  .reticle .rt { stroke-width: 1; opacity: 0.35; } .reticle .ra { stroke-width: 2.5; stroke-linecap: round; } .reticle .rb { stroke-width: 2; transition: opacity 0.2s; }
+  .reticle .lbl { position: absolute; top: 100%; left: 50%; transform: translate(-50%, 7px); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; white-space: nowrap; text-shadow: 0 0 6px #000, 0 0 2px #000; }
+  .contacts { position: fixed; inset: 0; pointer-events: none; z-index: 3; }
+  .contact { position: absolute; transform: translate(-50%, -50%); padding: 2px 6px 2px 18px; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #ff9a7a; white-space: nowrap; text-shadow: 0 0 4px #000; }
+  .contact::before { content: ''; position: absolute; left: 3px; top: 50%; width: 8px; height: 8px; margin-top: -5px; border: 1.5px solid currentColor; transform: rotate(45deg); animation: ping 1.6s ease-out infinite; }
+  @keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(255,140,110,0.6); } 100% { box-shadow: 0 0 0 9px rgba(255,140,110,0); } }
+  .card.dark { opacity: 0.55; border-style: dashed; }
+  .together { position: fixed; left: 50%; top: 70px; transform: translateX(-50%); width: min(480px, calc(100vw - 32px)); z-index: 7; padding: 12px 16px; max-height: calc(100vh - 90px); overflow: auto; }
+  .together input { width: 100%; background: rgba(255,255,255,0.06); border: 1px solid var(--line); color: var(--ink); border-radius: 6px; padding: 5px 8px; font: inherit; margin: 2px 0 6px; }
+  .tg-link { display: flex; gap: 6px; align-items: center; } .tg-link input { margin: 0; }
+  .tg-p i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 7px; } .tg-p.no { opacity: 0.5; }
+  .tg-wait { position: fixed; top: 70px; left: 50%; transform: translateX(-50%); padding: 5px 12px; background: rgba(6,10,20,0.75); border: 1px solid var(--line); border-radius: 8px; color: #ffcf6a; z-index: 6; font-size: 13px; }
+  .title { position: fixed; inset: 0; z-index: 9; display: grid; overflow-y: auto; background: radial-gradient(ellipse at 50% 45%, rgba(2,4,10,0.15), rgba(2,4,10,0.75)); }
+  .title-box { text-align: center; padding: 28px 34px; margin: auto; }   
+  .title-name { font-size: clamp(40px, min(11vw, 17vh), 120px); font-weight: 800; letter-spacing: 0.32em; margin-right: -0.32em; color: #ffd9a0; text-shadow: 0 0 40px rgba(255,160,70,0.55), 0 0 8px rgba(255,200,140,0.6); }
+  .title-pre { font-size: clamp(13px, 2.1vw, 22px); font-weight: 700; letter-spacing: 0.9em; margin-right: -0.9em; margin-bottom: -0.4em; color: #ffd9a0; opacity: 0.82; }   
+  .title-sub { color: var(--dim); letter-spacing: 0.12em; margin: 4px 0 22px; }
+  .title-btns { display: flex; flex-direction: column; gap: 8px; width: min(320px, calc(100vw - 48px)); margin: 0 auto; }
+  .title-btns .tb { padding: 10px 14px; font-size: 15px; background: rgba(8,14,26,0.72); }
+  .title-btns .tb.main { background: linear-gradient(90deg, #ff9a3c, #ffcf6a); }
+  .title-foot { color: var(--dim); font-size: 12px; margin-top: 16px; }
+  @media (max-height: 720px) { .title-box { padding: 14px 34px; } .title-sub { margin: 2px 0 14px; } .title-btns { gap: 6px; } .title-btns .tb { padding: 8px 14px; } .title-foot { margin-top: 10px; } }
+  @media (max-height: 600px) { .title-box { padding: 8px 34px; } .title-name { font-size: clamp(36px, min(11vw, 13vh), 120px); } .title-sub { margin: 0 0 10px; } .title-btns { gap: 4px; } .title-btns .tb { padding: 5px 14px; font-size: 14px; } .title-foot { margin-top: 6px; } }
+  .starter { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(720px, calc(100vw - 32px)); max-height: calc(100vh - 40px); overflow: auto; text-align: left; padding: 16px 20px; z-index: 11; }
+  .starter .pick { display: grid; grid-template-columns: 74px 1fr auto; gap: 12px; align-items: center; padding: 8px; border: 1px solid var(--line); border-radius: 10px; margin: 6px 0; background: rgba(255,255,255,0.03); }
+  #skirmish .pick { grid-template-columns: 56px 1fr auto; padding: 6px 8px; } #skirmish canvas { width: 56px; height: 56px; } #skirmish select { background: rgba(10,16,28,0.9); color: var(--ink); border: 1px solid var(--line); border-radius: 7px; padding: 4px 6px; font: inherit; font-size: 12px; max-width: 190px; } #skirmish .foes { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0; } #skirmish .foe { text-align: center; font-size: 11px; color: var(--dim); width: 72px; } #skirmish .foe canvas { width: 48px; height: 48px; } #skirmish .dock-group { margin-top: 12px; }
+  .starter .pick.no { opacity: 0.45; } .starter canvas { width: 74px; height: 74px; position: static; }
+  .title-mode .hud, .title-mode .shipbar, .title-mode .fleet, .title-mode .target, .title-mode .reticle, .title-mode .log, .title-mode .contacts, .title-mode .overlay, .title-mode .bar { display: none !important; }
+  .overlay { position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 3; }
+  .one-mode .overlay:not(.sectorview), .one-mode .contacts, .one-mode .reticle { opacity: var(--near, 1); }   
+  .cmdbar { position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); width: min(780px, calc(100vw - 32px)); z-index: 5; padding: 10px 14px; }
+  .cmd-title { font-weight: 700; letter-spacing: 0.1em; } .cmd-title .dim { letter-spacing: 0; font-weight: 400; }
+  .cmd-mode .hud, .cmd-mode .shipbar, .cmd-mode .contacts, .cmd-mode .reticle { display: none !important; }
+  .cmd-mode canvas#view { cursor: default; }
+  .cmd-mode .fleet .card:not(.them) { cursor: pointer; } .cmd-mode .fleet .card:not(.them):hover { border-color: rgba(95,227,255,0.7); }
+  .cmd-mode .fleet { display: none !important; }   
+  .cmdlist { position: fixed; left: 12px; top: 72px; width: 220px; max-height: calc(100vh - 250px); overflow-y: auto; z-index: 5; padding: 8px 10px; display: flex; flex-direction: column; gap: 4px; }
+  .one-mode .cmdlist { top: 58px; }
+  .cmdlist .cl-row { padding: 5px 7px; border: 1px solid rgba(95,227,255,0.12); border-radius: 6px; cursor: pointer; }
+  .cmdlist .cl-row:hover { border-color: rgba(95,227,255,0.45); }
+  .cmdlist .cl-row.on { border-color: rgba(95,227,255,0.8); background: rgba(95,227,255,0.08); }
+  .cmdlist .cl-row.view { box-shadow: inset 3px 0 0 #5fe3ff; }
+  .cmdlist .cl-t { display: flex; justify-content: space-between; gap: 6px; } .cmdlist .cl-t span, .cmdlist .cl-d { opacity: 0.7; font-size: 11px; }
+  .cmdlist .cl-all { font-weight: 700; letter-spacing: 0.06em; }
+  .cmdlist .tb { margin-top: 5px; width: 100%; }
+  @media (max-width: 700px) { .cmdlist { width: min(170px, 44vw); top: 58px; max-height: calc(100vh - 300px); font-size: 12px; } }
+  .dock { position: fixed; inset: 64px 12px 12px 12px; display: flex; justify-content: space-between; align-items: flex-start; pointer-events: none; z-index: 4; }
+  .dock .card { pointer-events: auto; max-height: calc(100vh - 80px); overflow: auto; }
+  .dock-left { width: 262px; } .dock-right { width: 300px; }
+  .dock-title { font-weight: 700; letter-spacing: 0.08em; margin: 2px 0 6px; } .dock-title .dim, .dim { color: var(--dim); font-weight: 400; letter-spacing: 0; }
+  .dock input { width: 100%; background: rgba(255,255,255,0.06); border: 1px solid var(--line); color: var(--ink); border-radius: 6px; padding: 5px 8px; font: inherit; margin-bottom: 6px; }
+  .dock-group { color: var(--dim); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; margin: 8px 0 4px; }
+  .dock-row { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+  .transfer { position: fixed; right: 12px; top: 120px; width: 300px; z-index: 6; max-height: calc(100vh - 200px); overflow: auto; } .transfer .tf-step { display: inline-flex; gap: 4px; align-items: center; } .transfer .tf-step .tb { min-width: 22px; padding: 1px 6px; } .transfer label { cursor: pointer; }
+  .dock-sizes { display: flex; align-items: center; gap: 4px; margin: 6px 0 2px; flex-wrap: wrap; } .dock-sizes .tb { min-width: 26px; padding: 3px 6px; } .dock-sizes .tb.on { background: #5fe3ff; color: #021018; } .dock-sizes .tb:disabled { opacity: 0.25; cursor: default; } .dock-sizes .tb.locked { opacity: 0.45; text-decoration: line-through; } #dk-sizename { font-size: 11px; margin-left: 4px; }
+  .part { display: flex; align-items: center; gap: 6px; padding: 4px 6px; border: 1px solid transparent; border-radius: 7px; background: rgba(255,255,255,0.04); color: var(--ink); cursor: pointer; font: 12px/1.2 inherit; text-align: left; }
+  .part:hover { background: rgba(120,170,230,0.14); } .part.locked { opacity: 0.35; filter: grayscale(1); } .part.on { border-color: rgba(95,227,255,0.7); background: rgba(95,227,255,0.14); }
+  .part i { width: 20px; height: 20px; border-radius: 4px; display: grid; place-items: center; color: #08101e; font-style: normal; font-weight: 800; font-size: 12px; flex: none; }
+  .dock-tools { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px; } #dk-more { margin-top: 8px; } #dk-more summary { cursor: pointer; font-size: 11px; }
+  #dk-main { margin-top: 8px; } #dk-main .tb.on { background: rgba(95,227,255,0.22); border-color: rgba(95,227,255,0.7); } #dk-main .tb:disabled { opacity: 0.35; }
+  .dk-turn { display: inline-flex; align-items: center; gap: 4px; flex-basis: 100%; } .dk-turn b { flex: 1; text-align: center; font-size: 12px; color: #ffcf7a; } .dk-turn b.dim { color: var(--dim); font-weight: 400; }
+  #dk-palette { max-height: calc(100vh - 400px); min-height: 150px; overflow: auto; margin-top: 4px; } .dock-left.card { overflow: visible; } #dk-saved .tb { margin: 2px 2px 0 0; }
+  .tb { padding: 5px 9px; border: 1px solid var(--line); background: rgba(255,255,255,0.04); color: var(--ink); border-radius: 7px; cursor: pointer; font: 12px inherit; }
+  .tb:hover { background: rgba(120,170,230,0.14); } .tb:disabled { opacity: 0.35; cursor: default; background: transparent; } .tb.on { border-color: rgba(95,227,255,0.7); background: rgba(95,227,255,0.14); }
+  .launch { width: 100%; margin-top: 10px; padding: 10px; border: 0; border-radius: 9px; background: linear-gradient(90deg, #ff9a3c, #ffcf6a); color: #1a0f04; font-weight: 800; letter-spacing: 0.2em; cursor: pointer; }
+  .sbs { margin: 4px 0 8px; } .sb { margin-top: 7px; font-size: 11.5px; line-height: 1.3; } .sb-h { display: flex; justify-content: space-between; font-weight: 600; color: var(--ink); font-size: 12px; } .sb-h b { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .sb-t { position: relative; height: 8px; border-radius: 4px; background: rgba(255, 255, 255, 0.1); margin: 3px 0; overflow: hidden; } .sb-t i { position: absolute; left: 0; top: 0; bottom: 0; min-width: 3px; }
+  .sb-green .sb-t i { background: #4fd68a; } .sb-yellow .sb-t i { background: #ffc23a; } .sb-red .sb-t i { background: #ff5a6a; } .sb-green .sb-h b { color: #6fe8a0; } .sb-yellow .sb-h b { color: #ffc23a; } .sb-red .sb-h b { color: #ff5a6a; }
+  .sb-t u { position: absolute; top: 0; bottom: 0; background: repeating-linear-gradient(135deg, rgba(8, 12, 20, 0.9) 0 3px, transparent 3px 6px); border-left: 2px solid #fff; }
+  #dk-stats .sb { display: block; min-width: 0; padding: 0; border: 0; border-radius: 0; background: none; cursor: default; } #dk-stats .sb-h span { font-size: 12px; color: var(--ink); }
+  #dk-stats .row { gap: 8px; } #dk-stats .row b { text-align: right; }
+  .sb-s { color: var(--dim); } .sb-n { color: #ffc23a; } .sb-red .sb-n { color: #ff8a94; } .sb-f { color: var(--dim); font-style: italic; }
+  .launch.off { filter: grayscale(1); opacity: 0.5; } .cpdot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 5px; } .cpdot.ok { background: #4fd68a; } .cpdot.bad { background: #ff5a6a; }
+  .check { margin-top: 8px; font-size: 12px; } .check div { padding: 3px 0; } .warn { color: #ffb03a; } .bad { color: #ff5a6a; font-weight: 700; } .ok { color: #6fe8a0; }
+  .dock-hint { color: var(--dim); font-size: 11px; margin-top: 8px; } .dock-flash { color: #7fe8ff; padding: 4px 0; }
+  .hide-battle .hud, .hide-battle .shipbar, .hide-battle .fleet, .hide-battle .target, .hide-battle .reticle, .hide-battle .contacts { display: none !important; }
+  .mapui .mstat { position: fixed; left: 12px; top: 64px; width: 250px; z-index: 4; max-height: calc(100vh - 80px); overflow: auto; }
+  .mapui .mlog { position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); width: min(640px, calc(100vw - 32px)); z-index: 4; font-size: 13px; }
+  .mapui .mbar { position: fixed; right: 12px; top: 12px; display: flex; gap: 6px; z-index: 4; }
+  .mapui .modal { position: fixed; inset: 0; display: none; place-items: center; background: rgba(2,4,10,0.55); z-index: 8; }
+  .mapui .mbox { width: min(640px, calc(100vw - 32px)); padding: 16px 20px; max-height: calc(100vh - 40px); overflow: auto; } .mapui .mtab .tb { padding: 3px 7px; margin-left: 3px; } .mapui .mbox h3 { margin: 0 0 6px; letter-spacing: 0.05em; } .mapui .mbox p { color: var(--dim); margin: 6px 0; }
+  .mbtns { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; } .tb.main { background: linear-gradient(90deg, #ff9a3c, #ffcf6a); color: #1a0f04; border: 0; font-weight: 700; }
+  .hide-battle .overlay { display: none !important; }
+  .one-mode .fleet { display: none !important; }
+  .one-mode #b-new, .one-mode #b-dock, .one-mode #b-together { display: none !important; }
+  .one-mode .mapui .mstat { left: auto; right: 12px; top: 220px; width: 250px; max-height: calc(100vh - 310px); }
+  .one-mode .target { top: 58px; }
+  .one-mode .mapui .mlog { bottom: 80px; width: min(560px, calc(100vw - 32px)); font-size: 12px; line-height: 17px; padding: 6px 10px; box-sizing: content-box; max-height: 68px; overflow-y: auto; pointer-events: auto; cursor: pointer; scrollbar-width: thin; }   
+  .one-mode .mapui .mlog.open { max-height: min(55vh, 408px); }
+  .one-mode .mapui .mlog div { margin: 0; }
+  .one-mode .mapui .modal { z-index: 9; }
+  .opts { width: min(560px, calc(100vw - 32px)); max-height: calc(100vh - 40px); overflow: auto; }
+  .opts h2 { margin: 0 0 4px; letter-spacing: 0.12em; } .opts h3 { margin: 14px 0 4px; font-size: 12px; letter-spacing: 0.12em; color: var(--dim); text-transform: uppercase; }
+  .opt { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin: 4px 0; } .opt > div { display: flex; gap: 4px; align-items: center; }
+  .opt-n { min-width: 46px; text-align: center; } .small { font-size: 12px; margin: 2px 0 6px; } .dim { color: var(--dim); }
+  .saves { z-index: 12; } .sv-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 8px; border: 1px solid var(--line); border-radius: 10px; margin: 6px 0; background: rgba(255,255,255,0.03); }
+  .sv-btns { display: flex; gap: 4px; flex-shrink: 0; } .sv-new { display: flex; gap: 6px; margin-top: 8px; } .sv-new input { flex: 1; padding: 6px 8px; background: rgba(0,0,0,0.35); color: var(--ink); border: 1px solid var(--line); border-radius: 7px; font: inherit; }
+  .fps { position: fixed; right: 12px; bottom: 12px; z-index: 6; padding: 3px 8px; font-size: 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 7px; color: var(--dim); pointer-events: none; }
+  .bar, .hud, .shipbar, .fleet, .target, .log, .cmdbar, .together, .help .box, .title-box, .starter, .dock-left, .dock-right, .mapui .mstat, .mapui .mlog, .mapui .mbar, .mapui .mbox { zoom: var(--ui, 1); }
+  @media (max-width: 700px) { .fleet { display: none; } .hud { width: min(272px, calc(100vw - 32px)); } .shippic { height: 84px; } .target { display: none; } }
+</style>
+</head>
+<body>
+<canvas id="view"></canvas>
+<div class="bar">
+  <div class="group">
+    <button class="btn" id="b-new" data-tip="New battle (N)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l3 6 6 .9-4.5 4.3 1 6.3L12 17.6 6.5 20.5l1-6.3L3 9.9 9 9z"/></svg></button>
+    <button class="btn" id="b-map" data-tip="The sector: your campaign (M)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="8" cy="9" r="1.4" fill="currentColor"/><circle cx="15.5" cy="8" r="1" fill="currentColor"/><circle cx="14" cy="15.5" r="1.8" fill="currentColor"/><path d="M8 9l6 6.5M15.5 8L14 15.5" opacity=".5"/></svg></button>
+    <button class="btn" id="b-together" data-tip="Fly together: co-op with friends"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 4l2.8 6H4.2z" fill="currentColor"/><path d="M17 8l2.8 6h-5.6z" fill="currentColor" opacity=".75"/><path d="M7 12v6M17 16v4M4 20h6M14 21h6" opacity=".7"/></svg></button>
+    <button class="btn" id="b-cmd" data-tip="Fleet command: orders, take the helm (Tab)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l2.5 5H9.5z" fill="currentColor"/><circle cx="5.5" cy="15" r="2.2"/><circle cx="18.5" cy="15" r="2.2"/><path d="M12 9v4M12 13l-5 1.4M12 13l5 1.4" opacity=".7"/><path d="M9 20h6" /></svg></button>
+    <button class="btn" id="b-dock" data-tip="Drydock: build a ship (B)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L3 17.8 6.2 21l6.3-6.3a4 4 0 0 0 5.2-5.4l-2.4 2.4-2.6-.6-.6-2.6z"/></svg></button>
+    <button class="btn" id="b-pause" data-tip="Pause (Space)"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg></button>
+  </div>
+  <div class="group" id="speeds">
+    <button class="btn" data-s="0.25" data-tip="Speed ¼ ( [ slower, ] faster ). Tap: pauses when a hostile or a meteor comes. Double-tap: locked, never pauses">¼</button>
+    <button class="btn" data-s="0.5" data-tip="Speed ½. Tap: pauses when a hostile or a meteor comes. Double-tap: locked, never pauses">½</button>
+    <button class="btn on" data-s="1" data-tip="Speed 1×. Tap: pauses when a hostile or a meteor comes. Double-tap: locked, never pauses">1×</button>
+    <button class="btn" data-s="4" data-tip="Speed 4×. Tap: pauses when a hostile or a meteor comes. Double-tap: locked, never pauses">4×</button>
+  </div>
+  <div class="group">
+    <button class="btn" id="b-style" data-tip="Controls"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 4l5.5 14 2-5.5 5.5-2z" fill="currentColor" fill-opacity=".25"/><path d="M14.5 14.5l4.5 4.5"/></svg></button>
+    <button class="btn" id="b-inside" data-tip="Roof off: see inside the ships (I)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l6 5v12H6V8z"/><path d="M6 8h12" stroke-dasharray="2 2"/><path d="M12 12v8M6 15h6M12 14h6" opacity=".7"/></svg></button>
+    <button class="btn" id="b-sound" data-tip="Sound"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor" fill-opacity=".25"/><path class="m" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/><path class="x" d="M16 9l5 6M21 9l-5 6" style="display:none"/></svg></button>
+    <button class="btn" id="b-gfx" data-tip="Graphics: High"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></button>
+    <button class="btn" id="b-opt" data-tip="Options (Esc)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg></button>
+    <button class="btn" id="b-help" data-tip="Controls (H)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.7M12 17h.01"/></svg></button>
+  </div>
+</div>
+<div class="fleet" id="fleet"></div>
+<div class="target card them" id="target" style="display:none"></div>
+<div class="log" id="log"></div>
+<div class="reticle" id="reticle"></div>
+<div class="banner" id="banner"></div>
+<div class="hud" id="hud"></div>
+<div class="shipbar" id="shipbar"></div>
+<div class="title" id="title" style="display:none">
+  <div class="title-box">
+    <div class="title-pre">PROJECT</div>
+    <div class="title-name">TORCH</div>
+    <div class="title-sub">Build your ships. Lead your fleet. Cross the sector.</div>
+    <div class="title-btns">
+      <button class="tb main" id="t-continue">Continue</button>
+      <button class="tb" id="t-new">New campaign</button>
+      <button class="tb" id="t-load">Load</button>
+      <button class="tb" id="t-battle" title="Try your ships against a fleet matched to them, alone or with friends">Skirmish</button>
+      <button class="tb" id="t-dock">Build a ship</button>
+      <button class="tb" id="t-opt">Options</button>
+      <button class="tb" id="t-full" style="display:none" title="The whole game is one file: add it and this demo becomes it">The full game</button>
+      <button class="tb" id="t-help">Controls and keys</button>
+    </div>
+    <div class="title-foot" id="t-foot"></div>
+    <div class="starter card" id="starter" style="display:none"></div>
+    <div class="starter card" id="skirmish" style="display:none"></div>
+  </div>
+</div>
+<div class="help" id="options"><div class="box opts" id="opt-box"></div></div>
+<div class="starter card saves" id="saves" style="display:none"></div>
+<div class="fps" id="fps" style="display:none"></div>
+<div class="help" id="help"><div class="box">
+  <h2>PROJECT TORCH</h2>
+  <p style="color:var(--dim);font-size:13px;margin:0 0 6px">Two ways to play: <b style="color:var(--ink)">Relaxed</b> (the cursor button in the top bar, or Options) or <b style="color:var(--ink)">Direct flying</b>.</p>
+  <table>
+    <tr><td colspan="2" style="color:var(--us);padding-top:4px">RELAXED: its captain flies, you give orders</td></tr>
+    <tr><td>Click a ship of yours</td><td>Pick it (Shift-click: add more; drag a box: pick many)</td></tr>
+    <tr><td>Double-click space</td><td>The picked ships go there and hold (nothing picked: the flagship)</td></tr>
+    <tr><td>Double-click an enemy</td><td>Attack it</td></tr>
+    <tr><td>Double-click a friend</td><td>Follow it</td></tr>
+    <tr><td>Right-click</td><td>The same as a double-click</td></tr>
+    <tr><td>Hold, then drag</td><td>Place the picked ships (left mouse, or a long press): on open space a glowing ghost shows where it'll go and the drag turns it the way it'll face; on an enemy a ring shows the orbit and the ghost where it'll keep station</td></tr>
+    <tr><td>Drag a box over wrecks</td><td>The picked ships go and take them apart into the holds (over rocks: go and mine them)</td></tr>
+    <tr><td>WASD, right-drag</td><td>Move the camera (click a ship to follow it again)</td></tr>
+    <tr><td>Buttons under the panel</td><td>Shield on/off, ship system, vent, guns free/held, board, fight freely</td></tr>
+    <tr><td>Rounds, missiles</td><td>What its guns and pods load: auto (EMP on shields, advanced on armour) or one kind; how many it has</td></tr>
+    <tr><td>Range, orbit, face</td><td>How far it keeps off (wheel over it: by 5), circle or hold its ground, bow on or a broadside</td></tr>
+    <tr><td colspan="2" style="color:var(--heat);padding-top:8px">DIRECT FLYING: you fly and aim</td></tr>
+    <tr><td>W / S, A / D, Q / E</td><td>Thrust, turn, slide (hold Shift: face the mouse)</td></tr>
+    <tr><td>Left / right mouse</td><td>Fire at the mouse / shield on or off</td></tr>
+    <tr><td>R, then F</td><td>Lock the ship nearest the mouse, then missiles at it</td></tr>
+    <tr><td colspan="2" style="color:var(--dim);padding-top:8px">BOTH</td></tr>
+    <tr><td>C / V / G</td><td>Ship system / vent the shield's heat / board the target (needs a lock)</td></tr>
+    <tr><td>¼ ½ 1× 2× 4×</td><td>The game's speed (keys [ and ])</td></tr>
+    <tr><td>I</td><td>Roof off: see inside the ships (crew, air, fires)</td></tr>
+    <tr><td>Tab</td><td>Fleet command: the clock stops, give orders to anyone</td></tr>
+    <tr><td>B / M</td><td>Build (lay out a ship) / out to the sector and back (double-click a system there to travel)</td></tr>
+    <tr><td>X / Z</td><td>The picked ships mine round the pointer till their holds are full (miners cut, the rest haul) / call their crews back in from outside</td></tr>
+    <tr><td>Space / Esc / Wheel</td><td>Pause / Options (save, load, sound, graphics, the title menu) / zoom</td></tr>
+  </table>
+  <p style="color:var(--dim);font-size:13px;margin:10px 0 0">HEAT is the shield's: holding it up makes a little, stopping hits makes more, and heat from hits only bleeds off with the shield down (captains drop it for a moment to do that). Full heat collapses the shield for a few seconds; the guns fight on (their limit is power). Shield buffers soak a burst of hits; radiators shed heat; heat sinks hold more. Shields come in two kinds: directional (an arc that turns to the enemy) and the 360° bubble (every side, but each hit costs more heat). Full heat = overload: everything goes dark for seconds. Kinetic shots break shields, shells break armour, lances burn steadily. Every ship is built tile by tile: what you hit is what breaks.</p>
+  <p style="color:var(--dim);font-size:13px;margin:8px 0 0">POWER (shields, engines, beams, systems; not guns or pods): reactors feed every part on, or right beside, their conduits (paint them in the drydock with the Conduit brush; the roof-off view shows them, lit when live, red when cut). A conduit breaks when its tile is half wrecked, and the crew mend it with the tile. A part cut off from the reactors gets its power carried by the crew, a pack at a time: slower.</p>
+  <p style="color:var(--dim);font-size:13px;margin:8px 0 0">MISSILES: each hardpoint carries a pod. Swarm: six small agile ones a salvo. Heavy: three slow torpedoes. Hunter: one that does it all. After a salvo the next load comes down a feed line from an ammo rack and loads itself; off the lines, a crew member carries one up and stands at it while it loads. Guidance, warhead and booster modules touching a hardpoint make its missiles better.</p>
+  <p style="color:var(--dim);font-size:13px;margin:8px 0 0">CARGO AND CREW: holds carry plates, parts, food and trade goods. Crew patch damage to half with scrap, and past that fetch plates and parts from the holds. A breach drains a room; everyone has a suit with about a minute of air; crew seal breaches with a hull plate, and go out through an airlock to mend the outer hull. Crew eat food; hire more at markets to fill bunks.</p>
+  <p style="color:var(--dim);font-size:13px;margin:8px 0 0">DRONES AND DROIDS: uplinks give bandwidth. Each drone bay flies one type, rebuilt over time from the stores: light (gun drones), armoured (heavy plate, a heavier gun, slow), shield (their own shield that comes back; pairs of small missiles), lance (power drones with a beam). Gun drones load the ship's rounds in its kind, missile drones its missile loads; crystals linked to a lance bay and missile aux beside a shield bay boost them (DRONES button: out or home). Droid launchers send assault droids through the enemy hull. The crew WELD new marine landers in the troop bays and new droid pods in the launchers by hand, from hull plates and parts (BOARD button: welding).</p>
+  <p style="color:var(--dim);font-size:13px;margin:8px 0 0">MINING: mining lasers cut ore from asteroids, cargo beams pull loose ore and salvage into the holds (with no cargo beam its crew go out through an airlock and carry it in by the netful: lie within 50 of it; X sends the ship to it), a station's port beam carries what you buy from its cargo arm to your hold and what you sell back (it is yours when it is down your hatch), tractor beams hold a ship (more beams for bigger ships). On the map: Mine at an asteroid field, Land to send marines down to a world, Research to unlock parts. Factories and labs aboard work while you travel. Cloning vats bring the dead back for bio fluid.</p>
+  <p style="color:var(--dim);font-size:13px;margin:8px 0 0">MUNITIONS: guns fire rounds and pods fire missiles, kept in the holds and AMMO RACKS; they take no power (beams do). A rack sends crates and missiles down its FEED LINES to every gun and pod on them (paint them in the drydock, or Auto-feed); off the lines, or with a line cut, the crew carry them by hand. Five kinds of each: standard (iron + sulfur), advanced (+ exotic matter: armour stops half), EMP (silver: tears into shields, drains power), incendiary (more sulfur: sets fires), atomic (reactor fuel: a far bigger bang, and radiation). The ordnance works makes standard ones out on the map; the munitions plant (research) makes every kind. Rocks give iron, sulfur, silver, gold, atomic ore, crystals and exotic matter: gold makes chips, atomic ore makes reactor fuel, silver builds shields. A full rack that breaks goes up.</p>
+  <p style="color:var(--dim);font-size:13px;margin:8px 0 0">RAIDS AND WAR: a station of a faction at war with you fights where it hangs. Destroy it, or board it and hold its bridge, and its world is stripped: credits and supplies, its market shut for a while, its owner's hatred (a pirate den pays a bounty). Attacking a ship or station of a faction you're at peace with is war with them: the first order asks, the same order again gives it.</p>
+  <p style="color:var(--dim);font-size:13px;margin:8px 0 0">BEAM CRYSTALS: beams run on power and need no ammo, but crystals beside a beam (or linked to it through other crystals, four at most) change it: focus crystals reach further, amplifiers burn harder, a sulfur modulator sets fires, a silver one throws electric arcs that drain power and bite into shields, an atomic one irradiates the crew near the burn. Each crystal makes the beam draw 30% more power. Research: Beam optics, then Beam modulation.</p>
+  <p style="color:var(--dim);font-size:13px;margin:8px 0 0">READINESS (the campaign): every fight wears a ship down; supplies win it back day by day (a friendly port does it for free). Below 40% it's slow and its guns jam.</p>
+  <p style="color:var(--dim);font-size:13px;margin:8px 0 0">SENSORS: you only see what your fleet's sensors reach; the rest are fading contacts. Big ships are loud, and firing, the shield and the engines make any ship louder: hold fire and coast to creep in. A lock takes seconds (small ships take longer); sensor arrays reach further and lock faster. Jammers break locks held on their ship.</p>
+</div></div>
+<script type="module" src="./src-3.99.28-7c61a8f/boot.js"></script>
+<div id="gatecard"><b>Through the gate</b></div>
+</body>
+</html>

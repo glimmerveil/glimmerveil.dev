@@ -1,0 +1,1 @@
+const DEV=typeof location!=="undefined"&&/^(localhost|127\.0\.0\.1|\[::1\]|10\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+|172\.(1[6-9]|2\d|3[01])\.\d+\.\d+|100\.\d+\.\d+\.\d+|[a-z0-9-]+\.local|[a-z0-9-]+\.ts\.net)$/i.test(location.hostname);export{DEV};
