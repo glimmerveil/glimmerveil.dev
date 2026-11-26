@@ -210,12 +210,12 @@
     <button class="btn" data-s="4" data-tip="Speed 4×. Tap: pauses when a hostile or a meteor comes. Double-tap: locked, never pauses">4×</button>
   </div>
   <div class="group">
-    <button class="btn" id="b-style" data-tip="Controls"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 4l5.5 14 2-5.5 5.5-2z" fill="currentColor" fill-opacity=".25"/><path d="M14.5 14.5l4.5 4.5"/></svg></button>
+    <button class="btn" id="b-style" data-tip="Flying: Relaxed (click for Direct)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 4l5.5 14 2-5.5 5.5-2z" fill="currentColor" fill-opacity=".25"/><path d="M14.5 14.5l4.5 4.5"/></svg></button>
     <button class="btn" id="b-inside" data-tip="Roof off: see inside the ships (I)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l6 5v12H6V8z"/><path d="M6 8h12" stroke-dasharray="2 2"/><path d="M12 12v8M6 15h6M12 14h6" opacity=".7"/></svg></button>
     <button class="btn" id="b-sound" data-tip="Sound"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor" fill-opacity=".25"/><path class="m" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/><path class="x" d="M16 9l5 6M21 9l-5 6" style="display:none"/></svg></button>
-    <button class="btn" id="b-gfx" data-tip="Graphics: High"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></button>
-    <button class="btn" id="b-opt" data-tip="Options (Esc)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg></button>
-    <button class="btn" id="b-help" data-tip="Controls (H)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.7M12 17h.01"/></svg></button>
+    <button class="btn" id="b-gfx" data-tip="Graphics: High"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 16l5-5 4 4 3-3 6 6"/><circle cx="16" cy="9" r="1.5"/></svg></button>
+    <button class="btn" id="b-opt" data-tip="Options: every setting (Esc)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M10.3 2h3.4l.5 2.6c.7.2 1.3.45 1.9.8l2.2-1.5 2.4 2.4-1.5 2.2c.35.6.6 1.2.8 1.9l2.6.5v3.4l-2.6.5c-.2.7-.45 1.3-.8 1.9l1.5 2.2-2.4 2.4-2.2-1.5c-.6.35-1.2.6-1.9.8l-.5 2.6h-3.4l-.5-2.6c-.7-.2-1.3-.45-1.9-.8l-2.2 1.5-2.4-2.4 1.5-2.2c-.35-.6-.6-1.2-.8-1.9L2 13.7v-3.4l2.6-.5c.2-.7.45-1.3.8-1.9L3.9 5.7l2.4-2.4 2.2 1.5c.6-.35 1.2-.6 1.9-.8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+    <button class="btn" id="b-help" data-tip="Help: the keys and controls (H)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.7M12 17h.01"/></svg></button>
   </div>
 </div>
 <div class="fleet" id="fleet"></div>
@@ -289,7 +289,7 @@
   <p style="color:var(--dim);font-size:13px;margin:8px 0 0">READINESS (the campaign): every fight wears a ship down; supplies win it back day by day (a friendly port does it for free). Below 40% it's slow and its guns jam.</p>
   <p style="color:var(--dim);font-size:13px;margin:8px 0 0">SENSORS: you only see what your fleet's sensors reach; the rest are fading contacts. Big ships are loud, and firing, the shield and the engines make any ship louder: hold fire and coast to creep in. A lock takes seconds (small ships take longer); sensor arrays reach further and lock faster. Jammers break locks held on their ship.</p>
 </div></div>
-<script type="module" src="./src-3.99.35-d9dbc2c/boot.js"></script>
+<script type="module" src="./src-3.99.36-f2ead9a/boot.js"></script>
 <div id="gatecard"><b>Through the gate</b></div>
 </body>
 </html>
