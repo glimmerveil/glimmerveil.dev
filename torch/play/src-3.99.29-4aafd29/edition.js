@@ -1,0 +1,1 @@
+const BUILT="demo";const asked=typeof location!=="undefined"&&/[?&]demo(=1)?(&|$)/.test(location.search||"");const EDITION=BUILT==="demo"||asked?"demo":"full";const isDemo=EDITION==="demo";const FULL_BUILD=0;const FILE=typeof window!=="undefined"&&window.TORCH_FILE||null;export{BUILT,EDITION,FILE,FULL_BUILD,isDemo};
