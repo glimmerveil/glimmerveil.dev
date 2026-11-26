@@ -80,6 +80,7 @@
   .ask-in { width: 100%; box-sizing: border-box; margin-top: 8px; padding: 6px 8px; background: rgba(0,0,0,0.35); color: var(--ink); border: 1px solid var(--line); border-radius: 7px; font: 12px ui-monospace, monospace; resize: vertical; }
   .help.show { display: grid; }
   .help .box { width: min(560px, calc(100vw - 32px)); padding: 18px 22px; background: #08101e; border: 1px solid var(--line); border-radius: 14px; }
+  .help-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; } .help-head h2 { margin: 0 0 6px; }
   .help h2 { margin: 0 0 8px; font-size: 18px; letter-spacing: 0.06em; }
   .help table { width: 100%; border-collapse: collapse; font-size: 13px; } .help td { padding: 3px 0; } .help td:first-child { color: var(--heat); width: 38%; font-weight: 600; }
   .banner { position: fixed; top: 38%; left: 50%; transform: translate(-50%, -50%); font-size: 46px; font-weight: 800; letter-spacing: 0.25em; text-shadow: 0 0 30px currentColor; display: none; z-index: 6; pointer-events: none; }
@@ -151,6 +152,9 @@
   .tb { padding: 5px 9px; border: 1px solid var(--line); background: rgba(255,255,255,0.04); color: var(--ink); border-radius: 7px; cursor: pointer; font: 12px inherit; }
   .tb:hover { background: rgba(120,170,230,0.14); } .tb:disabled { opacity: 0.35; cursor: default; background: transparent; } .tb.on { border-color: rgba(95,227,255,0.7); background: rgba(95,227,255,0.14); }
   .launch { width: 100%; margin-top: 10px; padding: 10px; border: 0; border-radius: 9px; background: linear-gradient(90deg, #ff9a3c, #ffcf6a); color: #1a0f04; font-weight: 800; letter-spacing: 0.2em; cursor: pointer; }
+  .dock-right .dk-foot { position: sticky; bottom: -6px; z-index: 2; margin: 0 -9px -6px; padding: 2px 9px 8px; background: #0a1220; border-top: 1px solid var(--line); box-shadow: 0 -10px 14px 2px rgba(8, 12, 20, 0.85); }
+  .dock-why { color: #ffb03a; font-size: 11px; margin-top: 6px; } .dock-why:empty { display: none; }
+  .dk-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; } .dk-head .tb { letter-spacing: 0; font-weight: 600; padding: 3px 10px; }
   .sbs { margin: 4px 0 8px; } .sb { margin-top: 7px; font-size: 11.5px; line-height: 1.3; } .sb-h { display: flex; justify-content: space-between; font-weight: 600; color: var(--ink); font-size: 12px; } .sb-h b { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
   .sb-t { position: relative; height: 8px; border-radius: 4px; background: rgba(255, 255, 255, 0.1); margin: 3px 0; overflow: hidden; } .sb-t i { position: absolute; left: 0; top: 0; bottom: 0; min-width: 3px; }
   .sb-green .sb-t i { background: #4fd68a; } .sb-yellow .sb-t i { background: #ffc23a; } .sb-red .sb-t i { background: #ff5a6a; } .sb-green .sb-h b { color: #6fe8a0; } .sb-yellow .sb-h b { color: #ffc23a; } .sb-red .sb-h b { color: #ff5a6a; }
@@ -245,7 +249,7 @@
 <div class="starter card saves" id="saves" style="display:none"></div>
 <div class="fps" id="fps" style="display:none"></div>
 <div class="help" id="help"><div class="box">
-  <h2>PROJECT TORCH</h2>
+  <div class="help-head"><h2>PROJECT TORCH</h2><button class="tb" id="help-x" title="Close (Esc)">Close</button></div>
   <p style="color:var(--dim);font-size:13px;margin:0 0 6px">Two ways to play: <b style="color:var(--ink)">Relaxed</b> (the cursor button in the top bar, or Options) or <b style="color:var(--ink)">Direct flying</b>.</p>
   <table>
     <tr><td colspan="2" style="color:var(--us);padding-top:4px">RELAXED: its captain flies, you give orders</td></tr>
@@ -285,7 +289,7 @@
   <p style="color:var(--dim);font-size:13px;margin:8px 0 0">READINESS (the campaign): every fight wears a ship down; supplies win it back day by day (a friendly port does it for free). Below 40% it's slow and its guns jam.</p>
   <p style="color:var(--dim);font-size:13px;margin:8px 0 0">SENSORS: you only see what your fleet's sensors reach; the rest are fading contacts. Big ships are loud, and firing, the shield and the engines make any ship louder: hold fire and coast to creep in. A lock takes seconds (small ships take longer); sensor arrays reach further and lock faster. Jammers break locks held on their ship.</p>
 </div></div>
-<script type="module" src="./src-3.99.29-4aafd29/boot.js"></script>
+<script type="module" src="./src-3.99.34-a06400f/boot.js"></script>
 <div id="gatecard"><b>Through the gate</b></div>
 </body>
 </html>
